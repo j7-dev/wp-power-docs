@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 import '@/assets/scss/index.scss'
-import DefaultPage from '@/pages'
+import DefaultPage from '@/pages/admin'
 import About from '@/pages/about'
 
 import { Refine } from '@refinedev/core'
