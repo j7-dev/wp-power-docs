@@ -9,9 +9,9 @@ import { PiStudent } from 'react-icons/pi'
 
 export const resources = [
 	{
-		name: 'knowledge-bases',
-		list: '/knowledge-bases',
-		edit: '/knowledge-bases/edit/:id',
+		name: 'docs',
+		list: '/docs',
+		edit: '/docs/edit/:id',
 		meta: {
 			label: '知識庫列表',
 			icon: <TableOutlined />,
@@ -26,8 +26,8 @@ export const resources = [
 		},
 	},
 	{
-		name: 'knowledge-base-access',
-		list: '/knowledge-base-access',
+		name: 'doc-access',
+		list: '/doc-access',
 		meta: {
 			label: '知識庫權限綁定',
 			icon: <ProductOutlined />,

@@ -1,7 +1,5 @@
 /* eslint-disable quote-props */
 import '@/assets/scss/index.scss'
-import DefaultPage from '@/pages/admin'
-import About from '@/pages/about'
 
 import { Refine } from '@refinedev/core'
 
@@ -16,7 +14,7 @@ import routerBindings, {
 	DocumentTitleHandler,
 	UnsavedChangesNotifier,
 } from '@refinedev/react-router-v6'
-import { dataProvider } from './rest-data-provider'
+import { dataProvider } from 'antd-toolkit/refine'
 import { HashRouter, Outlet, Route, Routes } from 'react-router-dom'
 import { apiUrl, kebab } from '@/utils'
 
@@ -71,8 +69,7 @@ function App() {
             }
           ></Route> */}
 					<Route element={<Outlet />}>
-						<Route index element={<DefaultPage />} />
-						<Route path="/about" element={<About />} />
+						<Route index element={<p>index</p>} />
 						<Route path="*" element={<ErrorComponent />} />
 					</Route>
 				</Routes>

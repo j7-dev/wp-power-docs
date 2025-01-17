@@ -13,25 +13,22 @@ import { getInitialFilters } from 'antd-toolkit/refine'
 // 	initialFilteredValues,
 // } from '@/components/product/ProductTable/Filter'
 import { HttpError, useCreate } from '@refinedev/core'
-import {
-	TKnowledgeBaseBaseRecord,
-	TKnowledgeBaseRecord,
-} from '@/pages/admin/KnowledgeBases/List/types'
+import { TDocBaseRecord, TDocRecord } from '@/pages/admin/Docs/List/types'
 
 // import { TFilterProps } from '@/components/product/ProductTable/types'
-import useValueLabelMapper from '@/pages/admin/KnowledgeBases/List/hooks/useValueLabelMapper'
-import useColumns from '@/pages/admin/KnowledgeBases/List/hooks/useColumns'
+import useValueLabelMapper from '@/pages/admin/Docs/List/hooks/useValueLabelMapper'
+import useColumns from '@/pages/admin/Docs/List/hooks/useColumns'
 import { PlusOutlined } from '@ant-design/icons'
 import DeleteButton from './DeleteButton'
 
 const Main = () => {
 	const { tableProps, searchFormProps } = useTable<
-		TKnowledgeBaseBaseRecord,
+		TDocBaseRecord,
 		HttpError
 
 		// TFilterProps
 	>({
-		resource: 'knowledge-bases',
+		resource: 'docs',
 
 		// onSearch,
 
@@ -43,12 +40,12 @@ const Main = () => {
 	const { valueLabelMapper } = useValueLabelMapper()
 
 	const { rowSelection, selectedRowKeys, setSelectedRowKeys } =
-		useRowSelection<TKnowledgeBaseBaseRecord>()
+		useRowSelection<TDocBaseRecord>()
 
 	const columns = useColumns()
 
 	const { mutate: create, isLoading: isCreating } = useCreate({
-		resource: 'knowledge-bases',
+		resource: 'docs',
 		invalidates: ['list'],
 		meta: {
 			headers: { 'Content-Type': 'multipart/form-data;' },
@@ -69,7 +66,7 @@ const Main = () => {
 				{/* <Filter
 					searchFormProps={searchFormProps}
 					optionParams={{
-						endpoint: 'knowledge-bases/options',
+						endpoint: 'docs/options',
 					}}
 				/>
 				<div className="mt-2">
@@ -102,7 +99,7 @@ const Main = () => {
 					/>
 				</div>
 				<Table
-					{...(defaultTableProps as unknown as TableProps<TKnowledgeBaseRecord>)}
+					{...(defaultTableProps as unknown as TableProps<TDocRecord>)}
 					{...tableProps}
 					pagination={{
 						...tableProps.pagination,

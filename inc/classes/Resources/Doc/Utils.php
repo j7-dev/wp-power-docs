@@ -34,6 +34,7 @@ abstract class Utils {
 		$args['post_type']     = CPT::POST_TYPE;
 		$args['page_template'] = self::TEMPLATE;
 
+		/** @var array{ID?: int, post_author?: int, post_date?: string, post_date_gmt?: string, post_content?: string, post_content_filtered?: string, post_title?: string, post_excerpt?: string, ...} $args */
 		return \wp_insert_post($args);
 	}
 
@@ -45,11 +46,29 @@ abstract class Utils {
 	 * @param bool     $with_description With description.
 	 * @param int      $depth            Depth.
 	 *
-	 * @return array
+	 * @return array{
+	 *  id: string,
+	 *  type: string,
+	 *  depth: int,
+	 *  name: string,
+	 *  slug: string,
+	 *  date_created: string,
+	 *  date_modified: string,
+	 *  status: string,
+	 *  menu_order: int,
+	 *  permalink: string,
+	 *  category_ids: string[],
+	 *  tag_ids: string[],
+	 *  images: array<array{id: string, url: string, width: int, height: int, alt: string}>,
+	 *  parent_id: string,
+	 *  sub_docs?: array<array{id: string, type: string, depth: int, name: string, slug: string, date_created: string, date_modified: string, status: string, menu_order: int, permalink: string, category_ids: string[], tag_ids: string[], images: array<array{id: string, url: string, width: int, height: int, alt: string}>, parent_id: string}>,
+	 *  description?: string,
+	 *  short_description?: string,
+	 * }
 	 */
 	public static function format_doc_details(
 		\WP_Post $post,
-		?bool $with_description = true,
+		?bool $with_description = false,
 		?int $depth = 0
 	) {
 		$date_created  = $post->post_date;
@@ -57,14 +76,14 @@ abstract class Utils {
 
 		$image_id  = \get_post_thumbnail_id($post->ID);
 		$image_ids = [ $image_id ];
-		$images    = array_map([ WP::class, 'get_image_info' ], $image_ids);
+		$images    = array_map([ WP::class, 'get_image_info' ], $image_ids); // @phpstan-ignore-line
 
 		$description_array = $with_description ? [
 			'description'       => $post->post_content,
 			'short_description' => $post->post_excerpt,
 		] : [];
 
-		$chapters = array_values(
+		$sub_docs = array_values(
 			\get_children(
 				[
 					'post_parent' => $post->ID,
@@ -79,76 +98,37 @@ abstract class Utils {
 				]
 			)
 		);
-		$chapters = array_values(
+		$sub_docs = array_values(
 			array_map(
-			[ __CLASS__, 'format_chapter_details' ],
-			$chapters,
-			array_fill(0, count($chapters), false),
-				array_fill(0, count($chapters), $depth + 1)
+			[ __CLASS__, 'format_doc_details' ], // @phpstan-ignore-line
+			$sub_docs,
+			array_fill(0, count($sub_docs), false),
+				array_fill(0, count($sub_docs), $depth + 1)
 			)
 		);
 
-		$children = !!$chapters ? [
-			'chapters' => $chapters,
+		$children = !!$sub_docs ? [
+			'sub_docs' => $sub_docs,
 		] : [];
 
 		$base_array = [
 			// Get Product General Info
-			'id'                 => (string) $post->ID,
-			'type'               => 'chapter',
-			'depth'              => $depth,
-			'name'               => $post->post_title,
-			'slug'               => $post->post_name,
-			'date_created'       => $date_created,
-			'date_modified'      => $date_modified,
-			'status'             => $post->post_status,
-			// 'featured'           => false,
-			'catalog_visibility' => '',
-			// 'sku'                => '',
-			'menu_order'         => (int) $post->menu_order,
-			// 'virtual'            => false,
-			// 'downloadable'       => false,
-			'permalink'          => \get_permalink($post->ID),
-			'chapter_length'     => (int) \get_post_meta($post->ID, 'chapter_length', true),
-			'description'        => $post->post_content,
-
-			// Get Product Prices
-			// 'price_html'         => '',
-			// 'regular_price'      => '',
-			// 'sale_price'         => '',
-			// 'on_sale'            => '',
-			// 'date_on_sale_from'  => '',
-			// 'date_on_sale_to'    => '',
-			// 'total_sales'        => '',
-
-			// Get Product Stock
-			// 'stock'              => '',
-			// 'stock_status'       => '',
-			// 'manage_stock'       => '',
-			// 'stock_quantity'     => '',
-			// 'backorders'         => '',
-			// 'backorders_allowed' => '',
-			// 'backordered'        => '',
-			// 'low_stock_amount'   => '',
-
-			// Get Linked Products
-			// 'upsell_ids'         => array(),
-			// 'cross_sell_ids'     => array(),
-
-			// Get Product Variations and Attributes
-			// 'attributes'         => array(),
-
-			// Get Product Taxonomies
-			'category_ids'       => [],
-			'tag_ids'            => [],
-
-			// Get Product Images
-			'images'             => $images,
-
-			'parent_id'          => (string) $post->post_parent,
-			'chapter_video'      => \get_post_meta($post->ID, 'chapter_video', true),
+			'id'            => (string) $post->ID,
+			'depth'         => $depth,
+			'name'          => $post->post_title,
+			'slug'          => $post->post_name,
+			'date_created'  => $date_created,
+			'date_modified' => $date_modified,
+			'status'        => $post->post_status,
+			'menu_order'    => (int) $post->menu_order,
+			'permalink'     => \get_permalink($post->ID),
+			'category_ids'  => [],
+			'tag_ids'       => [],
+			'images'        => $images,
+			'parent_id'     => (string) $post->post_parent,
 		] + $children;
 
+		// @phpstan-ignore-next-line
 		return array_merge(
 			$description_array,
 			$base_array
@@ -240,8 +220,8 @@ abstract class Utils {
 	/**
 	 * Update a chapter
 	 *
-	 * @param string $id   chapter id.
-	 * @param array  $args Arguments.
+	 * @param string               $id   chapter id.
+	 * @param array<string, mixed> $args Arguments.
 	 *
 	 * @return integer|\WP_Error
 	 */
@@ -254,57 +234,24 @@ abstract class Utils {
 		$args['post_type']     = CPT::POST_TYPE;
 		$args['page_template'] = self::TEMPLATE;
 
+		/** @var array{ID?: int, post_author?: int, post_date?: string, post_date_gmt?: string, post_content?: string, post_content_filtered?: string, post_title?: string, post_excerpt?: string, ...} $args */
 		$update_result = \wp_update_post($args);
 
 		return $update_result;
 	}
 
 	/**
-	 * 取得章節的課程 ID
+	 * 取得最上層的文件 ID
 	 *
-	 * @param int $chapter_id 章節 ID.
+	 * @param int $doc_id 文件 ID.
 	 * @return int|null
 	 */
-	public static function get_course_id( int $chapter_id ): int|null {
-		$ancestors = \get_post_ancestors( $chapter_id );
+	public static function get_top_doc_id( int $doc_id ): int|null {
+		$ancestors = \get_post_ancestors( $doc_id );
 		if ( empty( $ancestors ) ) {
 			return null;
 		}
 		// 取最後一個
-		return $ancestors[ count( $ancestors ) - 1 ];
-	}
-
-	/**
-	 * 檢查章節是否可存取
-	 *
-	 * @param int|null $chapter_id 章節 ID.
-	 * @param int|null $user_id 用戶 ID.
-	 * @return bool
-	 */
-	public static function is_avl( ?int $chapter_id = 0, ?int $user_id = null ): bool {
-		$user_id = $user_id ?? \get_current_user_id();
-		if ( ! $user_id ) {
-			return false;
-		}
-
-		if (!$chapter_id) {
-			global $chapter;
-			if (!( $chapter instanceof \WP_Post )) {
-				return false;
-			}
-			$chapter_id = $chapter->ID;
-		}
-
-		$course_id = self::get_course_id( $chapter_id );
-		if ( !$course_id ) {
-			return false;
-		}
-
-		$can_access_course = CourseUtils::is_avl( (int) $course_id, (int) $user_id);
-		if ( !$can_access_course ) {
-			return false;
-		}
-
-		return true; // 可能可以 apply filters
+		return $ancestors[ count( $ancestors ) - 1 ] ?? null;
 	}
 }

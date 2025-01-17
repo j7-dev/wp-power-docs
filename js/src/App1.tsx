@@ -16,10 +16,10 @@ import routerBindings, {
 import { BackToWpAdmin } from 'antd-toolkit/wp'
 import { dataProvider } from 'antd-toolkit/refine'
 import {
-	KnowledgeBasesList,
-	KnowledgeBasesEdit,
+	DocsList,
+	DocsEdit,
 	Users,
-	KnowledgeBaseAccess,
+	DocAccess,
 	Shortcodes,
 	Settings,
 } from '@/pages/admin'
@@ -100,19 +100,13 @@ function App() {
 							</ConfigProvider>
 						}
 					>
-						<Route
-							index
-							element={<NavigateToResource resource="knowledge-bases" />}
-						/>
-						<Route path="knowledge-bases">
-							<Route index element={<KnowledgeBasesList />} />
-							<Route path="edit/:id" element={<KnowledgeBasesEdit />} />
+						<Route index element={<NavigateToResource resource="docs" />} />
+						<Route path="docs">
+							<Route index element={<DocsList />} />
+							<Route path="edit/:id" element={<DocsEdit />} />
 						</Route>
 						<Route path="users" element={<Users />} />
-						<Route
-							path="knowledge-base-access"
-							element={<KnowledgeBaseAccess />}
-						/>
+						<Route path="doc-access" element={<DocAccess />} />
 						<Route path="shortcodes" element={<Shortcodes />} />
 						<Route path="settings" element={<Settings />} />
 

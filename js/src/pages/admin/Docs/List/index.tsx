@@ -1,8 +1,6 @@
 import React, { memo } from 'react'
-import Table from '@/pages/admin/KnowledgeBases/List/Table'
+import Table from '@/pages/admin/Docs/List/Table'
 import { List } from '@refinedev/antd'
-
-// TODO  有空把 Item.*hidden 簡化一下
 
 const ListComponent = () => {
 	return (
@@ -12,4 +10,4 @@ const ListComponent = () => {
 	)
 }
 
-export const KnowledgeBasesList = memo(ListComponent)
+export const DocsList = memo(ListComponent)

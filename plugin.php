@@ -36,9 +36,18 @@ final class Plugin {
 	use \J7\WpUtils\Traits\SingletonTrait;
 
 	/**
+	 * 是否為本地開發環境
+	 *
+	 * @var bool
+	 */
+	public static $is_local = false;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
+
+		self::$is_local = 'local' === \wp_get_environment_type();
 
 		// self::$template_page_names = [ '404' ];
 

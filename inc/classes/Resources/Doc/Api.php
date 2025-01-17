@@ -39,6 +39,11 @@ final class Api extends ApiBase {
 			'permission_callback' => null,
 		],
 		[
+			'endpoint'            => 'docs/(?P<id>\d+)',
+			'method'              => 'get',
+			'permission_callback' => null,
+		],
+		[
 			'endpoint'            => 'docs',
 			'method'              => 'post',
 			'permission_callback' => null,
@@ -97,9 +102,34 @@ final class Api extends ApiBase {
 		);
 
 		$docs = \get_posts($args);
+
 		$docs = array_values(array_map( [ Utils::class, 'format_doc_details' ], $docs )); // @phpstan-ignore-line
 
 		$response = new \WP_REST_Response( $docs );
+
+		return $response;
+	}
+
+
+	/**
+	 * Get docs callback
+	 *
+	 * @param \WP_REST_Request $request Request.
+	 *
+	 * @return \WP_REST_Response|\WP_Error
+	 * @phpstan-ignore-next-line
+	 */
+	public function get_docs_with_id_callback( $request ) { // phpcs:ignore
+		$id = $request['id'] ?? null;
+		if (!is_numeric($id)) {
+			throw new \Exception('id 格式不符合');
+		}
+
+		$doc = \get_post( (int) $id );
+
+		$doc = Utils::format_doc_details( $doc );
+
+		$response = new \WP_REST_Response( $doc );
 
 		return $response;
 	}
@@ -160,7 +190,7 @@ final class Api extends ApiBase {
 			$qty = (int) ( $meta_data['qty'] ?? 1 );
 			unset($meta_data['qty']);
 
-			$post_parents = $meta_data['post_parents'];
+			$post_parents = $meta_data['post_parents'] ?? [];
 			unset($meta_data['post_parents']);
 			$post_parents = is_array( $post_parents ) ? $post_parents : [];
 
@@ -173,8 +203,19 @@ final class Api extends ApiBase {
 
 			$success_ids = [];
 
-			foreach ($post_parents as $post_parent) {
-				$data['post_parent'] = $post_parent;
+			if (!empty($post_parents)) {
+				foreach ($post_parents as $post_parent) {
+					$data['post_parent'] = $post_parent;
+					for ($i = 0; $i < $qty; $i++) {
+						$post_id = Utils::create_doc( $data );
+						if (is_numeric($post_id)) {
+							$success_ids[] = $post_id;
+						} else {
+							throw new \Exception( "新增文件失敗 : {$post_id->get_error_message()}");
+						}
+					}
+				}
+			} else {
 				for ($i = 0; $i < $qty; $i++) {
 					$post_id = Utils::create_doc( $data );
 					if (is_numeric($post_id)) {

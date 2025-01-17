@@ -1,5 +1,6 @@
 import React from 'react'
-import useOptions from '@/components/product/ProductTable/hooks/useOptions'
+
+// import useOptions from '@/components/product/ProductTable/hooks/useOptions'
 import {
 	backordersOptions,
 	stockStatusOptions,
@@ -21,8 +22,8 @@ const formattedExtraMapper = [
 ]
 
 const useValueLabelMapper = () => {
-	const { options } = useOptions({ endpoint: 'knowledge-bases/options' })
-	const { product_cats = [], product_tags = [], product_brands = [] } = options
+	// const { options } = useOptions({ endpoint: 'docs/options' })
+	const { product_cats = [], product_tags = [], product_brands = [] } = {}
 	const terms = [...product_cats, ...product_tags, ...product_brands]
 	const formattedTerms = terms?.map((term) => ({
 		value: term?.id?.toString() || '',

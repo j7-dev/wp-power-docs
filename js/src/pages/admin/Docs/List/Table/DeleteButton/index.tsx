@@ -5,7 +5,7 @@ import { DeleteOutlined } from '@ant-design/icons'
 import { trim } from 'lodash-es'
 import { useDeleteMany } from '@refinedev/core'
 
-const CONFIRM_WORD = '沒錯，誰來阻止我都沒有用，我就是要刪課程'
+const CONFIRM_WORD = '沒錯，誰來阻止我都沒有用，我就是要刪知識庫'
 
 const DeleteButton = ({
 	selectedRowKeys,
@@ -26,14 +26,15 @@ const DeleteButton = ({
 				icon={<DeleteOutlined />}
 				onClick={show}
 				disabled={!selectedRowKeys.length}
+				className="m-0"
 			>
-				批量刪除課程
+				批量刪除知識庫
 				{selectedRowKeys.length ? ` (${selectedRowKeys.length})` : ''}
 			</Button>
 
 			<Modal
 				{...modalProps}
-				title={`刪除課程 ${selectedRowKeys.map((id) => `#${id}`).join(', ')}`}
+				title={`刪除知識庫 ${selectedRowKeys.map((id) => `#${id}`).join(', ')}`}
 				centered
 				okButtonProps={{
 					danger: true,
@@ -44,12 +45,12 @@ const DeleteButton = ({
 				onOk={() => {
 					deleteMany(
 						{
-							resource: 'knowledge-bases',
+							resource: 'docs',
 							ids: selectedRowKeys as string[],
 							mutationMode: 'optimistic',
 							successNotification: (data, ids, resource) => {
 								return {
-									message: `課程 ${ids?.map((id) => `#${id}`).join(', ')} 已刪除成功`,
+									message: `知識庫 ${ids?.map((id) => `#${id}`).join(', ')} 已刪除成功`,
 									type: 'success',
 								}
 							},
@@ -75,13 +76,13 @@ const DeleteButton = ({
 					className="mb-2"
 					description={
 						<>
-							<p>刪除課程影響範圍包含:</p>
+							<p>刪除知識庫影響範圍包含:</p>
 							<ol className="pl-6">
-								<li>買過課程的用戶將不能再上課</li>
+								<li>買過知識庫的用戶將不能再上課</li>
 								<li>用戶曾經的上課紀錄將被刪除</li>
-								<li>用戶對課程的留言以及評價將被刪除</li>
-								<li>課程的章節也將被刪除</li>
-								<li>與課程連動的商品，將不再連動課程</li>
+								<li>用戶對知識庫的留言以及評價將被刪除</li>
+								<li>知識庫的章節也將被刪除</li>
+								<li>與知識庫連動的商品，將不再連動知識庫</li>
 							</ol>
 						</>
 					}
@@ -90,7 +91,7 @@ const DeleteButton = ({
 				/>
 				<p className="mb-2">
 					您確定要這麼做嗎?
-					如果您已經知曉刪除課程帶來的影響，並仍想要刪除這些課程，請在下方輸入框輸入{' '}
+					如果您已經知曉刪除知識庫帶來的影響，並仍想要刪除這些知識庫，請在下方輸入框輸入{' '}
 					<b className="italic">{CONFIRM_WORD}</b>{' '}
 				</p>
 				<Input
