@@ -2,8 +2,18 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { app1Selector, app2Selector } from '@/utils'
+import {
+	app1Selector,
+	app2Selector,
+	APP_DOMAIN,
+	bunny_library_id,
+	bunny_cdn_hostname,
+	bunny_stream_api_key,
+} from '@/utils'
 import { StyleProvider } from '@ant-design/cssinjs'
+
+import { PluginProvider } from 'antd-toolkit'
+import { BunnyProvider } from 'antd-toolkit/refine'
 
 const App1 = React.lazy(() => import('./App1'))
 const App2 = React.lazy(() => import('./App2'))
@@ -38,7 +48,15 @@ mapping.forEach(({ els, App }) => {
 				<React.StrictMode>
 					<QueryClientProvider client={queryClient}>
 						<StyleProvider hashPriority="high">
-							<App />
+							<PluginProvider app_domain={APP_DOMAIN}>
+								<BunnyProvider
+									bunny_library_id={bunny_library_id}
+									bunny_cdn_hostname={bunny_cdn_hostname}
+									bunny_stream_api_key={bunny_stream_api_key}
+								>
+									<App />
+								</BunnyProvider>
+							</PluginProvider>
 						</StyleProvider>
 						<ReactQueryDevtools initialIsOpen={false} />
 					</QueryClientProvider>

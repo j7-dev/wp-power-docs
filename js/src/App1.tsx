@@ -14,7 +14,6 @@ import routerBindings, {
 	NavigateToResource,
 } from '@refinedev/react-router-v6'
 import { BackToWpAdmin } from 'antd-toolkit/wp'
-import { dataProvider } from 'antd-toolkit/refine'
 import {
 	DocsList,
 	DocsEdit,
@@ -22,27 +21,23 @@ import {
 	DocAccess,
 	Shortcodes,
 	Settings,
+	MediaLibraryPage,
 } from '@/pages/admin'
-
-// import { dataProvider as bunnyStreamDataProvider } from './rest-data-provider/bunny-stream'
-
 import { HashRouter, Outlet, Route, Routes } from 'react-router-dom'
 import { apiUrl, kebab, siteUrl } from '@/utils'
 import { resources } from '@/resources'
-
-// import MediaLibraryPage from '@/pages/admin/MediaLibraryPage'
 import { ConfigProvider } from 'antd'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import {
+	dataProvider,
 
-// import { MediaLibraryIndicator } from '@/bunny'
-
-/**
- * TODO
- * [ ] bunny 移動到 antd-toolkit
- *
- */
+	// BunnyProvider,
+	MediaLibraryIndicator,
+} from 'antd-toolkit/refine'
 
 function App() {
+	// const { bunny_data_provider_result } = BunnyProvider.useBunny()
+
 	return (
 		<HashRouter>
 			<Refine
@@ -52,9 +47,7 @@ function App() {
 					'wc-rest': dataProvider(`${apiUrl}/wc/v3`),
 					'wc-store': dataProvider(`${apiUrl}/wc/store/v1`),
 
-					// 'bunny-stream': bunnyStreamDataProvider(
-					// 	'https://video.bunnycdn.com/library',
-					// ),
+					// 'bunny-stream': bunny_data_provider_result,
 				}}
 				notificationProvider={useNotificationProvider}
 				routerProvider={routerBindings}
@@ -100,11 +93,11 @@ function App() {
 							</ConfigProvider>
 						}
 					>
-						<Route index element={<NavigateToResource resource="docs" />} />
-						<Route path="docs">
+						<Route index element={<NavigateToResource resource="users" />} />
+						{/* <Route path="docs">
 							<Route index element={<DocsList />} />
 							<Route path="edit/:id" element={<DocsEdit />} />
-						</Route>
+						</Route> */}
 						<Route path="users" element={<Users />} />
 						<Route path="doc-access" element={<DocAccess />} />
 						<Route path="shortcodes" element={<Shortcodes />} />

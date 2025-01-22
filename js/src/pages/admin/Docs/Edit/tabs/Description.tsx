@@ -1,30 +1,29 @@
 import { memo } from 'react'
 import { Form, Input, Select } from 'antd'
-import { keyLabelMapper } from '@/components/product/ProductTable/utils'
-import useOptions from '@/components/product/ProductTable/hooks/useOptions'
 import {
-	siteUrl,
-	course_permalink_structure,
+	termToOptions,
 	defaultSelectProps,
-} from '@/utils'
-import { Heading } from '@/components/general'
-import { FiSwitch, VideoInput, DescriptionDrawer } from '@/components/formItem'
-import { termToOptions } from 'antd-toolkit'
-import { FileUpload } from 'antd-toolkit/wp'
+	Heading,
+	Switch,
+	VideoInput,
+} from 'antd-toolkit'
+import { FileUpload, productKeyLabelMapper } from 'antd-toolkit/wp'
+import { BlockNoteDrawer } from '@/components/general'
 
 const { Item } = Form
 
 const DescriptionComponent = () => {
 	const form = Form.useFormInstance()
-	const { options, isLoading } = useOptions({ endpoint: 'courses/options' })
-	const { product_cats = [], product_tags = [] } = options
+
+	// const { options, isLoading } = useOptions({ endpoint: 'courses/options' })
+	const { product_cats = [], product_tags = [] } = {}
 
 	return (
 		<>
 			<div className="mb-12">
 				<Heading>課程發佈</Heading>
 
-				<FiSwitch
+				<Switch
 					formItemProps={{
 						name: ['status'],
 						label: '發佈',
@@ -50,7 +49,7 @@ const DescriptionComponent = () => {
 					</Item>
 					<Item
 						name={['category_ids']}
-						label={keyLabelMapper('product_category_id')}
+						label={productKeyLabelMapper('product_category_id')}
 						initialValue={[]}
 					>
 						<Select
@@ -61,7 +60,7 @@ const DescriptionComponent = () => {
 					</Item>
 					<Item
 						name={['tag_ids']}
-						label={keyLabelMapper('product_tag_id')}
+						label={productKeyLabelMapper('product_tag_id')}
 						initialValue={[]}
 					>
 						<Select
@@ -79,7 +78,7 @@ const DescriptionComponent = () => {
 					>
 						<Input.TextArea rows={8} allowClear />
 					</Item>
-					<DescriptionDrawer />
+					<BlockNoteDrawer />
 
 					<div className="mb-8">
 						<label className="mb-3 tw-block">課程封面圖</label>
@@ -93,11 +92,19 @@ const DescriptionComponent = () => {
 					</div>
 					<div className="mb-8">
 						<p className="mb-3">課程封面影片</p>
-						<VideoInput name={['feature_video']} />
+						<VideoInput
+							formItemProps={{
+								name: ['feature_video'],
+							}}
+						/>
 					</div>
 					<div className="mb-8">
 						<p className="mb-3">課程免費試看影片</p>
-						<VideoInput name={['trial_video']} />
+						<VideoInput
+							formItemProps={{
+								name: ['trial_video'],
+							}}
+						/>
 					</div>
 				</div>
 			</div>
