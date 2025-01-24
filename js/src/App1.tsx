@@ -24,30 +24,29 @@ import {
 	MediaLibraryPage,
 } from '@/pages/admin'
 import { HashRouter, Outlet, Route, Routes } from 'react-router-dom'
-import { apiUrl, kebab, siteUrl } from '@/utils'
+import { API_URL, KEBAB, SITE_URL } from '@/utils'
 import { resources } from '@/resources'
 import { ConfigProvider } from 'antd'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {
 	dataProvider,
-
-	// BunnyProvider,
+	BunnyProvider,
 	MediaLibraryIndicator,
 } from 'antd-toolkit/refine'
 
 function App() {
-	// const { bunny_data_provider_result } = BunnyProvider.useBunny()
+	const { bunny_data_provider_result } = BunnyProvider.useBunny()
 
 	return (
 		<HashRouter>
 			<Refine
 				dataProvider={{
-					default: dataProvider(`${apiUrl}/${kebab}`),
-					'wp-rest': dataProvider(`${apiUrl}/wp/v2`),
-					'wc-rest': dataProvider(`${apiUrl}/wc/v3`),
-					'wc-store': dataProvider(`${apiUrl}/wc/store/v1`),
-
-					// 'bunny-stream': bunny_data_provider_result,
+					default: dataProvider(`${API_URL}/v2/powerhouse`),
+					'wp-rest': dataProvider(`${API_URL}/wp/v2`),
+					'wc-rest': dataProvider(`${API_URL}/wc/v3`),
+					'wc-store': dataProvider(`${API_URL}/wc/store/v1`),
+					'bunny-stream': bunny_data_provider_result,
+					'power-docs': dataProvider(`${API_URL}/${KEBAB}`),
 				}}
 				notificationProvider={useNotificationProvider}
 				routerProvider={routerBindings}
@@ -84,26 +83,26 @@ function App() {
 								<ThemedLayoutV2
 									Sider={(props) => <ThemedSiderV2 {...props} fixed />}
 									Title={({ collapsed }) => (
-										<BackToWpAdmin collapsed={collapsed} siteUrl={siteUrl} />
+										<BackToWpAdmin collapsed={collapsed} siteUrl={SITE_URL} />
 									)}
 								>
 									<Outlet />
-									{/* <MediaLibraryIndicator /> */}
+									<MediaLibraryIndicator />
 								</ThemedLayoutV2>
 							</ConfigProvider>
 						}
 					>
-						<Route index element={<NavigateToResource resource="users" />} />
-						{/* <Route path="docs">
+						<Route index element={<NavigateToResource resource="docs" />} />
+						<Route path="docs">
 							<Route index element={<DocsList />} />
 							<Route path="edit/:id" element={<DocsEdit />} />
-						</Route> */}
+						</Route>
 						<Route path="users" element={<Users />} />
 						<Route path="doc-access" element={<DocAccess />} />
 						<Route path="shortcodes" element={<Shortcodes />} />
 						<Route path="settings" element={<Settings />} />
 
-						{/* <Route path="media-library" element={<MediaLibraryPage />} /> */}
+						<Route path="media-library" element={<MediaLibraryPage />} />
 
 						<Route path="*" element={<ErrorComponent />} />
 					</Route>

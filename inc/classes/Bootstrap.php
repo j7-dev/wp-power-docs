@@ -84,11 +84,11 @@ final class Bootstrap {
 			Plugin::$snake . '_data',
 			[
 				'env' => [
-					'siteUrl'       => \untrailingslashit( \site_url() ),
-					'ajaxUrl'       => \untrailingslashit( \admin_url( 'admin-ajax.php' ) ),
-					'userId'        => \wp_get_current_user()->data->ID ?? null,
-					'postId'        => $post_id,
-					'permalink'     => \untrailingslashit( $permalink ),
+					'SITE_URL'       => \untrailingslashit( \site_url() ),
+					'AJAX_URL'       => \untrailingslashit( \admin_url( 'admin-ajax.php' ) ),
+					'CURRENT_USER_ID'        => \wp_get_current_user()->data->ID ?? null,
+					'CURRENT_POST_ID'        => $post_id,
+					'PERMALINK'     => \untrailingslashit( $permalink ),
 					'APP_NAME'      => Plugin::$app_name,
 					'KEBAB'         => Plugin::$kebab,
 					'SNAKE'         => Plugin::$snake,
@@ -96,7 +96,11 @@ final class Bootstrap {
 					'APP1_SELECTOR' => Base::APP1_SELECTOR,
 					'APP2_SELECTOR' => Base::APP2_SELECTOR,
 					'API_TIMEOUT'   => Base::API_TIMEOUT,
-					'nonce'         => \wp_create_nonce( Plugin::$kebab ),
+					'AJAX_NONCE'         => \wp_create_nonce( Plugin::$kebab ),
+					'DOCS_POST_TYPE' => \J7\PowerDocs\Resources\Doc\CPT::POST_TYPE,
+					'BUNNY_LIBRARY_ID'           => \get_option( 'bunny_library_id', '' ),
+					'BUNNY_CDN_HOSTNAME'         => \get_option( 'bunny_cdn_hostname', '' ),
+					'BUNNY_STREAM_API_KEY'       => \get_option( 'bunny_stream_api_key', '' ),
 				],
 			]
 		);

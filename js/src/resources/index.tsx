@@ -6,8 +6,18 @@ import {
 } from '@ant-design/icons'
 import { FaPhotoVideo } from 'react-icons/fa'
 import { PiStudent } from 'react-icons/pi'
+import { ResourceProps } from '@refinedev/core'
 
-export const resources = [
+export const resources: ResourceProps[] = [
+	{
+		name: 'posts',
+		list: '/posts',
+		edit: '/posts/edit/:id',
+		meta: {
+			label: '文章列表',
+			hide: true,
+		},
+	},
 	{
 		name: 'docs',
 		list: '/docs',

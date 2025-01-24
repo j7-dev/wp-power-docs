@@ -5,8 +5,10 @@ export const MediaLibraryPage = () => {
 	const [selectedVideos, setSelectedVideos] = useState<TBunnyVideo[]>([])
 	return (
 		<MediaLibrary
-			selectedVideos={selectedVideos}
-			setSelectedVideos={setSelectedVideos}
+			mediaLibraryProps={{
+				selectedVideos,
+				setSelectedVideos,
+			}}
 		/>
 	)
 }

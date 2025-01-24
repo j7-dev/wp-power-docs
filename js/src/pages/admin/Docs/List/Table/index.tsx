@@ -6,6 +6,7 @@ import {
 	useRowSelection,
 	getDefaultPaginationProps,
 	defaultTableProps,
+	PluginProvider,
 } from 'antd-toolkit'
 import { getInitialFilters } from 'antd-toolkit/refine'
 
@@ -22,19 +23,27 @@ import { PlusOutlined } from '@ant-design/icons'
 import DeleteButton from './DeleteButton'
 
 const Main = () => {
+	const { DOCS_POST_TYPE } = PluginProvider.usePlugin()
 	const { tableProps, searchFormProps } = useTable<
 		TDocBaseRecord,
 		HttpError
 
 		// TFilterProps
 	>({
-		resource: 'docs',
+		resource: 'posts',
 
 		// onSearch,
 
-		// filters: {
-		// 	initial: getInitialFilters(initialFilteredValues),
-		// },
+		filters: {
+			// initial: getInitialFilters(initialFilteredValues),
+			permanent: [
+				{
+					field: 'post_type',
+					operator: 'eq',
+					value: DOCS_POST_TYPE,
+				},
+			],
+		},
 	})
 
 	const { valueLabelMapper } = useValueLabelMapper()

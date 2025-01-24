@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 // eslint-disable-next-line no-undef
 module.exports = {
-	// important: '.tailwind',  // you have to use tailwindcss inside a .tailwind class container, or just type true.
+	important: '.tailwind', // you have to use tailwindcss inside a .tailwind class container, or just type true.
 	corePlugins: {
 		preflight: false,
 	},
@@ -54,6 +54,9 @@ module.exports = {
 				'.tw-block': {
 					display: 'block',
 				},
+				'.tw-inline': {
+					display: 'inline',
+				},
 			}
 			addUtilities(newUtilities, ['responsive', 'hover'])
 		},
@@ -66,5 +69,6 @@ module.exports = {
 		'columns-2',
 		'fixed',
 		'block',
+		'inline',
 	],
 }

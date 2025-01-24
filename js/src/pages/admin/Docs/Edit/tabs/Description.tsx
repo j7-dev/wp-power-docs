@@ -5,7 +5,8 @@ import {
 	defaultSelectProps,
 	Heading,
 	Switch,
-	VideoInput,
+	CopyText,
+	PluginProvider,
 } from 'antd-toolkit'
 import { FileUpload, productKeyLabelMapper } from 'antd-toolkit/wp'
 import { BlockNoteDrawer } from '@/components/general'
@@ -17,11 +18,25 @@ const DescriptionComponent = () => {
 
 	// const { options, isLoading } = useOptions({ endpoint: 'courses/options' })
 	const { product_cats = [], product_tags = [] } = {}
+	const { SITE_URL = '', DOCS_POST_TYPE = '' } = PluginProvider.usePlugin()
+	const docsUrl = `${SITE_URL}/${DOCS_POST_TYPE}/`
+	const slug = Form.useWatch(['slug'], form)
 
 	return (
 		<>
 			<div className="mb-12">
-				<Heading>課程發佈</Heading>
+				<Heading>知識庫發佈</Heading>
+
+				<Item name={['slug']} label="網址">
+					<Input
+						addonBefore={docsUrl}
+						addonAfter={
+							<>
+								<CopyText text={`${docsUrl}${slug}`} />
+							</>
+						}
+					/>
+				</Item>
 
 				<Switch
 					formItemProps={{
@@ -39,12 +54,12 @@ const DescriptionComponent = () => {
 				/>
 			</div>
 			<div className="mb-12">
-				<Heading>課程描述</Heading>
+				<Heading>知識庫描述</Heading>
 
 				<Item name={['id']} hidden normalize={() => undefined} />
 
 				<div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-					<Item name={['name']} label="課程名稱">
+					<Item name={['name']} label="知識庫名稱">
 						<Input allowClear />
 					</Item>
 					<Item
@@ -73,7 +88,7 @@ const DescriptionComponent = () => {
 				<div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
 					<Item
 						name={['short_description']}
-						label="課程簡介"
+						label="知識庫簡介"
 						className="col-span-2"
 					>
 						<Input.TextArea rows={8} allowClear />
@@ -81,30 +96,14 @@ const DescriptionComponent = () => {
 					<BlockNoteDrawer />
 
 					<div className="mb-8">
-						<label className="mb-3 tw-block">課程封面圖</label>
+						<label className="mb-3 tw-block">知識庫封面圖</label>
 						<FileUpload />
-						<Item hidden name={['files']} label="課程封面圖">
+						<Item hidden name={['files']} label="知識庫封面圖">
 							<Input />
 						</Item>
 						<Item hidden name={['images']} initialValue={[]}>
 							<Input />
 						</Item>
-					</div>
-					<div className="mb-8">
-						<p className="mb-3">課程封面影片</p>
-						<VideoInput
-							formItemProps={{
-								name: ['feature_video'],
-							}}
-						/>
-					</div>
-					<div className="mb-8">
-						<p className="mb-3">課程免費試看影片</p>
-						<VideoInput
-							formItemProps={{
-								name: ['trial_video'],
-							}}
-						/>
 					</div>
 				</div>
 			</div>

@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { Edit, useForm } from '@refinedev/antd'
 import { Tabs, TabsProps, Form, Switch, Modal, Button, Space } from 'antd'
-import { Description } from './tabs'
+import { Description, SortablePosts } from './tabs'
 
 // import { SortableDocs } from '@/components/post'
 
@@ -11,14 +11,26 @@ import { useAtom } from 'jotai'
 // import { MediaLibrary } from '@/bunny'
 // import { TBunnyVideo } from '@/bunny/types'
 import { TDocRecord } from '@/pages/admin/Docs/List/types'
-import { siteUrl } from '@/utils'
+import { SITE_URL } from '@/utils'
 import { toFormData } from 'antd-toolkit'
+import { useParsed } from '@refinedev/core'
+import { PostEdit } from './PostEdit'
 
 const EditComponent = () => {
+	const { id } = useParsed()
+
 	// 初始化資料
 	const { formProps, form, saveButtonProps, query, mutation, onFinish } =
 		useForm<TDocRecord>({
+			action: 'edit',
+			resource: 'posts',
+			id,
 			redirect: false,
+			queryMeta: {
+				variables: {
+					with_description: 'true',
+				},
+			},
 		})
 
 	// TAB items
@@ -30,10 +42,10 @@ const EditComponent = () => {
 			children: <Description />,
 		},
 		{
-			key: 'Chapters',
+			key: 'SortablePosts',
 			forceRender: false,
 			label: '章節管理',
-			children: <>章節管理</>,
+			children: <SortablePosts PostEdit={PostEdit} />,
 		},
 		{
 			key: 'CourseStudents',
@@ -51,7 +63,7 @@ const EditComponent = () => {
 	return (
 		<div className="sticky-card-actions sticky-tabs-nav">
 			<Edit
-				resource="courses"
+				resource="posts"
 				title={
 					<>
 						{watchName} <sub className="text-gray-500">#{watchId}</sub>
