@@ -18,6 +18,9 @@ import { selectedPostAtom, selectedIdsAtom } from './atom'
 import AddPosts from './AddPosts'
 import Loading from './Loading'
 
+// 定義最大深度
+export const MAX_DEPTH = 2
+
 /**
  * 可排序的章節
  * @param {PostEdit} PostEdit 編輯的畫面由外部傳入
@@ -194,8 +197,10 @@ const SortablePostsComponent = ({
 						)}
 						indentationWidth={48}
 						sortableRule={({ activeNode, projected }) => {
-							const activeNodeHasChild = !!activeNode.children.length
-							const sortable = projected?.depth <= (activeNodeHasChild ? 0 : 1)
+							// activeNode - 被拖動的節點
+							// projected - 拖動後的資訊
+
+							const sortable = projected?.depth <= MAX_DEPTH
 							if (!sortable) message.error('超過最大深度，無法執行')
 							return sortable
 						}}

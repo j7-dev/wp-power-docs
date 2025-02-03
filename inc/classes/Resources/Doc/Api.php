@@ -33,41 +33,41 @@ final class Api extends ApiBase {
 	 * - permission_callback : callable
 	 */
 	protected $apis = [
-		[
-			'endpoint'            => 'docs',
-			'method'              => 'get',
-			'permission_callback' => null,
-		],
-		[
-			'endpoint'            => 'docs/(?P<id>\d+)',
-			'method'              => 'get',
-			'permission_callback' => null,
-		],
-		[
-			'endpoint'            => 'docs',
-			'method'              => 'post',
-			'permission_callback' => null,
-		],
-		[
-			'endpoint'            => 'docs/(?P<id>\d+)',
-			'method'              => 'post',
-			'permission_callback' => null,
-		],
-		[
-			'endpoint'            => 'docs',
-			'method'              => 'delete',
-			'permission_callback' => null,
-		],
-		[
-			'endpoint'            => 'docs/(?P<id>\d+)',
-			'method'              => 'delete',
-			'permission_callback' => null,
-		],
-		[
-			'endpoint'            => 'docs/sort',
-			'method'              => 'post',
-			'permission_callback' => null,
-		],
+		// [
+		// 	'endpoint'            => 'docs',
+		// 	'method'              => 'get',
+		// 	'permission_callback' => null,
+		// ],
+		// [
+		// 	'endpoint'            => 'docs/(?P<id>\d+)',
+		// 	'method'              => 'get',
+		// 	'permission_callback' => null,
+		// ],
+		// [
+		// 	'endpoint'            => 'docs',
+		// 	'method'              => 'post',
+		// 	'permission_callback' => null,
+		// ],
+		// [
+		// 	'endpoint'            => 'docs/(?P<id>\d+)',
+		// 	'method'              => 'post',
+		// 	'permission_callback' => null,
+		// ],
+		// [
+		// 	'endpoint'            => 'docs',
+		// 	'method'              => 'delete',
+		// 	'permission_callback' => null,
+		// ],
+		// [
+		// 	'endpoint'            => 'docs/(?P<id>\d+)',
+		// 	'method'              => 'delete',
+		// 	'permission_callback' => null,
+		// ],
+		// [
+		// 	'endpoint'            => 'docs/sort',
+		// 	'method'              => 'post',
+		// 	'permission_callback' => null,
+		// ],
 	];
 
 	/**
@@ -117,6 +117,7 @@ final class Api extends ApiBase {
 	 * @param \WP_REST_Request $request Request.
 	 *
 	 * @return \WP_REST_Response|\WP_Error
+	 * @throws \Exception 當找不到文件時拋出異常
 	 * @phpstan-ignore-next-line
 	 */
 	public function get_docs_with_id_callback( $request ) { // phpcs:ignore
@@ -125,7 +126,12 @@ final class Api extends ApiBase {
 			throw new \Exception('id 格式不符合');
 		}
 
+		/** @var \WP_Post|null $doc */
 		$doc = \get_post( (int) $id );
+
+		if (!$doc) {
+			throw new \Exception('找不到文件');
+		}
 
 		$doc = Utils::format_doc_details( $doc );
 
@@ -136,20 +142,20 @@ final class Api extends ApiBase {
 
 
 	/**
-	 * 處理並分離產品資訊
+	 * 處理並分離文章資訊
 	 *
-	 * 根據請求分離產品資訊，並處理描述欄位。
+	 * 根據請求分離文章資訊，並處理描述欄位。
 	 *
-	 * @param \WP_REST_Request $request 包含產品資訊的請求對象。
-	 * @throws \Exception 當找不到商品時拋出異常。.
-	 * @return array{data: array<string, mixed>, meta_data: array<string, mixed>} 包含產品對象、資料和元數據的陣列。
+	 * @param \WP_REST_Request $request 包含文章資訊的請求對象。
+	 * @throws \Exception 當找不到文章時拋出異常。.
+	 * @return array{data: array<string, mixed>, meta_data: array<string, mixed>} 包含文章對象、資料和元數據的陣列。
 	 * @phpstan-ignore-next-line
 	 */
 	private function separator( $request ): array {
 		$body_params = $request->get_body_params();
 		$file_params = $request->get_file_params();
 
-		// 將 key 做轉換
+		// 將前端的 key 轉換成後端接受的 key
 		$body_params = Utils::converter( $body_params );
 
 		$skip_keys = [
@@ -291,8 +297,8 @@ final class Api extends ApiBase {
 			}
 
 			[
-			'data'      => $data,
-			'meta_data' => $meta_data,
+				'data'      => $data,
+				'meta_data' => $meta_data,
 			] = $this->separator( $request );
 
 			$data['ID']         = $id;

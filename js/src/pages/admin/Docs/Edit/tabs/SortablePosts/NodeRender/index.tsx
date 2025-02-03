@@ -7,6 +7,7 @@ import { useAtom } from 'jotai'
 import { selectedPostAtom } from '../atom'
 import { PopconfirmDelete } from 'antd-toolkit'
 import { POST_STATUS, ProductName as PostName } from 'antd-toolkit/wp'
+import { flatMapDeep } from 'lodash-es'
 
 const NodeRender: FC<{
 	node: FlattenNode<TDocRecord>
@@ -24,11 +25,23 @@ const NodeRender: FC<{
 		removeNode(node.id)
 	}
 
+	const getFlattenChildrenIds = (_node: FlattenNode<TDocRecord>): string[] => {
+		return flatMapDeep([_node], (__node: FlattenNode<TDocRecord>) => [
+			__node?.id as string,
+			...__node?.children?.map((child) =>
+				getFlattenChildrenIds(child as FlattenNode<TDocRecord>),
+			),
+		])
+	}
+
 	const handleCheck: CheckboxProps['onChange'] = (e) => {
+		const flattenChildrenIds = getFlattenChildrenIds(node)
 		if (e.target.checked) {
-			setSelectedIds((prev) => [...prev, node.id as string])
+			setSelectedIds((prev) => [...prev, ...flattenChildrenIds])
 		} else {
-			setSelectedIds((prev) => prev.filter((id) => id !== node.id))
+			setSelectedIds((prev) =>
+				prev.filter((id) => !flattenChildrenIds.includes(id)),
+			)
 		}
 	}
 	const isChecked = selectedIds.includes(node.id as string)
@@ -56,9 +69,9 @@ const NodeRender: FC<{
 				<DuplicateButton
 					id={record?.id}
 					invalidateProps={{
-						resource: 'chapters',
+						resource: 'posts',
 					}}
-					tooltipProps={{ title: '複製章節/單元' }}
+					tooltipProps={{ title: '複製文章' }}
 				/>
 				<PopconfirmDelete
 					buttonProps={{
@@ -66,7 +79,7 @@ const NodeRender: FC<{
 					}}
 					tooltipProps={{ title: '刪除' }}
 					popconfirmProps={{
-						description: '刪除會連同子單元也一起刪除',
+						description: '刪除會連同子文章也一起刪除',
 						onConfirm: handleDelete,
 					}}
 				/>

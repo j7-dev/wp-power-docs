@@ -16,7 +16,6 @@ export type TDocBaseRecord = {
 	tag_ids: TTerm[]
 	images: TImage[]
 	parent_id: string
-	sub_docs: TDocBaseRecord[]
 }
 
 // Edit, Show, Create 會拿全部的欄位
@@ -24,4 +23,5 @@ export type TDocRecord = TDocBaseRecord &
 	TLimit & {
 		description: string
 		short_description: string
+		children: TDocRecord[]
 	}

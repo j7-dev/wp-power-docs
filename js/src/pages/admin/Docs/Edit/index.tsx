@@ -66,7 +66,8 @@ const EditComponent = () => {
 				resource="posts"
 				title={
 					<>
-						{watchName} <sub className="text-gray-500">#{watchId}</sub>
+						{watchName}{' '}
+						<span className="text-gray-400 text-xs">#{watchId}</span>
 					</>
 				}
 				headerButtons={() => null}

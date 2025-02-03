@@ -8,7 +8,7 @@ import {
 	CopyText,
 	PluginProvider,
 } from 'antd-toolkit'
-import { FileUpload, productKeyLabelMapper } from 'antd-toolkit/wp'
+import { FileUpload } from 'antd-toolkit/wp'
 import { BlockNoteDrawer } from '@/components/general'
 
 const { Item } = Form
@@ -62,26 +62,21 @@ const DescriptionComponent = () => {
 					<Item name={['name']} label="知識庫名稱">
 						<Input allowClear />
 					</Item>
-					<Item
-						name={['category_ids']}
-						label={productKeyLabelMapper('product_category_id')}
-						initialValue={[]}
-					>
+					{/* TODO: 知識庫分類 */}
+					<Item name={['category_ids']} label="知識庫分類" initialValue={[]}>
 						<Select
 							{...defaultSelectProps}
 							options={termToOptions(product_cats)}
 							placeholder="可多選"
+							disabled
 						/>
 					</Item>
-					<Item
-						name={['tag_ids']}
-						label={productKeyLabelMapper('product_tag_id')}
-						initialValue={[]}
-					>
+					<Item name={['tag_ids']} label="知識庫標籤" initialValue={[]}>
 						<Select
 							{...defaultSelectProps}
 							options={termToOptions(product_tags)}
 							placeholder="可多選"
+							disabled
 						/>
 					</Item>
 				</div>
@@ -98,12 +93,6 @@ const DescriptionComponent = () => {
 					<div className="mb-8">
 						<label className="mb-3 tw-block">知識庫封面圖</label>
 						<FileUpload />
-						<Item hidden name={['files']} label="知識庫封面圖">
-							<Input />
-						</Item>
-						<Item hidden name={['images']} initialValue={[]}>
-							<Input />
-						</Item>
 					</div>
 				</div>
 			</div>

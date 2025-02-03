@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from 'react'
 import { Form, Input, Switch } from 'antd'
-import { VideoInput, VideoLength, toFormData } from 'antd-toolkit'
+import { toFormData } from 'antd-toolkit'
 import { BlockNoteDrawer } from '@/components/general'
 import { TDocRecord } from '@/pages/admin/Docs/List/types'
 import { Edit, useForm } from '@refinedev/antd'
@@ -14,13 +14,12 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 	// 初始化資料
 	const { formProps, form, saveButtonProps, mutation, onFinish } = useForm({
 		action: 'edit',
-		resource: 'chapters',
+		resource: 'posts',
 		id,
 		redirect: false,
 		queryOptions: {
 			enabled: false,
 		},
-
 		invalidates: ['list', 'detail'],
 		warnWhenUnsavedChanges: true,
 	})
@@ -41,14 +40,14 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 
 	return (
 		<Edit
-			resource="chapters"
+			resource="posts"
 			recordItemId={id}
 			breadcrumb={null}
 			goBack={null}
 			headerButtons={() => null}
 			title={
 				<div className="pl-4">
-					《編輯 Email》 {name} <sub className="text-gray-500">#{id}</sub>
+					《編輯》 {name} <span className="text-gray-400 text-xs">#{id}</span>
 				</div>
 			}
 			saveButtonProps={{
@@ -85,31 +84,13 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 			}}
 		>
 			<Form {...formProps} onFinish={handleOnFinish} layout="vertical">
-				<Item name={['name']} label={`${label}名稱`}>
+				<Item name={['name']} label={'名稱'}>
 					<Input />
 				</Item>
-				{/* 如果深度為 0 清除 chapter_video*/}
-				{watchDepth === 0 && (
-					<Item name={['chapter_video']} hidden>
-						<Input allowClear />
-					</Item>
-				)}
-				{/*如果深度為 1 顯示上傳課程內容*/}
-				{watchDepth === 1 && (
-					<>
-						<div className="mb-8">
-							<BlockNoteDrawer itemLabel="單元" />
-						</div>
-						<div className="mb-6 max-w-[20rem]">
-							<p className="mb-3">上傳課程內容</p>
-							<VideoInput formItemProps={{ name: ['chapter_video'] }} />
-						</div>
-						<div className="mb-6 max-w-[20rem]">
-							<p className="mb-3">課程時長</p>
-							<VideoLength formItemProps={{ name: ['chapter_length'] }} />
-						</div>
-					</>
-				)}
+				<div className="mb-8">
+					<BlockNoteDrawer />
+				</div>
+
 				<Item name={['status']} hidden />
 				<Item name={['depth']} hidden />
 				<Item name={['id']} hidden />

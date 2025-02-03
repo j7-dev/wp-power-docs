@@ -33,7 +33,7 @@ const ToggleVisibility: FC<{
 				type="text"
 				icon={
 					isPublished ? (
-						<EyeOutlined className="text-gray-500" />
+						<EyeOutlined className="text-gray-400" />
 					) : (
 						<EyeInvisibleOutlined className="text-yellow-700" />
 					)

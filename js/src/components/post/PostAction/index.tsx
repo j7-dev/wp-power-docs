@@ -21,7 +21,7 @@ export const PostActionComponent: FC<{
 					href={record?.permalink}
 					target="_blank"
 					rel="noreferrer"
-					icon={<ExportOutlined className="text-gray-500" />}
+					icon={<ExportOutlined className="text-gray-400" />}
 					className="m-0"
 				/>
 			</Tooltip>
