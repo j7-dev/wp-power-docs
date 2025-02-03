@@ -23,5 +23,5 @@ export type TDocRecord = TDocBaseRecord &
 	TLimit & {
 		description: string
 		short_description: string
-		children: TDocRecord[]
+		children?: TDocRecord[]
 	}

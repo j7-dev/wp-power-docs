@@ -9,7 +9,6 @@ namespace J7\PowerDocs;
 
 use J7\PowerDocs\Utils\Base;
 use Kucrut\Vite;
-use J7\Powerhouse\Utils\Base as PowerhouseUtils;
 
 if ( class_exists( 'J7\PowerDocs\Bootstrap' ) ) {
 	return;
@@ -27,9 +26,7 @@ final class Bootstrap {
 
 		Admin\CPT::instance();
 		Admin\Entry::instance();
-
 		Resources\Doc\CPT::instance();
-		Resources\Doc\Api::instance();
 
 		\add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_enqueue_script' ] );
 		// \add_action( 'wp_enqueue_scripts', [ __CLASS__, 'frontend_enqueue_script' ]);
@@ -84,23 +81,23 @@ final class Bootstrap {
 			Plugin::$snake . '_data',
 			[
 				'env' => [
-					'SITE_URL'       => \untrailingslashit( \site_url() ),
-					'AJAX_URL'       => \untrailingslashit( \admin_url( 'admin-ajax.php' ) ),
-					'CURRENT_USER_ID'        => \wp_get_current_user()->data->ID ?? null,
-					'CURRENT_POST_ID'        => $post_id,
-					'PERMALINK'     => \untrailingslashit( $permalink ),
-					'APP_NAME'      => Plugin::$app_name,
-					'KEBAB'         => Plugin::$kebab,
-					'SNAKE'         => Plugin::$snake,
-					'BASE_URL'      => Base::BASE_URL,
-					'APP1_SELECTOR' => Base::APP1_SELECTOR,
-					'APP2_SELECTOR' => Base::APP2_SELECTOR,
-					'API_TIMEOUT'   => Base::API_TIMEOUT,
-					'AJAX_NONCE'         => \wp_create_nonce( Plugin::$kebab ),
-					'DOCS_POST_TYPE' => \J7\PowerDocs\Resources\Doc\CPT::POST_TYPE,
-					'BUNNY_LIBRARY_ID'           => \get_option( 'bunny_library_id', '' ),
-					'BUNNY_CDN_HOSTNAME'         => \get_option( 'bunny_cdn_hostname', '' ),
-					'BUNNY_STREAM_API_KEY'       => \get_option( 'bunny_stream_api_key', '' ),
+					'SITE_URL'             => \untrailingslashit( \site_url() ),
+					'AJAX_URL'             => \untrailingslashit( \admin_url( 'admin-ajax.php' ) ),
+					'CURRENT_USER_ID'      => \wp_get_current_user()->data->ID ?? null,
+					'CURRENT_POST_ID'      => $post_id,
+					'PERMALINK'            => \untrailingslashit( $permalink ),
+					'APP_NAME'             => Plugin::$app_name,
+					'KEBAB'                => Plugin::$kebab,
+					'SNAKE'                => Plugin::$snake,
+					'BASE_URL'             => Base::BASE_URL,
+					'APP1_SELECTOR'        => Base::APP1_SELECTOR,
+					'APP2_SELECTOR'        => Base::APP2_SELECTOR,
+					'API_TIMEOUT'          => Base::API_TIMEOUT,
+					'AJAX_NONCE'           => \wp_create_nonce( Plugin::$kebab ),
+					'DOCS_POST_TYPE'       => \J7\PowerDocs\Resources\Doc\CPT::POST_TYPE,
+					'BUNNY_LIBRARY_ID'     => \get_option( 'bunny_library_id', '' ),
+					'BUNNY_CDN_HOSTNAME'   => \get_option( 'bunny_cdn_hostname', '' ),
+					'BUNNY_STREAM_API_KEY' => \get_option( 'bunny_stream_api_key', '' ),
 				],
 			]
 		);
