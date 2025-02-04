@@ -7,7 +7,6 @@ declare( strict_types=1 );
 
 namespace J7\PowerDocs\Resources\Doc;
 
-use J7\PowerDocs\Plugin;
 use J7\WpUtils\Classes\WP;
 
 /**
@@ -151,8 +150,9 @@ final class Doc {
 		$this->category_ids = [];
 		$this->tag_ids      = [];
 
-		$image_id        = \get_post_thumbnail_id($post->ID);
-		$image_ids       = [ $image_id ];
+		$image_id  = \get_post_thumbnail_id($post->ID);
+		$image_ids = [ $image_id ];
+		/** @var array<array{id: string, url: string}> $images */
 		$images          = array_map([ WP::class, 'get_image_info' ], $image_ids); // @phpstan-ignore-line
 		$this->images    = $images;
 		$this->parent_id = (string) $post->post_parent;

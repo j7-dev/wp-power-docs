@@ -23,13 +23,12 @@ final class Bootstrap {
 	 * Constructor
 	 */
 	public function __construct() {
-
 		Admin\CPT::instance();
 		Admin\Entry::instance();
 		Resources\Doc\CPT::instance();
 
 		\add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_enqueue_script' ] );
-		// \add_action( 'wp_enqueue_scripts', [ __CLASS__, 'frontend_enqueue_script' ]);
+		\add_action( 'wp_enqueue_scripts', [ __CLASS__, 'frontend_enqueue_script' ]);
 	}
 
 
@@ -54,7 +53,7 @@ final class Bootstrap {
 	 * @return void
 	 */
 	public static function frontend_enqueue_script(): void {
-		self::enqueue_script();
+		\wp_enqueue_style('power-docs-css', Plugin::$url . '/js/dist/css/style.css', [], Plugin::$version);
 	}
 
 	/**

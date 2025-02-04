@@ -13,6 +13,18 @@ export default {
 			origin: '*',
 		},
 	},
+	build: {
+		emptyOutDir: true,
+		minify: true,
+		cssCodeSplit: false,
+		rollupOptions: {
+			output: {
+				assetFileNames: (assetInfo) => {
+					return '[ext]/[name].[ext]';
+				},
+			},
+		},
+	},
 	plugins: [
 		alias(),
 		react(),
