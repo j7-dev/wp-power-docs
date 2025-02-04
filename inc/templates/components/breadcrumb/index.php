@@ -17,8 +17,8 @@ if (!$parent_id) {
 $breadcrumb_post_ids = Utils::get_breadcrumb_post_ids($post->ID, $parent_id);
 
 echo /*html*/ '
-<div class="pc-breadcrumbs text-sm">
-	<ul>';
+<div class="pc-breadcrumbs text-sm mb-8">
+	<ul class="pl-0">';
 
 foreach ($breadcrumb_post_ids as $key => $breadcrumb_post_id) {
 	/** @var \WP_Post|null $breadcrumb_post */

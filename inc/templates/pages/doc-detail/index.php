@@ -7,6 +7,17 @@
 use J7\PowerDocs\Plugin;
 
 echo /*html*/'<div class="flex container mx-auto">';
+
+echo /*html*/'<div class="w-72">';
 Plugin::get('doc-detail/sider');
+echo /*html*/'</div>';
+
+echo /*html*/'<div class="flex-1">';
 Plugin::get('doc-detail/main');
+echo /*html*/'</div>';
+
+echo /*html*/'<div class="w-72">';
+
+echo /*html*/'</div>';
+
 echo /*html*/'</div>';

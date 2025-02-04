@@ -272,6 +272,7 @@ abstract class Utils {
 			[
 				'post_type'      => CPT::POST_TYPE,
 				'post_parent'    => $post_id,
+				'post_status'    => 'publish',
 				'posts_per_page' => -1,
 				'orderby'        => [
 					'menu_order' => 'ASC',
@@ -307,13 +308,13 @@ abstract class Utils {
 
 			$html .= sprintf(
 			/*html*/'
-			<li data-post-id="%5$s" class="hover:bg-primary/10 pr-2 transition-all duration-300 rounded-btn cursor-pointer flex items-center justify-between text-sm %6$s" style="padding-left: %4$s;">
+			<li data-post-id="%5$s" class="hover:bg-primary/10 pr-2 transition-all duration-300 rounded-btn cursor-pointer flex items-center justify-between text-sm mb-1 %6$s" style="padding-left: %4$s;">
 				<a class="py-2 tw-block flex-1" href="%1$s">%2$s</a>
 				%3$s
 			</li>
 			',
 			get_the_permalink($child_post->ID),
-			$child_post->post_title . " #{$child_post->ID}",
+			$child_post->post_title,
 				// 如果有子章節，就顯示箭頭
 			$child_children_posts ? /*html*/'
 				<div class="p-2 icon-arrow flex items-center">
