@@ -313,10 +313,10 @@ abstract class Utils {
 			</li>
 			',
 			get_the_permalink($child_post->ID),
-			$child_post->post_title,
+			$child_post->post_title . " #{$child_post->ID}",
 				// 如果有子章節，就顯示箭頭
 			$child_children_posts ? /*html*/'
-				<div class="p-2 icon-arrow">
+				<div class="p-2 icon-arrow flex items-center">
 					<svg class="w-4 h-4 fill-base-content" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g> <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29289 4.29289C8.68342 3.90237 9.31658 3.90237 9.70711 4.29289L16.7071 11.2929C17.0976 11.6834 17.0976 12.3166 16.7071 12.7071L9.70711 19.7071C9.31658 20.0976 8.68342 20.0976 8.29289 19.7071C7.90237 19.3166 7.90237 18.6834 8.29289 18.2929L14.5858 12L8.29289 5.70711C7.90237 5.31658 7.90237 4.68342 8.29289 4.29289Z"></path> </g></svg>
 				</div>
 			' : '',
@@ -336,5 +336,63 @@ abstract class Utils {
 		$html .= /* html */'</ul>';
 
 		return $html;
+	}
+
+
+	/**
+	 * 取得麵包屑的 post id，由下到上
+	 *
+	 * @param int $current_post_id 當前章節 ID.
+	 * @param int $top_parent_id 頂層章節 ID.
+	 * @param int $depth 深度.
+	 * @return array<int>
+	 */
+	private static function get_breadcrumb_post_ids_reversed( int $current_post_id, int $top_parent_id, $depth = 0 ): array {
+
+		$init                = [ $current_post_id ];
+		$breadcrumb_post_ids = array_reduce(
+			$init,
+			function ( $acc, $id ) use ( $top_parent_id, $depth ) {
+
+				$post = get_post($id);
+				/** @var \WP_Post|null $post */
+				$parent_id = $post?->post_parent;
+
+				if (!$parent_id) {
+					return $acc;
+				}
+
+				/** @var array<int> $acc */
+				$acc[] = $parent_id;
+
+				// 如果父章節是頂層章節，就停止
+				if ($parent_id === $top_parent_id) {
+					return $acc;
+				}
+
+				return [
+					...$acc,
+					...self::get_breadcrumb_post_ids_reversed($parent_id, $top_parent_id, $depth + 1),
+				];
+			},
+			$depth > 0 ? [] : [ $current_post_id ]
+			);
+
+		return $breadcrumb_post_ids;
+	}
+
+	/**
+	 * 取得麵包屑的 post id，由上到下
+	 *
+	 * @param int $current_post_id 當前章節 ID.
+	 * @param int $top_parent_id 頂層章節 ID.
+	 * @param int $depth 深度.
+	 * @return array<int>
+	 */
+	public static function get_breadcrumb_post_ids( int $current_post_id, int $top_parent_id, $depth = 0 ): array {
+		$breadcrumb_post_ids = self::get_breadcrumb_post_ids_reversed($current_post_id, $top_parent_id, $depth);
+
+		// 原本取得順序是下到上，反轉後為上到下
+		return array_reverse($breadcrumb_post_ids);
 	}
 }
