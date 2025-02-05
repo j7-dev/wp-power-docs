@@ -27,7 +27,7 @@ import { HashRouter, Outlet, Route, Routes } from 'react-router-dom'
 import { resources } from '@/resources'
 import { ConfigProvider } from 'antd'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { EnvProvider } from 'antd-toolkit'
+
 import { BackToWpAdmin } from 'antd-toolkit/wp'
 import {
 	dataProvider,
@@ -39,14 +39,7 @@ import axios, { AxiosInstance } from 'axios'
 
 function App() {
 	const { bunny_data_provider_result } = BunnyProvider.useBunny()
-	const {
-		BUNNY_LIBRARY_ID,
-		BUNNY_CDN_HOSTNAME,
-		BUNNY_STREAM_API_KEY,
-		KEBAB,
-		API_URL,
-		NONCE,
-	} = env
+	const { KEBAB, API_URL, NONCE } = env
 
 	const axiosInstance: AxiosInstance = axios.create({
 		timeout: 30000,
@@ -59,85 +52,77 @@ function App() {
 
 	return (
 		<HashRouter>
-			<EnvProvider env={env}>
-				<BunnyProvider
-					bunny_library_id={BUNNY_LIBRARY_ID}
-					bunny_cdn_hostname={BUNNY_CDN_HOSTNAME}
-					bunny_stream_api_key={BUNNY_STREAM_API_KEY}
-				>
-					<Refine
-						dataProvider={{
-							default: dataProvider(`${API_URL}/v2/powerhouse`, axiosInstance),
-							'wp-rest': dataProvider(`${API_URL}/wp/v2`, axiosInstance),
-							'wc-rest': dataProvider(`${API_URL}/wc/v3`, axiosInstance),
-							'wc-store': dataProvider(`${API_URL}/wc/store/v1`, axiosInstance),
-							'bunny-stream': bunny_data_provider_result,
-							'power-docs': dataProvider(`${API_URL}/${KEBAB}`, axiosInstance),
-						}}
-						notificationProvider={useNotificationProvider}
-						routerProvider={routerBindings}
-						resources={resources}
-						options={{
-							syncWithLocation: false,
-							warnWhenUnsavedChanges: true,
-							projectId: 'power-docs',
-							reactQuery: {
-								clientConfig: {
-									defaultOptions: {
-										queries: {
-											staleTime: 1000 * 60 * 10,
-											cacheTime: 1000 * 60 * 10,
-											retry: 0,
-										},
-									},
+			<Refine
+				dataProvider={{
+					default: dataProvider(`${API_URL}/v2/powerhouse`, axiosInstance),
+					'wp-rest': dataProvider(`${API_URL}/wp/v2`, axiosInstance),
+					'wc-rest': dataProvider(`${API_URL}/wc/v3`, axiosInstance),
+					'wc-store': dataProvider(`${API_URL}/wc/store/v1`, axiosInstance),
+					'bunny-stream': bunny_data_provider_result,
+					'power-docs': dataProvider(`${API_URL}/${KEBAB}`, axiosInstance),
+				}}
+				notificationProvider={useNotificationProvider}
+				routerProvider={routerBindings}
+				resources={resources}
+				options={{
+					syncWithLocation: false,
+					warnWhenUnsavedChanges: true,
+					projectId: 'power-docs',
+					reactQuery: {
+						clientConfig: {
+							defaultOptions: {
+								queries: {
+									staleTime: 1000 * 60 * 10,
+									cacheTime: 1000 * 60 * 10,
+									retry: 0,
 								},
 							},
-						}}
-					>
-						<Routes>
-							<Route
-								element={
-									<ConfigProvider
-										theme={{
-											components: {
-												Collapse: {
-													contentPadding: '8px 8px',
-												},
-											},
-										}}
-									>
-										<ThemedLayoutV2
-											Sider={(props) => <ThemedSiderV2 {...props} fixed />}
-											Title={({ collapsed }) => (
-												<BackToWpAdmin collapsed={collapsed} />
-											)}
-										>
-											<Outlet />
-											<MediaLibraryIndicator />
-										</ThemedLayoutV2>
-									</ConfigProvider>
-								}
+						},
+					},
+				}}
+			>
+				<Routes>
+					<Route
+						element={
+							<ConfigProvider
+								theme={{
+									components: {
+										Collapse: {
+											contentPadding: '8px 8px',
+										},
+									},
+								}}
 							>
-								<Route index element={<NavigateToResource resource="docs" />} />
-								<Route path="docs">
-									<Route index element={<DocsList />} />
-									<Route path="edit/:id" element={<DocsEdit />} />
-								</Route>
-								<Route path="users" element={<Users />} />
-								<Route path="doc-access" element={<DocAccess />} />
-								<Route path="shortcodes" element={<Shortcodes />} />
-								<Route path="settings" element={<Settings />} />
+								<ThemedLayoutV2
+									Sider={(props) => <ThemedSiderV2 {...props} fixed />}
+									Title={({ collapsed }) => (
+										<BackToWpAdmin collapsed={collapsed} />
+									)}
+								>
+									<Outlet />
+									<MediaLibraryIndicator />
+								</ThemedLayoutV2>
+							</ConfigProvider>
+						}
+					>
+						<Route index element={<NavigateToResource resource="docs" />} />
+						<Route path="docs">
+							<Route index element={<DocsList />} />
+							<Route path="edit/:id" element={<DocsEdit />} />
+						</Route>
+						<Route path="users" element={<Users />} />
+						<Route path="doc-access" element={<DocAccess />} />
+						<Route path="shortcodes" element={<Shortcodes />} />
+						<Route path="settings" element={<Settings />} />
 
-								<Route path="media-library" element={<MediaLibraryPage />} />
+						<Route path="media-library" element={<MediaLibraryPage />} />
 
-								<Route path="*" element={<ErrorComponent />} />
-							</Route>
-						</Routes>
-						<UnsavedChangesNotifier />
-						<ReactQueryDevtools initialIsOpen={false} />
-					</Refine>
-				</BunnyProvider>
-			</EnvProvider>
+						<Route path="*" element={<ErrorComponent />} />
+					</Route>
+				</Routes>
+				<UnsavedChangesNotifier />
+				<ReactQueryDevtools initialIsOpen={false} />
+			</Refine>
 		</HashRouter>
 	)
 }
