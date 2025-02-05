@@ -2,7 +2,7 @@ import React, { memo, useEffect } from 'react'
 import { Space, Select, InputNumber, Button, Form } from 'antd'
 import { useCreate, useParsed } from '@refinedev/core'
 import { TDocRecord } from '@/pages/admin/Docs/List/types'
-import { defaultSelectProps, PluginProvider } from 'antd-toolkit'
+import { defaultSelectProps, useEnv } from 'antd-toolkit'
 
 const { Item } = Form
 
@@ -13,7 +13,7 @@ type TFormValues = {
 }
 
 const AddPosts = ({ records }: { records: TDocRecord[] }) => {
-	const { DOCS_POST_TYPE = '' } = PluginProvider.usePlugin()
+	const { DOCS_POST_TYPE = '' } = useEnv()
 	const { id } = useParsed()
 
 	const [form] = Form.useForm<TFormValues>()

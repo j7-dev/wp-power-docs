@@ -6,9 +6,8 @@ import {
 	useRowSelection,
 	getDefaultPaginationProps,
 	defaultTableProps,
-	PluginProvider,
+	useEnv,
 } from 'antd-toolkit'
-import { getInitialFilters } from 'antd-toolkit/refine'
 
 // import Filter, {
 // 	initialFilteredValues,
@@ -16,14 +15,15 @@ import { getInitialFilters } from 'antd-toolkit/refine'
 import { HttpError, useCreate } from '@refinedev/core'
 import { TDocBaseRecord, TDocRecord } from '@/pages/admin/Docs/List/types'
 
-// import { TFilterProps } from '@/components/product/ProductTable/types'
+// import { TFilterProps } from '@/components/product/ProductTable/types'1.3.
 import useValueLabelMapper from '@/pages/admin/Docs/List/hooks/useValueLabelMapper'
 import useColumns from '@/pages/admin/Docs/List/hooks/useColumns'
 import { PlusOutlined } from '@ant-design/icons'
 import DeleteButton from './DeleteButton'
 
 const Main = () => {
-	const { DOCS_POST_TYPE } = PluginProvider.usePlugin()
+	const env = useEnv()
+	const { DOCS_POST_TYPE } = env
 	const { tableProps, searchFormProps } = useTable<
 		TDocBaseRecord,
 		HttpError

@@ -9,6 +9,7 @@ namespace J7\PowerDocs;
 
 use J7\PowerDocs\Utils\Base;
 use Kucrut\Vite;
+use J7\Powerhouse\Utils\Base as PowerhouseUtils;
 
 if ( class_exists( 'J7\PowerDocs\Bootstrap' ) ) {
 	return;
@@ -72,41 +73,33 @@ final class Bootstrap {
 			]
 		);
 
-		$post_id   = \get_the_ID();
-		$permalink = $post_id ? \get_permalink( $post_id ) : '';
-
-		\wp_localize_script(
-			Plugin::$kebab,
-			Plugin::$snake . '_data',
+		$post_id     = \get_the_ID();
+		$permalink   = $post_id ? \get_permalink( $post_id ) : '';
+		$encrypt_env = PowerhouseUtils::simple_encrypt(
 			[
-				'env' => [
-					'SITE_URL'             => \untrailingslashit( \site_url() ),
-					'AJAX_URL'             => \untrailingslashit( \admin_url( 'admin-ajax.php' ) ),
-					'CURRENT_USER_ID'      => \wp_get_current_user()->data->ID ?? null,
-					'CURRENT_POST_ID'      => $post_id,
-					'PERMALINK'            => \untrailingslashit( $permalink ),
-					'APP_NAME'             => Plugin::$app_name,
-					'KEBAB'                => Plugin::$kebab,
-					'SNAKE'                => Plugin::$snake,
-					'BASE_URL'             => Base::BASE_URL,
-					'APP1_SELECTOR'        => Base::APP1_SELECTOR,
-					'APP2_SELECTOR'        => Base::APP2_SELECTOR,
-					'API_TIMEOUT'          => Base::API_TIMEOUT,
-					'AJAX_NONCE'           => \wp_create_nonce( Plugin::$kebab ),
-					'DOCS_POST_TYPE'       => \J7\PowerDocs\Resources\Doc\CPT::POST_TYPE,
-					'BUNNY_LIBRARY_ID'     => \get_option( 'bunny_library_id', '' ),
-					'BUNNY_CDN_HOSTNAME'   => \get_option( 'bunny_cdn_hostname', '' ),
-					'BUNNY_STREAM_API_KEY' => \get_option( 'bunny_stream_api_key', '' ),
-				],
+				'SITE_URL'             => \untrailingslashit( \site_url() ),
+				'API_URL'              => \untrailingslashit( \esc_url_raw( rest_url() ) ),
+				'CURRENT_USER_ID'      => \get_current_user_id(),
+				'CURRENT_POST_ID'      => $post_id,
+				'PERMALINK'            => \untrailingslashit( $permalink ),
+				'APP_NAME'             => Plugin::$app_name,
+				'KEBAB'                => Plugin::$kebab,
+				'SNAKE'                => Plugin::$snake,
+				'DOCS_POST_TYPE'       => \J7\PowerDocs\Resources\Doc\CPT::POST_TYPE,
+				'BUNNY_LIBRARY_ID'     => \get_option( 'bunny_library_id', '' ),
+				'BUNNY_CDN_HOSTNAME'   => \get_option( 'bunny_cdn_hostname', '' ),
+				'BUNNY_STREAM_API_KEY' => \get_option( 'bunny_stream_api_key', '' ),
+				'NONCE'                => \wp_create_nonce( 'wp_rest' ),
+				'APP1_SELECTOR'        => Base::APP1_SELECTOR,
+				'APP2_SELECTOR'        => Base::APP2_SELECTOR,
 			]
 		);
 
 		\wp_localize_script(
 			Plugin::$kebab,
-			'wpApiSettings',
+			Plugin::$snake . '_data',
 			[
-				'root'  => \untrailingslashit( \esc_url_raw( rest_url() ) ),
-				'nonce' => \wp_create_nonce( 'wp_rest' ),
+				'env' => $encrypt_env,
 			]
 		);
 	}

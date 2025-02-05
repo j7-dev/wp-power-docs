@@ -20,8 +20,9 @@ printf(
 $post->post_title
 );
 
-
+echo '<div class="bn-container">';
 the_content();
+echo '</div>';
 
 echo /*html*/'<div class="pc-divider my-6"></div>';
 

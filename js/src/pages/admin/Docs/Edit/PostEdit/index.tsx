@@ -1,15 +1,16 @@
 import React, { memo, useEffect } from 'react'
-import { Form, Input, Switch } from 'antd'
-import { toFormData } from 'antd-toolkit'
+import { Form, Input, Switch, Space, Button, Typography } from 'antd'
+import { toFormData, CopyText } from 'antd-toolkit'
 import { BlockNoteDrawer } from '@/components/general'
 import { TDocRecord } from '@/pages/admin/Docs/List/types'
 import { Edit, useForm } from '@refinedev/antd'
 import { ExclamationCircleFilled } from '@ant-design/icons'
 
 const { Item } = Form
+const { Text } = Typography
 
 const PostEditComponent = ({ record }: { record: TDocRecord }) => {
-	const { id, name } = record
+	const { id, name, permalink, slug } = record
 
 	// 初始化資料
 	const { formProps, form, saveButtonProps, mutation, onFinish } = useForm({
@@ -28,6 +29,7 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 	const watchDepth = Form.useWatch(['depth'], form)
 	const label = watchDepth === 0 ? '章節' : '單元'
 	const watchStatus = Form.useWatch(['status'], form)
+	const watchSlug = Form.useWatch(['slug'], form)
 
 	useEffect(() => {
 		form.setFieldsValue(record)
@@ -38,6 +40,10 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 		onFinish(toFormData(values))
 	}
 
+	// 將 permalink 找出 slug 以外的剩餘字串
+	const docsUrl = permalink.replace(`${slug}/`, '')
+
+	console.log('⭐  docsUrl:', docsUrl)
 	return (
 		<Edit
 			resource="posts"
@@ -59,8 +65,7 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 			footerButtons={({ defaultButtons }) => (
 				<>
 					<div className="text-red-500 font-bold mr-8">
-						<ExclamationCircleFilled />{' '}
-						章節/單元和課程是分開儲存的，編輯完成請記得儲存
+						<ExclamationCircleFilled /> 文章是分開儲存的，編輯完成請記得儲存
 					</div>
 
 					<Switch
@@ -72,7 +77,19 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 							form.setFieldValue(['status'], checked ? 'publish' : 'draft')
 						}}
 					/>
-					{defaultButtons}
+
+					<Space.Compact>
+						<Button
+							color="default"
+							variant="filled"
+							href={permalink}
+							target="_blank"
+							className="!inline-flex"
+						>
+							預覽
+						</Button>
+						{defaultButtons}
+					</Space.Compact>
 				</>
 			)}
 			wrapperProps={{
@@ -86,6 +103,17 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 			<Form {...formProps} onFinish={handleOnFinish} layout="vertical">
 				<Item name={['name']} label={'名稱'}>
 					<Input />
+				</Item>
+
+				<Item name={['slug']} label="網址">
+					<Input
+						addonBefore={
+							<Text className="max-w-[25rem] text-left" ellipsis>
+								{docsUrl}
+							</Text>
+						}
+						addonAfter={<CopyText text={`${docsUrl}${watchSlug}`} />}
+					/>
 				</Item>
 				<div className="mb-8">
 					<BlockNoteDrawer />

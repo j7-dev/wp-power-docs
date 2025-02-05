@@ -1,26 +1,28 @@
 import { memo } from 'react'
-import { Form, Input, Select } from 'antd'
+import { Form, Input, Select, Typography } from 'antd'
 import {
 	termToOptions,
 	defaultSelectProps,
 	Heading,
 	Switch,
 	CopyText,
-	PluginProvider,
+	useEnv,
 } from 'antd-toolkit'
 import { FileUpload } from 'antd-toolkit/wp'
 import { BlockNoteDrawer } from '@/components/general'
 
 const { Item } = Form
+const { Text } = Typography
 
 const DescriptionComponent = () => {
 	const form = Form.useFormInstance()
 
 	// const { options, isLoading } = useOptions({ endpoint: 'courses/options' })
 	const { product_cats = [], product_tags = [] } = {}
-	const { SITE_URL = '', DOCS_POST_TYPE = '' } = PluginProvider.usePlugin()
+	const { SITE_URL = '', DOCS_POST_TYPE = '' } = useEnv()
+
 	const docsUrl = `${SITE_URL}/${DOCS_POST_TYPE}/`
-	const slug = Form.useWatch(['slug'], form)
+	const watchSlug = Form.useWatch(['slug'], form)
 
 	return (
 		<>
@@ -29,12 +31,12 @@ const DescriptionComponent = () => {
 
 				<Item name={['slug']} label="網址">
 					<Input
-						addonBefore={docsUrl}
-						addonAfter={
-							<>
-								<CopyText text={`${docsUrl}${slug}`} />
-							</>
+						addonBefore={
+							<Text className="max-w-[25rem] text-left" ellipsis>
+								{docsUrl}
+							</Text>
 						}
+						addonAfter={<CopyText text={`${docsUrl}${watchSlug}`} />}
 					/>
 				</Item>
 

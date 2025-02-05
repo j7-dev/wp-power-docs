@@ -3,12 +3,7 @@ import '@/assets/scss/index.scss'
 
 import { Refine } from '@refinedev/core'
 
-import {
-	ErrorComponent,
-	useNotificationProvider,
-	ThemedLayoutV2,
-	ThemedSiderV2,
-} from '@refinedev/antd'
+import { ErrorComponent, useNotificationProvider } from '@refinedev/antd'
 import '@refinedev/antd/dist/reset.css'
 import routerBindings, {
 	DocumentTitleHandler,
@@ -16,9 +11,11 @@ import routerBindings, {
 } from '@refinedev/react-router-v6'
 import { dataProvider } from 'antd-toolkit/refine'
 import { HashRouter, Outlet, Route, Routes } from 'react-router-dom'
-import { API_URL, KEBAB } from '@/utils'
+import { env } from '@/utils'
 
 function App() {
+	const { KEBAB, API_URL } = env
+
 	return (
 		<HashRouter>
 			<Refine

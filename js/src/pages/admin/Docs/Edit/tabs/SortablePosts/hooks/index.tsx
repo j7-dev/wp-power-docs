@@ -3,10 +3,10 @@ import { useList, HttpError } from '@refinedev/core'
 import { Form } from 'antd'
 import { useAtomValue } from 'jotai'
 import { selectedPostAtom } from '../atom'
-import { PluginProvider } from 'antd-toolkit'
+import { useEnv } from 'antd-toolkit'
 
 export const usePostsList = () => {
-	const { DOCS_POST_TYPE = '' } = PluginProvider.usePlugin()
+	const { DOCS_POST_TYPE = '' } = useEnv()
 	const form = Form.useFormInstance()
 	const parent_id = form?.getFieldValue('id')
 	const query = useList<TDocRecord, HttpError>({

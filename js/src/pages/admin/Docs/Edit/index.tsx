@@ -1,20 +1,16 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import { Edit, useForm } from '@refinedev/antd'
-import { Tabs, TabsProps, Form, Switch, Modal, Button, Space } from 'antd'
+import { Tabs, TabsProps, Form, Switch, Modal, Button } from 'antd'
 import { Description, SortablePosts } from './tabs'
-
-// import { SortableDocs } from '@/components/post'
-
-// import { mediaLibraryAtom } from '@/pages/admin/Docs/atom'
 import { useAtom } from 'jotai'
-
-// import { MediaLibrary } from '@/bunny'
-// import { TBunnyVideo } from '@/bunny/types'
 import { TDocRecord } from '@/pages/admin/Docs/List/types'
-import { SITE_URL } from '@/utils'
-import { toFormData } from 'antd-toolkit'
 import { useParsed } from '@refinedev/core'
 import { PostEdit } from './PostEdit'
+import {
+	mediaLibraryAtom,
+	MediaLibrary,
+	TBunnyVideo,
+} from 'antd-toolkit/refine'
 
 const EditComponent = () => {
 	const { id } = useParsed()
@@ -44,7 +40,7 @@ const EditComponent = () => {
 		{
 			key: 'SortablePosts',
 			forceRender: false,
-			label: '章節管理',
+			label: '文章管理',
 			children: <SortablePosts PostEdit={PostEdit} />,
 		},
 		{
@@ -59,6 +55,12 @@ const EditComponent = () => {
 	const watchName = Form.useWatch(['name'], form)
 	const watchId = Form.useWatch(['id'], form)
 	const watchStatus = Form.useWatch(['status'], form)
+
+	// 處理 media library
+	const [mediaLibrary, setMediaLibrary] = useAtom(mediaLibraryAtom)
+	const { modalProps } = mediaLibrary
+	const [selectedVideos, setSelectedVideos] = useState<TBunnyVideo[]>([])
+	console.log('⭐  selectedVideos:', selectedVideos)
 
 	return (
 		<div className="sticky-card-actions sticky-tabs-nav">
@@ -111,7 +113,7 @@ const EditComponent = () => {
 				</Form>
 			</Edit>
 
-			{/* <Modal
+			<Modal
 				{...modalProps}
 				onCancel={() => {
 					setMediaLibrary((prev) => ({
@@ -125,34 +127,26 @@ const EditComponent = () => {
 			>
 				<div className="max-h-[75vh] overflow-x-hidden overflow-y-auto pr-4">
 					<MediaLibrary
-						limit={limit}
-						selectedVideos={selectedVideos}
-						setSelectedVideos={selectedVideosSetter}
-						selectButtonProps={{
-							onClick: () => {
-								setMediaLibrary((prev) => ({
-									...prev,
-									modalProps: {
-										...prev.modalProps,
-										open: false,
-									},
-								}))
-								setMediaLibrary((prev) => ({
-									...prev,
-									confirmedSelectedVideos: selectedVideos,
-								}))
-								if (mediaLibraryForm && name) {
-									mediaLibraryForm.setFieldValue(name, {
-										type: 'bunny-stream-api',
-										id: selectedVideos?.[0]?.guid || '',
-										meta: {},
-									})
-								}
+						mediaLibraryProps={{
+							selectedVideos,
+							setSelectedVideos,
+							limit: 1,
+							selectButtonProps: {
+								onClick: () => {
+									setMediaLibrary((prev) => ({
+										...prev,
+										modalProps: {
+											...prev.modalProps,
+											open: false,
+										},
+										confirmedSelectedVideos: selectedVideos,
+									}))
+								},
 							},
 						}}
 					/>
 				</div>
-			</Modal> */}
+			</Modal>
 		</div>
 	)
 }
