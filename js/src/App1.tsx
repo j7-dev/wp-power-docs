@@ -31,14 +31,14 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { BackToWpAdmin } from 'antd-toolkit/wp'
 import {
 	dataProvider,
-	BunnyProvider,
+	useBunny,
 	MediaLibraryIndicator,
 } from 'antd-toolkit/refine'
 import { env } from '@/utils'
 import axios, { AxiosInstance } from 'axios'
 
 function App() {
-	const { bunny_data_provider_result } = BunnyProvider.useBunny()
+	const { bunny_data_provider_result } = useBunny()
 	const { KEBAB, API_URL, NONCE } = env
 
 	const axiosInstance: AxiosInstance = axios.create({
