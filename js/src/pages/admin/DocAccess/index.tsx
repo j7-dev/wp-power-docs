@@ -1,5 +1,3 @@
-import React from 'react'
+import ProductTable from './ProductTable'
 
-export const DocAccess = () => {
-	return <div>DocAccess</div>
-}
+export const DocAccess = ProductTable

@@ -60,7 +60,6 @@ const EditComponent = () => {
 	const [mediaLibrary, setMediaLibrary] = useAtom(mediaLibraryAtom)
 	const { modalProps } = mediaLibrary
 	const [selectedVideos, setSelectedVideos] = useState<TBunnyVideo[]>([])
-	console.log('⭐  selectedVideos:', selectedVideos)
 
 	return (
 		<div className="sticky-card-actions sticky-tabs-nav">

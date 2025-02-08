@@ -96,6 +96,13 @@ const DescriptionComponent = () => {
 						<label className="mb-3 tw-block">知識庫封面圖</label>
 						<FileUpload />
 					</div>
+
+					<Switch
+						formItemProps={{
+							name: ['need_access'],
+							label: '是否需要購買才能觀看',
+						}}
+					/>
 				</div>
 			</div>
 		</>

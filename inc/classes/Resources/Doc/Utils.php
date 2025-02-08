@@ -396,4 +396,32 @@ abstract class Utils {
 		// 原本取得順序是下到上，反轉後為上到下
 		return array_reverse($breadcrumb_post_ids);
 	}
+
+
+	/**
+	 * 檢查當前用戶是否可以觀看
+	 *
+	 * @param int  $post_id 章節 ID.
+	 * @param ?int $user_id 用戶 ID.
+	 * @return bool
+	 */
+	public static function can_access( int $post_id, ?int $user_id = null ): bool {
+
+		// 先檢查 知識庫是否需要權限，不用就 return true
+		$need_access = \get_post_meta( $post_id, 'need_access', true ) ?: 'no';
+		if ( $need_access === 'no' ) {
+			return true;
+		}
+
+		$user_id = $user_id ?? \get_current_user_id();
+
+		// 如果需要權限，就檢查用戶是否已登入
+		if ( ! $user_id ) {
+			return false;
+		}
+
+		// TODO 如果用戶已登入就檢查 用戶 db 資料
+
+		return true;
+	}
 }

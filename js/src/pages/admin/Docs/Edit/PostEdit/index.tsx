@@ -116,6 +116,7 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 					/>
 				</Item>
 				<div className="mb-8">
+					{/* BUG customBlock 會有問題 */}
 					<BlockNoteDrawer />
 				</div>
 

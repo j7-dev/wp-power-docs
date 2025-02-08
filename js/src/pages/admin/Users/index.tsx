@@ -1,5 +1,10 @@
 import React from 'react'
+import { UserTable } from '@/components/user'
 
 export const Users = () => {
-	return <div>Users</div>
+	return (
+		<>
+			<UserTable canGrantCourseAccess={true} />
+		</>
+	)
 }

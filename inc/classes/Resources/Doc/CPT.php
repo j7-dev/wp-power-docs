@@ -22,6 +22,7 @@ final class CPT {
 	 */
 	public function __construct() {
 		Templates::instance();
+		Api::instance();
 		\add_action( 'init', [ $this, 'init' ] );
 		\add_filter('option_elementor_cpt_support', [ $this, 'add_elementor_cpt_support' ]);
 	}

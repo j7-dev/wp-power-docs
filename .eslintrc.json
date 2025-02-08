@@ -69,7 +69,6 @@
 		"@typescript-eslint/no-shadow": "error",
 		"@typescript-eslint/ban-ts-comment": "off",
 		"camelcase": "off",
-		"jsdoc/valid-types": "off",
 		"@typescript-eslint/no-unused-vars": [
 			"warn",
 			{
@@ -92,7 +91,7 @@
 				"allowArrayEnd": true
 			}
 		],
-		"jsdoc/require-returns-description": "off"
+		"jsdoc/valid-types": "off"
 	},
 	"overrides": [
 		{

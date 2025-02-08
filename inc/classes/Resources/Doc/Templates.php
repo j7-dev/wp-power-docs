@@ -1,6 +1,7 @@
 <?php
 /**
  * 覆寫 WooCommerce 模板
+ * TODO 刪除不用的代碼
  */
 
 declare( strict_types=1 );
