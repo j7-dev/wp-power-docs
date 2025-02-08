@@ -2,7 +2,7 @@ import { useEffect, memo } from 'react'
 import { useTable } from '@refinedev/antd'
 import { Table, FormInstance, Spin, TableProps, Card, Form } from 'antd'
 import { HttpError } from '@refinedev/core'
-import { TProductRecord, TProductVariation, TBindDocData } from '@/types'
+import { TProductRecord, TProductVariation, TBoundDocData } from '@/types'
 import useValueLabelMapper from '../hooks/useValueLabelMapper'
 
 // import {
@@ -14,12 +14,14 @@ import useColumns from '../hooks/useColumns'
 import { useGCDItems, useProductsOptions } from '@/hooks'
 import {
 	useRowSelection,
-	WatchLimit,
+	Limit,
 	defaultTableProps,
 	getDefaultPaginationProps,
+	useEnv,
 } from 'antd-toolkit'
 import { productKeyLabelMapper } from 'antd-toolkit/wp'
 import {
+	BindItems,
 	ProductFilter,
 	TProductFilterProps,
 	onProductSearch as onSearch,
@@ -29,6 +31,7 @@ import {
 } from 'antd-toolkit/refine'
 
 const Main = () => {
+	const { DOCS_POST_TYPE, BOUND_META_KEY } = useEnv()
 	const [form] = Form.useForm()
 	const watchLimitType = Form.useWatch(['limit_type'], form)
 
@@ -93,7 +96,7 @@ const Main = () => {
 	// 已選商品身上的 知識庫觀看權限
 	const productAllBindDocsData = selectedRowKeys.map((key) => {
 		return tableProps?.dataSource?.find((product) => product.id === key)
-			?.bind_docs_data
+			?.bound_docs_data
 	})
 
 	// 已選商品變體身上的 知識庫觀看權限
@@ -104,7 +107,7 @@ const Main = () => {
 			}
 			return acc
 		}, [] as TProductVariation[])
-		return allVariations?.find((product) => product.id === key)?.bind_docs_data
+		return allVariations?.find((product) => product.id === key)?.bound_docs_data
 	})
 
 	const selectedAllBindDocsData = [
@@ -114,7 +117,7 @@ const Main = () => {
 
 	// 取得最大公約數的課程
 	const { GcdItemsTags, selectedGCDs, setSelectedGCDs, gcdItems } =
-		useGCDItems<TBindDocData>({
+		useGCDItems<TBoundDocData>({
 			allItems: selectedAllBindDocsData,
 		})
 
@@ -142,14 +145,25 @@ const Main = () => {
 				<Form layout="vertical" form={form}>
 					<div className="grid grid-cols-4 gap-x-6">
 						<div>
-							<WatchLimit />
+							<Limit />
 						</div>
 						<div className="col-span-3">
 							<div className="mb-4">
-								{/* <BindCourses
+								<BindItems
 									product_ids={selectedRowKeys as string[]}
-									label="綁定其他課程"
-								/> */}
+									label="知識庫"
+									useSelectProps={{
+										resource: 'posts',
+										filters: [
+											{
+												field: 'post_type',
+												operator: 'eq',
+												value: DOCS_POST_TYPE,
+											},
+										],
+									}}
+									meta_key={BOUND_META_KEY}
+								/>
 							</div>
 							<div className="mb-4 flex gap-x-6">
 								<div>

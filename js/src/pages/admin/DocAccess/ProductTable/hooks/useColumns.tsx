@@ -1,6 +1,5 @@
-import React from 'react'
 import { Table, TableProps, Tag } from 'antd'
-import { TProductRecord } from '@/types'
+import { TProductRecord, TProductVariation } from '@/types'
 import {
 	ProductName,
 	ProductPrice,
@@ -10,10 +9,11 @@ import {
 	// ProductBoundCourses,
 	ProductType,
 	POST_STATUS,
+	ProductBoundItems,
 } from 'antd-toolkit/wp'
 
 const useColumns = () => {
-	const columns: TableProps<TProductRecord>['columns'] = [
+	const columns: TableProps<TProductRecord | TProductVariation>['columns'] = [
 		Table.SELECTION_COLUMN,
 		Table.EXPAND_COLUMN,
 		{
@@ -65,10 +65,10 @@ const useColumns = () => {
 		},
 		{
 			title: '綁定的知識庫',
-			dataIndex: 'bind_docs_data',
+			dataIndex: 'bound_docs_data',
 			width: 320,
 
-			// render: (_, record) => <ProductBoundCourses record={record} />,
+			render: (data) => <ProductBoundItems items={data} />,
 		},
 		{
 			title: '商品分類 / 商品標籤',

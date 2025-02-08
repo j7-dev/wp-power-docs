@@ -27,6 +27,7 @@ final class Bootstrap {
 		Admin\CPT::instance();
 		Admin\Entry::instance();
 		Resources\Doc\CPT::instance();
+		Resources\Product\Api::instance();
 
 		\add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_enqueue_script' ] );
 		\add_action( 'wp_enqueue_scripts', [ __CLASS__, 'frontend_enqueue_script' ]);
@@ -85,13 +86,14 @@ final class Bootstrap {
 				'APP_NAME'             => Plugin::$app_name,
 				'KEBAB'                => Plugin::$kebab,
 				'SNAKE'                => Plugin::$snake,
-				'DOCS_POST_TYPE'       => \J7\PowerDocs\Resources\Doc\CPT::POST_TYPE,
 				'BUNNY_LIBRARY_ID'     => \get_option( 'bunny_library_id', '' ),
 				'BUNNY_CDN_HOSTNAME'   => \get_option( 'bunny_cdn_hostname', '' ),
 				'BUNNY_STREAM_API_KEY' => \get_option( 'bunny_stream_api_key', '' ),
 				'NONCE'                => \wp_create_nonce( 'wp_rest' ),
 				'APP1_SELECTOR'        => Base::APP1_SELECTOR,
 				'APP2_SELECTOR'        => Base::APP2_SELECTOR,
+				'DOCS_POST_TYPE'       => \J7\PowerDocs\Resources\Doc\CPT::POST_TYPE,
+				'BOUND_META_KEY'       => \J7\PowerDocs\Resources\Product\Api::BOUND_META_KEY,
 			]
 		);
 
