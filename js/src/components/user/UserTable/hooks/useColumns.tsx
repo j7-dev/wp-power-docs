@@ -1,14 +1,12 @@
-import React from 'react'
-import { TableProps, Typography } from 'antd'
-import { TUserRecord, TAVLCourse } from '@/pages/admin/Users/types'
+import { TableProps } from 'antd'
+import { TUserRecord } from '@/pages/admin/Users/types'
 import { UserName } from 'antd-toolkit/wp'
-import { WatchStatusTag, getWatchStatusTagTooltip } from 'antd-toolkit'
+import { WatchStatusTag, getWatchStatusTagTooltip, NameId } from 'antd-toolkit'
+import { TGrantedDoc } from '@/types'
 
 type TUseColumnsParams = {
 	onClick?: (_record: TUserRecord | undefined) => () => void
 }
-
-const { Text } = Typography
 
 const useColumns = (params?: TUseColumnsParams) => {
 	const handleClick = params?.onClick
@@ -21,44 +19,22 @@ const useColumns = (params?: TUseColumnsParams) => {
 		},
 		{
 			title: '已開通知識庫',
-			dataIndex: 'avl_courses',
+			dataIndex: 'granted_docs',
 			width: 240,
-			render: (avl_courses: TAVLCourse[], { id: user_id, display_name }) => {
-				return avl_courses?.map(
-					({ id: course_id, name: course_name, expire_date }) => (
-						<div
-							key={course_id}
-							className="grid grid-cols-[1fr_4rem_12rem] gap-1 my-1"
-						>
-							<div>
-								<Text
-									className="cursor-pointer"
-									ellipsis={{
-										tooltip: (
-											<>
-												<span className="text-gray-400 text-xs">
-													#{course_id}
-												</span>{' '}
-												{course_name || '未知的課程名稱'}
-											</>
-										),
-									}}
-								>
-									<span className="text-gray-400 text-xs">#{course_id}</span>{' '}
-									{course_name || '未知的課程名稱'}
-								</Text>
-							</div>
+			render: (granted_docs: TGrantedDoc[], { id: user_id, display_name }) => {
+				return granted_docs?.map(({ id, name, expire_date }) => (
+					<div key={id} className="grid grid-cols-[1fr_4rem_12rem] gap-1 my-1">
+						<NameId name={name} id={id} />
 
-							<div className="text-center">
-								<WatchStatusTag expireDate={expire_date} />
-							</div>
-
-							<div className="text-left">
-								{getWatchStatusTagTooltip(expire_date)}
-							</div>
+						<div className="text-center">
+							<WatchStatusTag expireDate={expire_date} />
 						</div>
-					),
-				)
+
+						<div className="text-left">
+							{getWatchStatusTagTooltip(expire_date)}
+						</div>
+					</div>
+				))
 			},
 		},
 		{

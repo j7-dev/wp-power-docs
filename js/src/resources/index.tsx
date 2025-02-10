@@ -1,7 +1,7 @@
 import {
 	TableOutlined,
-	CodeOutlined,
-	SettingOutlined,
+	// CodeOutlined,
+	// SettingOutlined,
 	ProductOutlined,
 } from '@ant-design/icons'
 import { FaPhotoVideo } from 'react-icons/fa'
@@ -51,20 +51,20 @@ export const resources: ResourceProps[] = [
 			icon: <FaPhotoVideo />,
 		},
 	},
-	{
-		name: 'shortcodes',
-		list: '/shortcodes',
-		meta: {
-			label: '短代碼',
-			icon: <CodeOutlined />,
-		},
-	},
-	{
-		name: 'settings',
-		list: '/settings',
-		meta: {
-			label: '設定',
-			icon: <SettingOutlined />,
-		},
-	},
+	// {
+	// 	name: 'shortcodes',
+	// 	list: '/shortcodes',
+	// 	meta: {
+	// 		label: '短代碼',
+	// 		icon: <CodeOutlined />,
+	// 	},
+	// },
+	// {
+	// 	name: 'settings',
+	// 	list: '/settings',
+	// 	meta: {
+	// 		label: '設定',
+	// 		icon: <SettingOutlined />,
+	// 	},
+	// },
 ]

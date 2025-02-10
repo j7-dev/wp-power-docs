@@ -1,29 +1,30 @@
 import React, { memo, useEffect } from 'react'
-import { useTable, useModal } from '@refinedev/antd'
-import { TUserRecord, TAVLCourse } from '@/pages/admin/Users/types'
-import { Table, TableProps, FormInstance, Button, Modal, CardProps } from 'antd'
+import { useTable } from '@refinedev/antd'
+import { TUserRecord } from '@/pages/admin/Users/types'
+import { Table, TableProps, FormInstance, CardProps } from 'antd'
 import useColumns from './hooks/useColumns'
-import {
-	useRowSelection,
-	getDefaultPaginationProps,
-	defaultTableProps,
-} from 'antd-toolkit'
-import { FilterTags } from 'antd-toolkit/refine'
 import { useGCDItems } from '@/hooks'
-
-// import {
-// 	GrantCourseAccess,
-// 	RemoveCourseAccess,
-// 	ModifyCourseExpireDate,
-// } from '@/components/user'
 import Filter, { TFilterValues } from './Filter'
 import { HttpError } from '@refinedev/core'
 import { keyLabelMapper } from './utils'
-import CsvUpload from './CsvUpload'
 import { selectedUserIdsAtom } from './atom'
 import { useAtom } from 'jotai'
 import SelectedUser from './SelectedUser'
 import Card from './Card'
+import { TGrantedDoc } from '@/types'
+import {
+	useRowSelection,
+	getDefaultPaginationProps,
+	defaultTableProps,
+	useEnv,
+} from 'antd-toolkit'
+
+import {
+	FilterTags,
+	GrantUsers,
+	UpdateGrantedUsers,
+	RevokeUsers,
+} from 'antd-toolkit/refine'
 
 const UserTableComponent = ({
 	canGrantCourseAccess = false,
@@ -34,6 +35,7 @@ const UserTableComponent = ({
 	tableProps?: TableProps<TUserRecord>
 	cardProps?: CardProps & { showCard?: boolean }
 }) => {
+	const { DOCS_POST_TYPE } = useEnv()
 	const [selectedUserIds, setSelectedUserIds] = useAtom(selectedUserIdsAtom)
 
 	const { searchFormProps, tableProps, filters } = useTable<
@@ -124,18 +126,15 @@ const UserTableComponent = ({
 	const selectedAllAVLCourses = selectedRowKeys
 		.map((key) => {
 			return tableProps?.dataSource?.find((user) => user.id === key)
-				?.avl_courses
+				?.granted_docs
 		})
 		.filter((courses) => courses !== undefined)
 
 	// 取得最大公約數的課程
 	const { GcdItemsTags, selectedGCDs, setSelectedGCDs, gcdItems } =
-		useGCDItems<TAVLCourse>({
+		useGCDItems<TGrantedDoc>({
 			allItems: selectedAllAVLCourses,
 		})
-
-	// CSV 上傳 Modal
-	const { show, modalProps } = useModal()
 
 	return (
 		<>
@@ -150,46 +149,48 @@ const UserTableComponent = ({
 				{canGrantCourseAccess && (
 					<>
 						<div className="mt-4">
-							{/* <GrantCourseAccess
+							<GrantUsers
 								user_ids={selectedRowKeys as string[]}
-								label="添加其他課程"
-							/> */}
+								label="知識庫"
+								useSelectProps={{
+									resource: 'posts',
+									filters: [
+										{
+											field: 'post_type',
+											operator: 'eq',
+											value: DOCS_POST_TYPE,
+										},
+									],
+								}}
+							/>
 						</div>
 
 						<div className="mt-4 flex gap-x-6 justify-between">
 							<div>
 								<label className="tw-block mb-2">批量操作</label>
 								<div className="flex gap-x-4">
-									{/* <ModifyCourseExpireDate
+									<UpdateGrantedUsers
 										user_ids={selectedRowKeys as string[]}
-										course_ids={selectedGCDs}
+										item_ids={selectedGCDs}
 										onSettled={() => {
 											setSelectedGCDs([])
 										}}
 									/>
-									<RemoveCourseAccess
+									<RevokeUsers
 										user_ids={selectedRowKeys}
-										course_ids={selectedGCDs}
+										item_ids={selectedGCDs}
 										onSettled={() => {
 											setSelectedGCDs([])
 										}}
-									/> */}
+									/>
 								</div>
 							</div>
 							{!!gcdItems.length && (
 								<div className="flex-1">
-									<label className="tw-block mb-2">選擇課程</label>
+									<label className="tw-block mb-2">選擇知識庫</label>
 									<GcdItemsTags />
 								</div>
 							)}
-							<Button
-								onClick={show}
-								color="primary"
-								variant="outlined"
-								className="self-end"
-							>
-								CSV 批次上傳學員權限
-							</Button>
 						</div>
 					</>
 				)}
@@ -220,16 +221,6 @@ const UserTableComponent = ({
 					{...overrideTableProps}
 				/>
 			</Card>
-			{canGrantCourseAccess && (
-				<Modal
-					{...modalProps}
-					centered
-					title="CSV 批次上傳學員權限"
-					footer={null}
-				>
-					<CsvUpload />
-				</Modal>
-			)}
 		</>
 	)
 }

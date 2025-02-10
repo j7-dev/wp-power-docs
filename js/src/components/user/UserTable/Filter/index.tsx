@@ -1,22 +1,15 @@
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { FormProps, Form, Input, Button, FormInstance, Select } from 'antd'
 import { UndoOutlined, SearchOutlined } from '@ant-design/icons'
 import { useDocSelect } from '@/hooks'
 
 export type TFilterValues = {
 	search?: string
-	avl_course_ids?: string[]
+	granted_docs?: string[]
 	include?: string[]
 }
 
 const { Item } = Form
-
-/**
- * TODO
- * 1. 已買過指定商品的用戶
- * 2. 沒開通 OO 課程權限的用戶
- * 3. 沒買過 OO 商品的用戶
- */
 
 const Filter = ({ formProps }: { formProps: FormProps }) => {
 	const form = formProps?.form as FormInstance<TFilterValues>
@@ -33,8 +26,8 @@ const Filter = ({ formProps }: { formProps: FormProps }) => {
 						/>
 					</Item>
 					<Item
-						name="avl_course_ids"
-						label="已開通指定課程"
+						name="granted_docs"
+						label="已開通指定知識庫"
 						className="col-span-2"
 					>
 						<Select {...selectProps} />

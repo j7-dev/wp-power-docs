@@ -1,5 +1,5 @@
-import { TProductBaseRecord, TProductType } from 'antd-toolkit/wp'
-import { TBoundItemsData } from 'antd-toolkit'
+import { TProductBaseRecord, TProductType, TBoundItemData } from 'antd-toolkit/wp'
+import { TGrantedItemBase  } from 'antd-toolkit/refine'
 
 export type TProductRecord = TProductBaseRecord & {
 	bound_docs_data?: TBoundDocData[]
@@ -11,4 +11,6 @@ export type TProductVariation = TProductRecord & {
 /**
  * 將知識庫觀看權限資料，要綁定在商品上的
  */
-export type TBoundDocData = TBoundItemsData
+export type TBoundDocData = TBoundItemData
+
+export type TGrantedDoc = TGrantedItemBase

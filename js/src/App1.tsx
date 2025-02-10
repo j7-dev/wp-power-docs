@@ -19,8 +19,6 @@ import {
 	DocsEdit,
 	Users,
 	DocAccess,
-	Shortcodes,
-	Settings,
 	MediaLibraryPage,
 } from '@/pages/admin'
 import { HashRouter, Outlet, Route, Routes } from 'react-router-dom'
@@ -112,9 +110,6 @@ function App() {
 						</Route>
 						<Route path="users" element={<Users />} />
 						<Route path="doc-access" element={<DocAccess />} />
-						<Route path="shortcodes" element={<Shortcodes />} />
-						<Route path="settings" element={<Settings />} />
-
 						<Route path="media-library" element={<MediaLibraryPage />} />
 
 						<Route path="*" element={<ErrorComponent />} />

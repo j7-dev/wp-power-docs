@@ -36,7 +36,7 @@ const useColumns = () => {
 		{
 			title: '商品類型',
 			dataIndex: 'type',
-			render: (_, record) => <ProductType record={record} />,
+			render: (_, record) => <ProductType record={record as any} />,
 		},
 		{
 			title: '狀態',

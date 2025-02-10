@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card as AntdCard, CardProps } from 'antd'
 
 const Card = ({

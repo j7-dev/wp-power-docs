@@ -22,6 +22,8 @@ import {
 import { productKeyLabelMapper } from 'antd-toolkit/wp'
 import {
 	BindItems,
+	UnbindItems,
+	UpdateBoundItems,
 	ProductFilter,
 	TProductFilterProps,
 	onProductSearch as onSearch,
@@ -169,25 +171,27 @@ const Main = () => {
 								<div>
 									<label className="tw-block mb-2">批量操作</label>
 									<div className="flex gap-x-4">
-										{/* <UpdateBoundCourses
+										<UpdateBoundItems
 											product_ids={selectedRowKeys as string[]}
-											course_ids={selectedGCDs}
+											item_ids={selectedGCDs}
+											meta_key={BOUND_META_KEY}
 											onSettled={() => {
 												setSelectedGCDs([])
 											}}
 										/>
-										<UnbindCourses
+										<UnbindItems
 											product_ids={selectedRowKeys as string[]}
-											course_ids={selectedGCDs}
+											item_ids={selectedGCDs}
+											meta_key={BOUND_META_KEY}
 											onSettled={() => {
 												setSelectedGCDs([])
 											}}
-										/> */}
+										/>
 									</div>
 								</div>
 								{!!gcdItems.length && (
 									<div className="flex-1">
-										<label className="tw-block mb-2">選擇課程</label>
+										<label className="tw-block mb-2">選擇已綁定的知識庫</label>
 										<GcdItemsTags />
 									</div>
 								)}

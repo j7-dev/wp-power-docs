@@ -1,4 +1,3 @@
-import React from 'react'
 import { useItemSelect } from 'antd-toolkit/wp'
 import { useEnv } from 'antd-toolkit'
 import { TDocBaseRecord } from '@/pages/admin/Docs/List/types'
