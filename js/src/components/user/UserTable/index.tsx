@@ -25,16 +25,19 @@ import {
 	UpdateGrantedUsers,
 	RevokeUsers,
 	objToCrudFilters,
+	ActionArea,
 } from 'antd-toolkit/refine'
 
 const UserTableComponent = ({
 	canGrantCourseAccess = false,
 	tableProps: overrideTableProps,
 	cardProps,
+	initialValues = {},
 }: {
 	canGrantCourseAccess?: boolean
 	tableProps?: TableProps<TUserRecord>
 	cardProps?: CardProps & { showCard?: boolean }
+	initialValues?: TFilterValues
 }) => {
 	const { DOCS_POST_TYPE } = useEnv()
 	const [selectedUserIds, setSelectedUserIds] = useAtom(selectedUserIdsAtom)
@@ -53,6 +56,7 @@ const UserTableComponent = ({
 			permanent: objToCrudFilters({
 				meta_keys: ['granted_docs'],
 			}),
+			initial: objToCrudFilters(initialValues),
 		},
 		onSearch: (values) => objToCrudFilters(values),
 	})
@@ -138,9 +142,9 @@ const UserTableComponent = ({
 	return (
 		<>
 			<Card title="篩選" bordered={false} className="mb-4" {...cardProps}>
-				<Filter formProps={searchFormProps} />
-				<FilterTags
-					form={searchFormProps.form as FormInstance}
+				<Filter formProps={searchFormProps} initialValues={initialValues} />
+				<FilterTags<TFilterValues>
+					form={{ ...searchFormProps?.form } as FormInstance<TFilterValues>}
 					keyLabelMapper={keyLabelMapper}
 				/>
 			</Card>
@@ -150,7 +154,7 @@ const UserTableComponent = ({
 						<div className="mt-4">
 							<GrantUsers
 								user_ids={selectedRowKeys as string[]}
-								label="知識庫"
+								label="開通知識庫權限"
 								useSelectProps={{
 									resource: 'posts',
 									filters: objToCrudFilters({
@@ -159,49 +163,8 @@ const UserTableComponent = ({
 								}}
 							/>
 						</div>
-
-						<div className="mt-4 flex gap-x-6 justify-between">
-							<div>
-								<label className="tw-block mb-2">批量操作</label>
-								<div className="flex gap-x-4">
-									<UpdateGrantedUsers
-										user_ids={selectedRowKeys as string[]}
-										item_ids={selectedGCDs}
-										onSettled={() => {
-											setSelectedGCDs([])
-										}}
-									/>
-									<RevokeUsers
-										user_ids={selectedRowKeys}
-										item_ids={selectedGCDs}
-										onSettled={() => {
-											setSelectedGCDs([])
-										}}
-									/>
-								</div>
-							</div>
-							{!!gcdItems.length && (
-								<div className="flex-1">
-									<label className="tw-block mb-2">選擇知識庫</label>
-									<GcdItemsTags />
-								</div>
-							)}
-						</div>
 					</>
 				)}
-
-				<SelectedUser
-					user_ids={selectedUserIds}
-					onClear={() => {
-						setSelectedUserIds([])
-					}}
-					onSelected={() => {
-						const searchForm = searchFormProps?.form
-						if (!searchForm) return
-						searchForm.setFieldValue(['include'], selectedUserIds)
-						searchForm.submit()
-					}}
-				/>
 
 				<Table
 					{...(defaultTableProps as unknown as TableProps<TUserRecord>)}
@@ -216,6 +179,49 @@ const UserTableComponent = ({
 					{...overrideTableProps}
 				/>
 			</Card>
+			{!!selectedUserIds.length && (
+				<ActionArea>
+					<div className="flex gap-x-6 justify-between">
+						<div>
+							<label className="tw-block mb-2">批量操作</label>
+							<div className="flex gap-x-4">
+								<UpdateGrantedUsers
+									user_ids={selectedRowKeys as string[]}
+									item_ids={selectedGCDs}
+									onSettled={() => {
+										setSelectedGCDs([])
+									}}
+								/>
+								<RevokeUsers
+									user_ids={selectedRowKeys}
+									item_ids={selectedGCDs}
+									onSettled={() => {
+										setSelectedGCDs([])
+									}}
+								/>
+							</div>
+						</div>
+						{!!gcdItems.length && (
+							<div className="flex-1">
+								<label className="tw-block mb-2">選擇知識庫</label>
+								<GcdItemsTags />
+							</div>
+						)}
+					</div>
+					<SelectedUser
+						user_ids={selectedUserIds}
+						onClear={() => {
+							setSelectedUserIds([])
+						}}
+						onSelected={() => {
+							const searchForm = searchFormProps?.form
+							if (!searchForm) return
+							searchForm.setFieldValue(['include'], selectedUserIds)
+							searchForm.submit()
+						}}
+					/>
+				</ActionArea>
+			)}
 		</>
 	)
 }

@@ -11,13 +11,19 @@ export type TFilterValues = {
 
 const { Item } = Form
 
-const Filter = ({ formProps }: { formProps: FormProps }) => {
+const Filter = ({
+	formProps,
+	initialValues,
+}: {
+	formProps: FormProps<TFilterValues>
+	initialValues: TFilterValues
+}) => {
 	const form = formProps?.form as FormInstance<TFilterValues>
 	const { selectProps } = useDocSelect()
 
 	return (
 		<div className="mb-2">
-			<Form {...formProps} layout="vertical">
+			<Form {...formProps} layout="vertical" initialValues={initialValues}>
 				<div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-x-4">
 					<Item name="search" label="關鍵字搜尋">
 						<Input
@@ -50,7 +56,9 @@ const Filter = ({ formProps }: { formProps: FormProps }) => {
 				</div>
 				<div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-x-4">
 					<Button
-						htmlType="submit"
+						onClick={() => {
+							form.submit()
+						}}
 						type="primary"
 						className="w-full"
 						icon={<SearchOutlined />}

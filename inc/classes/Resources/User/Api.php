@@ -67,10 +67,7 @@ final class Api extends ApiBase {
 		// 搜尋條件，'ID', 'user_login', 'user_email', 'user_nicename', 'display_name'
 		if ($search) {
 			$search     = '%' . $wpdb->esc_like($search) . '%';
-			$where_sql .= $wpdb->prepare(
-				' AND (u.ID LIKE %1$s OR u.user_login LIKE %1$s OR u.user_email LIKE %1$s OR u.user_nicename LIKE %1$s OR u.display_name LIKE %1$s)',
-				$search
-			);
+			$where_sql .= " AND (u.ID LIKE '{$search}' OR u.user_login LIKE '{$search}' OR u.user_email LIKE '{$search}' OR u.user_nicename LIKE '{$search}' OR u.display_name LIKE '{$search}')";
 		}
 
 		if (isset($params['granted_docs'])) {
@@ -127,6 +124,10 @@ final class Api extends ApiBase {
 		// 執行查詢
 		$total    = $wpdb->get_var(\wp_unslash($count_sql . $from_sql . $where_sql)); // phpcs:ignore
 		$user_ids = $wpdb->get_col(\wp_unslash($select_sql . $from_sql . $where_sql . $order_sql . $limit_sql)); // phpcs:ignore
+
+		// TEST 印出 WC Logger 記得移除 ---- //
+		\J7\WpUtils\Classes\WC::log(\wp_unslash($select_sql . $from_sql . $where_sql . $order_sql . $limit_sql), 'SQL');
+		// ---------- END TEST ---------- //
 
 		$total_pages = ceil($total / $posts_per_page);
 

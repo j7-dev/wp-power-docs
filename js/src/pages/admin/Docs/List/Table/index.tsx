@@ -77,8 +77,8 @@ const Main = () => {
 					}}
 				/>
 				<div className="mt-2">
-					<FilterTags
-						form={searchFormProps?.form as FormInstance<TFilterProps>}
+					<FilterTags<TFilterProps>
+						form={{...searchFormProps?.form} as FormInstance<TFilterProps>}
 						keyLabelMapper={keyLabelMapper}
 						valueLabelMapper={valueLabelMapper}
 						booleanKeys={[

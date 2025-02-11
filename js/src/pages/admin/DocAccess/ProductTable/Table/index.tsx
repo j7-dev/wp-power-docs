@@ -133,8 +133,10 @@ const Main = () => {
 			<Card title="篩選" className="mb-4">
 				<ProductFilter searchFormProps={searchFormProps} options={options} />
 				<div className="mt-2">
-					<FilterTags
-						form={searchFormProps?.form as FormInstance<TProductFilterProps>}
+					<FilterTags<TProductFilterProps>
+						form={
+							{ ...searchFormProps?.form } as FormInstance<TProductFilterProps>
+						}
 						keyLabelMapper={productKeyLabelMapper}
 						valueLabelMapper={valueLabelMapper}
 						booleanKeys={[

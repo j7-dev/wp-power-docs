@@ -28,19 +28,6 @@ const defaultItems: TabsProps['items'] = [
 		label: '文章管理',
 		children: <SortablePosts PostEdit={PostEdit} />,
 	},
-	{
-		key: 'Users',
-		forceRender: false,
-		label: '權限管理',
-		children: (
-			<UserTable
-				canGrantCourseAccess={true}
-				cardProps={{
-					showCard: false,
-				}}
-			/>
-		),
-	},
 ]
 
 const EditComponent = () => {
@@ -68,12 +55,27 @@ const EditComponent = () => {
 	const watchNeedAccess: boolean =
 		Form.useWatch(['need_access'], form) === 'yes'
 
-	const items = defaultItems.filter((item) => {
-		if (!watchNeedAccess) {
-			return item.key !== 'Users'
-		}
-		return item
-	})
+	const items = watchNeedAccess
+		? [
+				...defaultItems,
+				{
+					key: 'Users',
+					forceRender: false,
+					label: '權限管理',
+					children: (
+						<UserTable
+							canGrantCourseAccess={true}
+							cardProps={{
+								showCard: false,
+							}}
+							initialValues={{
+								granted_docs: [watchId],
+							}}
+						/>
+					),
+				},
+			]
+		: defaultItems
 
 	// 處理 media library
 	// 處理 media library

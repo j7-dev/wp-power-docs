@@ -100,7 +100,11 @@ const DescriptionComponent = () => {
 					<Switch
 						formItemProps={{
 							name: ['need_access'],
-							label: '是否需要購買才能觀看',
+							label: '購買才能觀看',
+						}}
+						switchProps={{
+							checkedChildren: '需授權',
+							unCheckedChildren: '免費',
 						}}
 					/>
 				</div>
