@@ -18,7 +18,7 @@ const Filter = ({ formProps }: { formProps: FormProps }) => {
 	return (
 		<div className="mb-2">
 			<Form {...formProps} layout="vertical">
-				<div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-x-4">
+				<div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-x-4">
 					<Item name="search" label="關鍵字搜尋">
 						<Input
 							placeholder="可以輸入用戶ID, 帳號, Email, 顯示名稱"
@@ -33,7 +33,12 @@ const Filter = ({ formProps }: { formProps: FormProps }) => {
 						<Select {...selectProps} />
 					</Item>
 
-					<Item name="include" label="包含指定用戶" className="col-span-2">
+					<Item
+						name="include"
+						label="包含指定用戶"
+						className="col-span-2"
+						hidden
+					>
 						<Select mode="tags" placeholder="輸入用戶 ID" allowClear />
 					</Item>
 					{/* <Item name="bought_product_ids" label="已買過指定商品的用戶">

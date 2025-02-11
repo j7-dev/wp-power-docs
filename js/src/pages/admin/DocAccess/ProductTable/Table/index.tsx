@@ -46,6 +46,9 @@ const Main = () => {
 		onSearch,
 		filters: {
 			initial: objToCrudFilters(initialFilteredValues),
+			permanent: objToCrudFilters({
+				meta_keys: [BOUND_META_KEY],
+			}),
 		},
 	})
 
@@ -156,13 +159,9 @@ const Main = () => {
 									label="知識庫"
 									useSelectProps={{
 										resource: 'posts',
-										filters: [
-											{
-												field: 'post_type',
-												operator: 'eq',
-												value: DOCS_POST_TYPE,
-											},
-										],
+										filters: objToCrudFilters({
+											post_type: DOCS_POST_TYPE,
+										}),
 									}}
 									meta_key={BOUND_META_KEY}
 								/>

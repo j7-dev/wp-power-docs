@@ -1,5 +1,3 @@
 export * from './UserWatchLimit'
 export * from './UserWatchStatus'
-export * from './UserDrawer'
-export * from './UserAvatarUpload'
 export { UserTable } from './UserTable'

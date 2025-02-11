@@ -49,12 +49,17 @@ final class Api extends ApiBase {
 	 * @return array<string, mixed>
 	 */
 	public function extend_post_meta_keys( array $meta_keys, \WP_Post $post ): array {
+		if (!isset($meta_keys['need_access'])) {
+			return $meta_keys;
+		}
+
 		if ( $post->post_type !== CPT::POST_TYPE ) {
 			return $meta_keys;
 		}
 
 		// 是否需要購買才能觀看
 		$meta_keys['need_access'] = \get_post_meta( $post->ID, 'need_access', true ) ?: 'no';
+
 		return $meta_keys;
 	}
 
@@ -69,8 +74,16 @@ final class Api extends ApiBase {
 	 * @return array<string, mixed>
 	 */
 	public static function extend_user_meta_keys( array $meta_keys, \WP_User $user ): array {
-		$granted_items              = new GrantedItems( $user->ID );
-		$meta_keys['granted_docs'] = $granted_items->get_granted_items();
+		if (!isset($meta_keys['granted_docs'])) {
+			return $meta_keys;
+		}
+
+		$granted_items             = new GrantedItems( $user->ID );
+		$meta_keys['granted_docs'] = $granted_items->get_granted_items(
+			[
+				'post_type' => CPT::POST_TYPE,
+			]
+			);
 		return $meta_keys;
 	}
 }

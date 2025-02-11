@@ -1,13 +1,6 @@
 import { memo } from 'react'
 import { useTable } from '@refinedev/antd'
 import { Table, FormInstance, Spin, Button, TableProps, Card } from 'antd'
-import {
-	FilterTags,
-	useRowSelection,
-	getDefaultPaginationProps,
-	defaultTableProps,
-	useEnv,
-} from 'antd-toolkit'
 
 // import Filter, {
 // 	initialFilteredValues,
@@ -20,6 +13,14 @@ import useValueLabelMapper from '@/pages/admin/Docs/List/hooks/useValueLabelMapp
 import useColumns from '@/pages/admin/Docs/List/hooks/useColumns'
 import { PlusOutlined } from '@ant-design/icons'
 import DeleteButton from './DeleteButton'
+import {
+	FilterTags,
+	useRowSelection,
+	getDefaultPaginationProps,
+	defaultTableProps,
+	useEnv,
+} from 'antd-toolkit'
+import { objToCrudFilters } from 'antd-toolkit/refine'
 
 const Main = () => {
 	const env = useEnv()
@@ -36,13 +37,10 @@ const Main = () => {
 
 		filters: {
 			// initial: getInitialFilters(initialFilteredValues),
-			permanent: [
-				{
-					field: 'post_type',
-					operator: 'eq',
-					value: DOCS_POST_TYPE,
-				},
-			],
+			permanent: objToCrudFilters({
+				post_type: DOCS_POST_TYPE,
+				meta_keys: ['need_access'],
+			}),
 		},
 	})
 

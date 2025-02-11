@@ -54,6 +54,9 @@ final class Api extends ApiBase {
 	 * @return array<string, mixed>
 	 */
 	public function add_meta_keys( array $meta_keys, \WC_Product $product ): array {
+		if (!isset($meta_keys[ self::BOUND_META_KEY ])) {
+			return $meta_keys;
+		}
 		$meta_keys[ self::BOUND_META_KEY ] = \get_post_meta( $product->get_id(), self::BOUND_META_KEY, true ) ?: [];
 		return $meta_keys;
 	}

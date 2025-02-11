@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import { memo, useState } from 'react'
 import { Edit, useForm } from '@refinedev/antd'
 import { Tabs, TabsProps, Form, Switch, Modal, Button } from 'antd'
 import { Description, SortablePosts } from './tabs'
@@ -6,6 +6,8 @@ import { useAtom } from 'jotai'
 import { TDocRecord } from '@/pages/admin/Docs/List/types'
 import { useParsed } from '@refinedev/core'
 import { PostEdit } from './PostEdit'
+import { UserTable } from '@/components/user'
+
 import {
 	mediaLibraryAtom,
 	MediaLibrary,
@@ -25,6 +27,7 @@ const EditComponent = () => {
 			queryMeta: {
 				variables: {
 					with_description: 'true',
+					meta_keys: ['need_access'],
 				},
 			},
 		})
@@ -44,10 +47,17 @@ const EditComponent = () => {
 			children: <SortablePosts PostEdit={PostEdit} />,
 		},
 		{
-			key: 'CourseStudents',
+			key: 'Users',
 			forceRender: true,
 			label: '權限管理',
-			children: <>權限管理</>,
+			children: (
+				<UserTable
+					canGrantCourseAccess={true}
+					cardProps={{
+						showCard: false,
+					}}
+				/>
+			),
 		},
 	]
 

@@ -24,6 +24,7 @@ import {
 	GrantUsers,
 	UpdateGrantedUsers,
 	RevokeUsers,
+	objToCrudFilters,
 } from 'antd-toolkit/refine'
 
 const UserTableComponent = ({
@@ -46,6 +47,11 @@ const UserTableComponent = ({
 		resource: 'users',
 		pagination: {
 			pageSize: 20,
+		},
+		filters: {
+			permanent: objToCrudFilters({
+				meta_keys: ['granted_docs'],
+			}),
 		},
 		onSearch: (values) => {
 			return Object.keys(values).map((key) => {
@@ -154,13 +160,9 @@ const UserTableComponent = ({
 								label="知識庫"
 								useSelectProps={{
 									resource: 'posts',
-									filters: [
-										{
-											field: 'post_type',
-											operator: 'eq',
-											value: DOCS_POST_TYPE,
-										},
-									],
+									filters: objToCrudFilters({
+										post_type: DOCS_POST_TYPE,
+									}),
 								}}
 							/>
 						</div>
