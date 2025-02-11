@@ -10,7 +10,13 @@ use J7\PowerDocs\Plugin;
 
 global $post;
 
-echo /*html*/'<div class="px-8 py-6">';
+
+
+echo /*html*/'<div class="px-8 pb-6 pt-0">';
+
+echo /*html*/'<div class="flex justify-end">';
+Plugin::get('search');
+echo /*html*/'</div>';
 
 Plugin::get('breadcrumb');
 

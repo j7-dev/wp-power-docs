@@ -19,9 +19,15 @@ if (!$can_access) {
 	exit;
 }
 
+$search = $_GET['search'] ?? '';//phpcs:ignore
+
 get_header();
 
-// 如果是頂層就顯示 doc-landing，否則顯示 doc-detail
-Plugin::get($post->post_parent ? 'doc-detail' : 'doc-landing');
+if ($search) {
+	Plugin::get('doc-search');
+} else {
+	// 如果是頂層就顯示 doc-landing，否則顯示 doc-detail
+	Plugin::get($post->post_parent ? 'doc-detail' : 'doc-landing');
+}
 
 get_footer();

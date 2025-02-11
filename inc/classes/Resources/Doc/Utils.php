@@ -341,7 +341,7 @@ abstract class Utils {
 
 
 	/**
-	 * 取得麵包屑的 post id，由下到上
+	 * 取得麵包屑的 post ids，由下到上
 	 *
 	 * @param int $current_post_id 當前章節 ID.
 	 * @param int $top_parent_id 頂層章節 ID.

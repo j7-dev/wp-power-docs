@@ -7,10 +7,10 @@ use J7\PowerDocs\Resources\Doc\CPT;
 
 /** @var array{post: WP_Post|null} $args */
 [
-	'post'    => $post_obj,
+	'post'    => $the_post,
 ] = $args;
 
-if (!$post_obj) {
+if (!$the_post) {
 	echo '找不到 $post';
 	return;
 }
@@ -18,7 +18,7 @@ if (!$post_obj) {
 $children_posts = get_posts(
 	[
 		'post_type'      => CPT::POST_TYPE,
-		'post_parent'    => $post_obj->ID,
+		'post_parent'    => $the_post->ID,
 		'posts_per_page' => -1,
 		'orderby'        => [
 			'menu_order' => 'ASC',
@@ -35,7 +35,7 @@ printf(
 		<h2 class="pc-card-title font-black text-base-content">%1$s</h2>
 		<ul class="pl-6 mb-8">
 ',
-$post_obj->post_title,
+$the_post->post_title,
 );
 
 foreach ($children_posts as $child_post) {
@@ -61,5 +61,5 @@ printf(
 	</div>
 </div>
 ',
-get_permalink($post_obj),
+get_permalink($the_post),
 );

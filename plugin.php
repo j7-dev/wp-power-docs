@@ -49,7 +49,7 @@ final class Plugin {
 
 		self::$is_local = 'local' === \wp_get_environment_type();
 
-		self::$template_page_names = [ 'doc-landing', 'doc-detail' ];
+		self::$template_page_names = [ 'doc-landing', 'doc-detail', 'doc-search' ];
 
 		$this->required_plugins = [
 			// [

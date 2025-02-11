@@ -5,20 +5,42 @@
 
 use J7\Powerhouse\Resources\Post\Utils as PostUtils;
 use J7\PowerDocs\Resources\Doc\Utils;
+use J7\PowerDocs\Plugin;
 
 global $post;
-$parent_id = PostUtils::get_top_post_id($post->ID);
 
-if (!$parent_id) {
-	// 如果沒有父章節，就跳出
+/** @var array{post: WP_Post|null, class: string|null} $args */
+@[
+	'post'    => $the_post,
+	'class'   => $class,
+] = $args;
+
+$the_post = $the_post ?? $post;
+$class    = $class ?? 'text-sm mb-8';
+
+if (!( $the_post instanceof \WP_Post )) {
+	echo '$the_post 不是 WP_Post 實例';
 	return;
 }
 
-$breadcrumb_post_ids = Utils::get_breadcrumb_post_ids($post->ID, $parent_id);
+$parent_id = PostUtils::get_top_post_id($the_post->ID);
 
-echo /*html*/ '
-<div class="pc-breadcrumbs text-sm mb-8">
-	<ul class="pl-0">';
+if (!$parent_id) {
+	// 如果沒有父章節，自己就是頂層
+	Plugin::get('breadcrumb/top');
+	return;
+}
+
+$breadcrumb_post_ids = Utils::get_breadcrumb_post_ids($the_post->ID, $parent_id);
+
+printf(
+/*html*/'
+<div class="pc-breadcrumbs %1$s">
+	<ul class="pl-0">
+',
+$class
+);
+
 
 foreach ($breadcrumb_post_ids as $key => $breadcrumb_post_id) {
 	/** @var \WP_Post|null $breadcrumb_post */
