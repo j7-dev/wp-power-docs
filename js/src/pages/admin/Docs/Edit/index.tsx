@@ -14,6 +14,35 @@ import {
 	TBunnyVideo,
 } from 'antd-toolkit/refine'
 
+// TAB items
+const defaultItems: TabsProps['items'] = [
+	{
+		key: 'Description',
+		forceRender: true,
+		label: '描述',
+		children: <Description />,
+	},
+	{
+		key: 'SortablePosts',
+		forceRender: false,
+		label: '文章管理',
+		children: <SortablePosts PostEdit={PostEdit} />,
+	},
+	{
+		key: 'Users',
+		forceRender: false,
+		label: '權限管理',
+		children: (
+			<UserTable
+				canGrantCourseAccess={true}
+				cardProps={{
+					showCard: false,
+				}}
+			/>
+		),
+	},
+]
+
 const EditComponent = () => {
 	const { id } = useParsed()
 
@@ -32,40 +61,21 @@ const EditComponent = () => {
 			},
 		})
 
-	// TAB items
-	const items: TabsProps['items'] = [
-		{
-			key: 'Description',
-			forceRender: true,
-			label: '描述',
-			children: <Description />,
-		},
-		{
-			key: 'SortablePosts',
-			forceRender: false,
-			label: '文章管理',
-			children: <SortablePosts PostEdit={PostEdit} />,
-		},
-		{
-			key: 'Users',
-			forceRender: true,
-			label: '權限管理',
-			children: (
-				<UserTable
-					canGrantCourseAccess={true}
-					cardProps={{
-						showCard: false,
-					}}
-				/>
-			),
-		},
-	]
-
 	// 顯示
 	const watchName = Form.useWatch(['name'], form)
 	const watchId = Form.useWatch(['id'], form)
 	const watchStatus = Form.useWatch(['status'], form)
+	const watchNeedAccess: boolean =
+		Form.useWatch(['need_access'], form) === 'yes'
 
+	const items = defaultItems.filter((item) => {
+		if (!watchNeedAccess) {
+			return item.key !== 'Users'
+		}
+		return item
+	})
+
+	// 處理 media library
 	// 處理 media library
 	const [mediaLibrary, setMediaLibrary] = useAtom(mediaLibraryAtom)
 	const { modalProps } = mediaLibrary

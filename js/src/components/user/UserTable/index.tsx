@@ -45,6 +45,7 @@ const UserTableComponent = ({
 		TFilterValues
 	>({
 		resource: 'users',
+		dataProviderName: 'power-docs',
 		pagination: {
 			pageSize: 20,
 		},
@@ -53,15 +54,7 @@ const UserTableComponent = ({
 				meta_keys: ['granted_docs'],
 			}),
 		},
-		onSearch: (values) => {
-			return Object.keys(values).map((key) => {
-				return {
-					field: key,
-					operator: 'contains',
-					value: values[key as keyof TFilterValues],
-				}
-			})
-		},
+		onSearch: (values) => objToCrudFilters(values),
 	})
 
 	const currentAllKeys =

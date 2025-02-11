@@ -28,6 +28,7 @@ final class Bootstrap {
 		Admin\Entry::instance();
 		Resources\Doc\CPT::instance();
 		Resources\Product\Api::instance();
+		Resources\User\Api::instance();
 
 		\add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_enqueue_script' ] );
 		\add_action( 'wp_enqueue_scripts', [ __CLASS__, 'frontend_enqueue_script' ]);
