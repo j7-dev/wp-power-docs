@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from 'react'
 import { Form, Input, Switch, Space, Button, Typography } from 'antd'
 import { toFormData, CopyText } from 'antd-toolkit'
-import { BlockNoteDrawer } from '@/components/general'
+import { DescriptionDrawer } from '@/components/general'
 import { TDocRecord } from '@/pages/admin/Docs/List/types'
 import { Edit, useForm } from '@refinedev/antd'
 import { ExclamationCircleFilled } from '@ant-design/icons'
@@ -116,8 +116,7 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 					/>
 				</Item>
 				<div className="mb-8">
-					{/* BUG customBlock 會有問題 */}
-					<BlockNoteDrawer />
+					<DescriptionDrawer />
 				</div>
 
 				<Item name={['status']} hidden />

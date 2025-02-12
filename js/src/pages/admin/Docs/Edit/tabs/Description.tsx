@@ -9,7 +9,7 @@ import {
 	useEnv,
 } from 'antd-toolkit'
 import { FileUpload } from 'antd-toolkit/wp'
-import { BlockNoteDrawer } from '@/components/general'
+import { DescriptionDrawer } from '@/components/general'
 
 const { Item } = Form
 const { Text } = Typography
@@ -90,7 +90,7 @@ const DescriptionComponent = () => {
 					>
 						<Input.TextArea rows={8} allowClear />
 					</Item>
-					<BlockNoteDrawer />
+					<DescriptionDrawer />
 
 					<div className="mb-8">
 						<label className="mb-3 tw-block">知識庫封面圖</label>

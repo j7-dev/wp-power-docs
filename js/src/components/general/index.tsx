@@ -1,2 +1,3 @@
 export * from './DuplicateButton'
-export * from './BlockNoteDrawer'
+export * from './DescriptionDrawer'
+export * from './BlockNote'

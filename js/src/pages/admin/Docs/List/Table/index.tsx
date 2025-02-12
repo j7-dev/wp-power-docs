@@ -52,7 +52,7 @@ const Main = () => {
 	const columns = useColumns()
 
 	const { mutate: create, isLoading: isCreating } = useCreate({
-		resource: 'docs',
+		resource: 'posts',
 		invalidates: ['list'],
 		meta: {
 			headers: { 'Content-Type': 'multipart/form-data;' },
@@ -63,6 +63,7 @@ const Main = () => {
 		create({
 			values: {
 				name: '新知識庫',
+				post_type: DOCS_POST_TYPE,
 			},
 		})
 	}

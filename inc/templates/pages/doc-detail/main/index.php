@@ -15,7 +15,12 @@ global $post;
 echo /*html*/'<div class="px-8 pb-6 pt-0">';
 
 echo /*html*/'<div class="flex justify-end">';
-Plugin::get('search');
+Plugin::get(
+	'search',
+	[
+		'class' => 'w-[20rem]',
+	]
+	);
 echo /*html*/'</div>';
 
 Plugin::get('breadcrumb');
