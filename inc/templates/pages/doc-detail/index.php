@@ -6,7 +6,7 @@
 
 use J7\PowerDocs\Plugin;
 
-echo /*html*/'<div class="flex container mx-auto mt-8">';
+echo /*html*/'<div class="flex container mx-auto mt-8 bn-container">';
 
 echo /*html*/'<div class="w-72">';
 Plugin::get('doc-detail/sider');

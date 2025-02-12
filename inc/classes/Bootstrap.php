@@ -76,8 +76,12 @@ final class Bootstrap {
 			]
 		);
 
-		$post_id     = \get_the_ID();
-		$permalink   = $post_id ? \get_permalink( $post_id ) : '';
+		$post_id   = \get_the_ID();
+		$permalink = $post_id ? \get_permalink( $post_id ) : '';
+
+		/** @var array<string> $active_plugins */
+		$active_plugins = \get_option( 'active_plugins', [] );
+
 		$encrypt_env = PowerhouseUtils::simple_encrypt(
 			[
 				'SITE_URL'             => \untrailingslashit( \site_url() ),
@@ -96,6 +100,7 @@ final class Bootstrap {
 				'APP2_SELECTOR'        => Base::APP2_SELECTOR,
 				'DOCS_POST_TYPE'       => \J7\PowerDocs\Resources\Doc\CPT::POST_TYPE,
 				'BOUND_META_KEY'       => \J7\PowerDocs\Resources\Product\Api::BOUND_META_KEY,
+				'ELEMENTOR_ENABLED'    => \in_array( 'elementor/elementor.php', $active_plugins, true ), // 檢查 elementor 是否啟用
 			]
 		);
 

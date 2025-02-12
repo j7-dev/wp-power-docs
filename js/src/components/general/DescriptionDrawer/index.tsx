@@ -21,7 +21,7 @@ const DescriptionDrawerComponent: FC<TDescriptionDrawerProps | undefined> = (
 	props,
 ) => {
 	const name = props?.name || ['description']
-	const { NONCE, SITE_URL } = useEnv()
+	const { NONCE, SITE_URL, ELEMENTOR_ENABLED } = useEnv()
 	const apiUrl = useApiUrl()
 	const form = Form.useFormInstance()
 	const watchId = Form.useWatch(['id'], form)
@@ -68,42 +68,49 @@ const DescriptionDrawerComponent: FC<TDescriptionDrawerProps | undefined> = (
 	return (
 		<div>
 			<p className="mb-2">編輯</p>
-			<Dropdown.Button
-				trigger={['click']}
-				placement="bottomLeft"
-				menu={{
-					items: [
-						{
-							key: 'elementor',
-							label: (
-								<Tooltip
-									title={getTooltipTitle(canElementor, watchShowDescriptionTab)}
-								>
-									{canElementor ? (
-										<a
-											href={`${SITE_URL}/wp-admin/post.php?post=${watchId}&action=elementor`}
-											target="_blank"
-											rel="noreferrer"
-										>
-											或 使用 Elementor 編輯器
-										</a>
-									) : (
-										'或 使用 Elementor 編輯器'
-									)}
-								</Tooltip>
-							),
-							disabled: !canElementor,
-						},
-					],
-				}}
-				onClick={show}
-			>
-				使用 Power 編輯器
-			</Dropdown.Button>
-
-			{/* <Button type="default" onClick={show}>
+			{!!ELEMENTOR_ENABLED && (
+				<Dropdown.Button
+					trigger={['click']}
+					placement="bottomLeft"
+					menu={{
+						items: [
+							{
+								key: 'elementor',
+								label: (
+									<Tooltip
+										title={getTooltipTitle(
+											canElementor,
+											watchShowDescriptionTab,
+										)}
+									>
+										{canElementor ? (
+											<a
+												href={`${SITE_URL}/wp-admin/post.php?post=${watchId}&action=elementor`}
+												target="_blank"
+												rel="noreferrer"
+											>
+												或 使用 Elementor 編輯器
+											</a>
+										) : (
+											'或 使用 Elementor 編輯器'
+										)}
+									</Tooltip>
+								),
+								disabled: !canElementor,
+							},
+						],
+					}}
+					onClick={show}
+				>
 					使用 Power 編輯器
-				</Button> */}
+				</Dropdown.Button>
+			)}
+
+			{!ELEMENTOR_ENABLED && (
+				<Button type="default" onClick={show}>
+					使用 Power 編輯器
+				</Button>
+			)}
 
 			<Item name={name} label={`完整介紹`} hidden>
 				<Input.TextArea rows={8} disabled />

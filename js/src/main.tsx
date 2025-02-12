@@ -52,7 +52,6 @@ mapping.forEach(({ els, App }) => {
 								</BunnyProvider>
 							</EnvProvider>
 						</StyleProvider>
-						<ReactQueryDevtools initialIsOpen={false} />
 					</QueryClientProvider>
 				</React.StrictMode>,
 			)

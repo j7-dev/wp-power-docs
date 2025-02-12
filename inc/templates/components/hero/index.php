@@ -28,10 +28,10 @@ $badges = [
 ];
 $bg_img = 'https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp';
 
-$badge_html = '<span class="pc-label-text-alt text-base-300">大家都再搜：';
+$badge_html = '<span class="pc-label-text-alt text-base-300 text-left">大家都再搜：';
 foreach ($badges as $badge) {
 	$badge_html .= sprintf(
-		'<div class="pc-badge pc-badge-ghost pc-badge-sm mr-2">%s</div>',
+		'<div class="pc-badge pc-badge-ghost pc-badge-sm mr-2 mb-2">%s</div>',
 		$badge
 	);
 }
@@ -45,7 +45,7 @@ printf(
 		class="pc-hero"
 		style="background-image: url(%5$s);">
 		<div class="pc-hero-overlay bg-opacity-60"></div>
-		<div class="pc-hero-content w-[80rem] text-neutral-content text-center py-24">
+		<div class="pc-hero-content w-full xl:w-[80rem] text-neutral-content text-center py-24">
 		<div class="w-full">
 			<h1 class="mb-5 text-3xl font-bold text-base-100">%1$s</h1>
 			<p class="mb-5 text-base-300">%2$s</p>
@@ -53,6 +53,8 @@ printf(
 				%3$s
 				<div class="pc-label">
 					%4$s
+
+					<div></div>
 				</div>
 			</label>
 		</div>
@@ -62,6 +64,6 @@ printf(
 	$the_post->post_title,
 	$the_post->post_excerpt,
 	Plugin::get('search', [], false),
-	$badge_html,
+	$badges ? $badge_html : '',
 	$bg_img
 	);

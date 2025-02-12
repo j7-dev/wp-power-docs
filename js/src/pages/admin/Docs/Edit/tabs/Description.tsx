@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { Form, Input, Select, Typography } from 'antd'
+import { Form, Input, Select, Typography, Button } from 'antd'
 import {
 	termToOptions,
 	defaultSelectProps,
@@ -9,7 +9,6 @@ import {
 	useEnv,
 } from 'antd-toolkit'
 import { FileUpload } from 'antd-toolkit/wp'
-import { DescriptionDrawer } from '@/components/general'
 
 const { Item } = Form
 const { Text } = Typography
@@ -19,10 +18,11 @@ const DescriptionComponent = () => {
 
 	// const { options, isLoading } = useOptions({ endpoint: 'courses/options' })
 	const { product_cats = [], product_tags = [] } = {}
-	const { SITE_URL = '', DOCS_POST_TYPE = '' } = useEnv()
+	const { SITE_URL = '', DOCS_POST_TYPE = '', ELEMENTOR_ENABLED } = useEnv()
 
 	const docsUrl = `${SITE_URL}/${DOCS_POST_TYPE}/`
 	const watchSlug = Form.useWatch(['slug'], form)
+	const watchId = Form.useWatch(['id'], form)
 
 	return (
 		<>
@@ -90,7 +90,16 @@ const DescriptionComponent = () => {
 					>
 						<Input.TextArea rows={8} allowClear />
 					</Item>
-					<DescriptionDrawer />
+					{!!ELEMENTOR_ENABLED && (
+						<Button
+							className="mt-7 w-fit"
+							href={`${SITE_URL}/wp-admin/post.php?post=${watchId}&action=elementor`}
+							target="_blank"
+							rel="noreferrer"
+						>
+							使用 Elementor 編輯版面
+						</Button>
+					)}
 
 					<div className="mb-8">
 						<label className="mb-3 tw-block">知識庫封面圖</label>
