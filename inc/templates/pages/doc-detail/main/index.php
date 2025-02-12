@@ -18,7 +18,7 @@ echo /*html*/'<div class="flex justify-end">';
 Plugin::get(
 	'search',
 	[
-		'class' => 'w-[20rem]',
+		'class' => 'w-full md:w-[20rem] mb-4 md:mb-0',
 	]
 	);
 echo /*html*/'</div>';
@@ -26,7 +26,7 @@ echo /*html*/'</div>';
 Plugin::get('breadcrumb');
 
 printf(
-/*html*/'<h1 class="text-4xl font-black mb-20">%1$s</h1>
+/*html*/'<h1 class="text-2xl md:text-4xl font-black mb-10 md:mb-20">%1$s</h1>
 ',
 $post->post_title
 );

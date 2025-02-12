@@ -31,7 +31,7 @@ $search_posts = $query->posts;
 
 Plugin::get('hero');
 
-echo /* html */'<div class="container mx-auto mt-8">';
+echo /* html */'<div class="container mx-auto mt-8 px-4">';
 
 
 Plugin::get('breadcrumb/search');
@@ -39,7 +39,7 @@ Plugin::get('breadcrumb/search');
 // 所有分類區塊
 printf(
 /*html*/'
-<h6 class="text-2xl text-content mb-6">所有與 %1$s 相關的結果</h6>
+<h6 class="text-lg md:text-2xl text-content mb-6">所有與 %1$s 相關的結果</h6>
 ',
 $search
 );

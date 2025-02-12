@@ -47,8 +47,8 @@ printf(
 		<div class="pc-hero-overlay bg-opacity-60"></div>
 		<div class="pc-hero-content w-full xl:w-[80rem] text-neutral-content text-center py-24">
 		<div class="w-full">
-			<h1 class="mb-5 text-3xl font-bold text-base-100">%1$s</h1>
-			<p class="mb-5 text-base-300">%2$s</p>
+			<h1 class="mb-5 text-2xl md:text-3xl font-bold text-base-100">%1$s</h1>
+			<p class="mb-5 text-sm md:text-base text-base-300">%2$s</p>
 			<label class="pc-form-control">
 				%3$s
 				<div class="pc-label">

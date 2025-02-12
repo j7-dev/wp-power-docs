@@ -32,7 +32,7 @@ printf(
 		<h2 class="text-lg font-bold mb-0">%2$s</h2>
 	</a>
 	%3$s
-	<p>%4$s</p>
+	<p class="text-sm md:text-base text-base-content/75">%4$s</p>
 	<div class="pc-divider"></div>
 </div>
 ',

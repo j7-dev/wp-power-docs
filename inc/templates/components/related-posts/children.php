@@ -27,14 +27,14 @@ if (!$children_posts) {
 	return;
 }
 
-echo '<h3 class="text-2xl font-black mb-4">相關文章</h3>';
-echo '<div class="grid grid-cols-4 gap-4 mb-12">';
+echo '<h3 class="text-lg md:text-2xl font-black mb-4">相關文章</h3>';
+echo '<div class="grid grid-cols-2 xl:grid-cols-4 gap-2 md:gap-4 mb-12">';
 
 foreach ($children_posts as $child_post) {
 	printf(
 	/*html*/'
 	<a href="%1$s" class="group w-full rounded-box border border-solid border-base-content/30 p-4">
-		<p class="m-0 text-base text-base-content group-hover:text-primary">%2$s</p>
+		<p class="m-0 text-sm md:text-base text-base-content group-hover:text-primary">%2$s</p>
 	</a>
 	',
 	get_the_permalink($child_post->ID),
