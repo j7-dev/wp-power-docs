@@ -20,20 +20,21 @@ if ( ! ( $the_post instanceof \WP_Post ) ) {
 $top_parent_id = Utils::get_top_doc_id( $the_post->ID );
 $top_parent_id = $top_parent_id ?? $the_post->ID;
 
+/** @var array<array{id: string, title: string}>|'' $badges */
+$badges = get_post_meta( $the_post->ID, 'pd_keywords', true );
+$badges = is_array( $badges ) ? $badges : [];
 // TEST
-$badges = [
-	'基本操作',
-	'我可以進入你的 wp-admin 嗎',
-	'蛇出來了',
-];
 $bg_img = 'https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp';
 
-$badge_html = '<span class="pc-label-text-alt text-base-300 text-left">大家都再搜：';
+$badge_html = '<span class="pc-keywords pc-label-text-alt text-base-300 text-left">大家都再搜：';
 foreach ($badges as $badge) {
-	$badge_html .= sprintf(
+	$badge_title = $badge['title'];
+	if ($badge_title) {
+		$badge_html .= sprintf(
 		'<div class="pc-badge pc-badge-ghost pc-badge-sm mr-2 mb-2">%s</div>',
-		$badge
-	);
+		\esc_html( $badge_title )
+		);
+	}
 }
 $badge_html .= '</span>';
 
@@ -53,7 +54,6 @@ printf(
 				%3$s
 				<div class="pc-label">
 					%4$s
-
 					<div></div>
 				</div>
 			</label>
@@ -67,3 +67,18 @@ printf(
 	$badges ? $badge_html : '',
 	$bg_img
 	);
+
+
+?>
+<script type="module" async>
+	(function($){
+		$('.pc-hero .pc-keywords').on('click', '.pc-badge', function(){
+			const keyword = $(this).text();
+			const $hero = $(this).closest('.pc-hero');
+			const $input = $hero.find('.pc-search-input');
+			$input.val(keyword);
+		})
+
+	})(jQuery)
+
+</script>

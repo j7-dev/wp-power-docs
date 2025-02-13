@@ -1,0 +1,53 @@
+import { SortableList } from '@ant-design/pro-editor'
+import ItemRender from './ItemRender'
+import { nanoid } from 'nanoid'
+import { Form, Empty } from 'antd'
+
+const { Item } = Form
+
+export type SchemaItem = {
+	id: string
+	title: string
+}
+
+const DEFAULT_KEYWORDS = [
+	{
+		id: 'aspogasfkl',
+		title: '',
+	},
+]
+
+const KeyWords = () => {
+	const form = Form.useFormInstance()
+	const watchKeywords = Form.useWatch(['pd_keywords'], form)
+
+	return (
+		<div>
+			<label className="mb-3 tw-block">熱門搜尋關鍵字</label>
+			<SortableList<SchemaItem>
+				renderEmpty={() => <Empty description="目前沒有關鍵字" />}
+				value={Array.isArray(watchKeywords) ? watchKeywords : DEFAULT_KEYWORDS}
+				onChange={(data, event) => {
+					form.setFieldValue(['pd_keywords'], data)
+				}}
+				renderContent={(item, index) => (
+					<ItemRender item={item} index={index} />
+				)}
+				creatorButtonProps={{
+					creatorButtonText: '新增關鍵字',
+					record: () => ({
+						id: nanoid(),
+						title: '',
+					}),
+					style: {
+						margin: '8px 18px 0 18px',
+						width: 'calc(100% - 46px)',
+					},
+				}}
+			/>
+			<Item name={['pd_keywords']} hidden />
+		</div>
+	)
+}
+
+export default KeyWords

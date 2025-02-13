@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import KeyWords from './KeyWords'
 import { Form, Input, Select, Typography, Button } from 'antd'
 import {
 	termToOptions,
@@ -60,7 +61,7 @@ const DescriptionComponent = () => {
 
 				<Item name={['id']} hidden normalize={() => undefined} />
 
-				<div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+				<div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 					<Item name={['name']} label="知識庫名稱">
 						<Input allowClear />
 					</Item>
@@ -82,11 +83,11 @@ const DescriptionComponent = () => {
 						/>
 					</Item>
 				</div>
-				<div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+				<div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 					<Item
 						name={['short_description']}
 						label="知識庫簡介"
-						className="col-span-2"
+						className="xl:col-span-2"
 					>
 						<Input.TextArea rows={8} allowClear />
 					</Item>
@@ -116,6 +117,8 @@ const DescriptionComponent = () => {
 							unCheckedChildren: '免費',
 						}}
 					/>
+
+					<KeyWords />
 				</div>
 			</div>
 		</>

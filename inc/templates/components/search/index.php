@@ -20,7 +20,7 @@ printf(
 /*html*/'
 <form action="%1$s" method="get" class="%3$s">
 	<label class="pc-input pc-input-bordered flex items-center gap-2">
-		<input type="text" class="grow !border-none" placeholder="搜尋" name="search" value="%2$s" />
+		<input type="text" class="pc-search-input grow !border-none" placeholder="搜尋" name="search" value="%2$s" />
 		<button type="submit" class="!bg-transparent !border-none !outline-none !m-0 !p-4">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
