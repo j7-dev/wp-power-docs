@@ -12,12 +12,13 @@ $parent_id        = $post->post_parent ? PostUtils::get_top_post_id($post->ID) :
 $all_children_ids = PostUtils::get_flatten_post_ids( (int) $parent_id);
 
 $search = $_GET['search'] ?? ''; // phpcs:ignore
-
+$to     = $_GET['to'] ?? 1; // phpcs:ignore
 
 $query = new \WP_Query(
 	[
 		'post_type'      => CPT::POST_TYPE,
 		'posts_per_page' => 20,
+		'paged'          => $to,
 		's'              => $search,
 		'post__in'       => [
 			$parent_id,
@@ -27,7 +28,6 @@ $query = new \WP_Query(
 );
 
 $search_posts = $query->posts;
-
 
 Plugin::get('hero');
 
@@ -53,5 +53,13 @@ foreach ($search_posts as $search_post) {
 		);
 }
 
+echo '<div class="flex justify-center my-8">';
+Plugin::get(
+	'pagination',
+	[
+		'query' => $query,
+	]
+	);
+echo '</div>';
 
 echo /* html */'</div>';

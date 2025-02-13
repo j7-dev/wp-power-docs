@@ -14,10 +14,6 @@ use J7\PowerDocs\Plugin;
 final class Templates {
 	use \J7\WpUtils\Traits\SingletonTrait;
 
-	// 上課頁面
-	public const CLASSROOM_SLUG = 'classroom_slug';
-	public const CHAPTER_ID     = 'chapter_id';
-
 	/**
 	 * Constructor
 	 */
