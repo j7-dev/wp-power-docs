@@ -8,6 +8,14 @@ use J7\PowerDocs\Resources\Doc\CPT;
 
 global $post;
 
+$editor = get_post_meta( $post->ID, 'editor', true );
+
+// 如果是 elementor 編輯或者 elementor 預覽，就用 the_content
+if (isset($_GET['elementor-preview']) || $editor === 'elementor') {
+	the_content();
+	return;
+}
+
 $children_posts = get_posts(
 	[
 		'post_type'      => CPT::POST_TYPE,

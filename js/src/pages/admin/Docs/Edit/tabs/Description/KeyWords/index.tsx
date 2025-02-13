@@ -1,7 +1,7 @@
 import { SortableList } from '@ant-design/pro-editor'
 import ItemRender from './ItemRender'
 import { nanoid } from 'nanoid'
-import { Form, Empty } from 'antd'
+import { Form, Empty, Input } from 'antd'
 
 const { Item } = Form
 
@@ -23,7 +23,9 @@ const KeyWords = () => {
 
 	return (
 		<div>
-			<label className="mb-3 tw-block">熱門搜尋關鍵字</label>
+			<Item name={['pd_keywords_label']} label="熱門搜尋關鍵字">
+				<Input placeholder="關鍵字前的文字，也可以留空" allowClear />
+			</Item>
 			<SortableList<SchemaItem>
 				renderEmpty={() => <Empty description="目前沒有關鍵字" />}
 				value={Array.isArray(watchKeywords) ? watchKeywords : DEFAULT_KEYWORDS}

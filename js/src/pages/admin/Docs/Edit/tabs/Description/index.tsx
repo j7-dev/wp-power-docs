@@ -1,6 +1,14 @@
-import { memo } from 'react'
+import { memo, useEffect, useState } from 'react'
 import KeyWords from './KeyWords'
-import { Form, Input, Select, Typography, Button } from 'antd'
+import {
+	Form,
+	Input,
+	Select,
+	Typography,
+	Button,
+	UploadFile,
+	Radio,
+} from 'antd'
 import {
 	termToOptions,
 	defaultSelectProps,
@@ -24,6 +32,42 @@ const DescriptionComponent = () => {
 	const docsUrl = `${SITE_URL}/${DOCS_POST_TYPE}/`
 	const watchSlug = Form.useWatch(['slug'], form)
 	const watchId = Form.useWatch(['id'], form)
+	const watchEditor = Form.useWatch(['editor'], form)
+
+	// 縮圖
+	const [fileList, setFileList] = useState<UploadFile[]>([])
+	const watchImages = Form.useWatch(['images'], form)
+	const featureImageUrl = watchImages?.[0]?.url
+
+	// 背景圖
+	const [bgFileList, setBgFileList] = useState<UploadFile[]>([])
+	const watchBgImages = Form.useWatch(['bg_images'], form)
+	const bgImageUrl = watchBgImages?.[0]?.url
+
+	useEffect(() => {
+		if (watchId) {
+			if (featureImageUrl) {
+				setFileList([
+					{
+						uid: '-1',
+						name: 'feature_image_url.png',
+						status: 'done',
+						url: featureImageUrl,
+					},
+				])
+			}
+			if (bgImageUrl) {
+				setBgFileList([
+					{
+						uid: '-1',
+						name: 'bg_image_url.png',
+						status: 'done',
+						url: bgImageUrl,
+					},
+				])
+			}
+		}
+	}, [watchId])
 
 	return (
 		<>
@@ -91,20 +135,59 @@ const DescriptionComponent = () => {
 					>
 						<Input.TextArea rows={8} allowClear />
 					</Item>
-					{!!ELEMENTOR_ENABLED && (
-						<Button
-							className="mt-7 w-fit"
-							href={`${SITE_URL}/wp-admin/post.php?post=${watchId}&action=elementor`}
-							target="_blank"
-							rel="noreferrer"
+
+					<div>
+						<Item
+							name={['editor']}
+							label="模板"
+							initialValue={''}
+							help={
+								watchEditor === 'elementor'
+									? '請先儲存之後就可以使用 Elementor 編輯'
+									: undefined
+							}
 						>
-							使用 Elementor 編輯版面
-						</Button>
-					)}
+							<Radio.Group
+								options={[
+									{ label: '預設模板', value: '' },
+									{
+										label: 'Elementor',
+										value: 'elementor',
+										disabled: !ELEMENTOR_ENABLED,
+									},
+								]}
+								optionType="button"
+								buttonStyle="solid"
+							/>
+						</Item>
+						{watchEditor === 'elementor' && (
+							<Button
+								className="mt-7 w-fit"
+								href={`${SITE_URL}/wp-admin/post.php?post=${watchId}&action=elementor`}
+								target="_blank"
+								rel="noreferrer"
+							>
+								使用 Elementor 編輯版面
+							</Button>
+						)}
+					</div>
 
 					<div className="mb-8">
-						<label className="mb-3 tw-block">知識庫封面圖</label>
-						<FileUpload />
+						<label className="mb-3 tw-block">知識庫縮圖</label>
+						<FileUpload fileList={fileList} setFileList={setFileList} />
+					</div>
+
+					<div className="mb-8 xl:col-span-2">
+						<label className="mb-3 tw-block">知識庫背景圖</label>
+						<FileUpload
+							formItemProps={{
+								name: ['bg_images'],
+							}}
+							fileList={bgFileList}
+							setFileList={setBgFileList}
+							aspect={5}
+						/>
+						<p className="text-sm text-gray-500">手機版縮放後比例接近正方形</p>
 					</div>
 
 					<Switch

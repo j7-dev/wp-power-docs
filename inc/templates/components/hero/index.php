@@ -21,12 +21,17 @@ $top_parent_id = Utils::get_top_doc_id( $the_post->ID );
 $top_parent_id = $top_parent_id ?? $the_post->ID;
 
 /** @var array<array{id: string, title: string}>|'' $badges */
-$badges = get_post_meta( $the_post->ID, 'pd_keywords', true );
+$badges = get_post_meta( $top_parent_id, 'pd_keywords', true );
 $badges = is_array( $badges ) ? $badges : [];
-// TEST
-$bg_img = 'https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp';
 
-$badge_html = '<span class="pc-keywords pc-label-text-alt text-base-300 text-left">大家都再搜：';
+$bg_img_id  = get_post_meta( $top_parent_id, 'bg_images', true );
+$bg_img_url = $bg_img_id ? wp_get_attachment_url( (int) $bg_img_id) : 'https://picsum.photos/1920/380';
+
+$badge_html = sprintf(
+	/*html*/'<span class="pc-keywords pc-label-text-alt text-base-300 text-left">%s',
+	(string) get_post_meta( $top_parent_id, 'pd_keywords_label', true )
+);
+
 foreach ($badges as $badge) {
 	$badge_title = $badge['title'];
 	if ($badge_title) {
@@ -65,7 +70,7 @@ printf(
 	$the_post->post_excerpt,
 	Plugin::get('search', [], false),
 	$badges ? $badge_html : '',
-	$bg_img
+	$bg_img_url
 	);
 
 
@@ -78,7 +83,6 @@ printf(
 			const $input = $hero.find('.pc-search-input');
 			$input.val(keyword);
 		})
-
 	})(jQuery)
 
 </script>

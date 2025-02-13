@@ -43,7 +43,13 @@ const EditComponent = () => {
 			queryMeta: {
 				variables: {
 					with_description: 'true',
-					meta_keys: ['need_access', 'pd_keywords'], // 額外暴露的欄位
+					meta_keys: [
+						'need_access',
+						'pd_keywords',
+						'bg_images',
+						'editor',
+						'pd_keywords_label',
+					], // 額外暴露的欄位
 				},
 			},
 		})

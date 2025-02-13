@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 知識庫首頁
  */
@@ -31,35 +32,69 @@ $search_posts = $query->posts;
 
 Plugin::get('hero');
 
-echo /* html */'<div class="container mx-auto mt-8 px-4">';
+echo /* html */ '<div class="container mx-auto mt-8 px-4">';
 
 
 Plugin::get('breadcrumb/search');
 
 // 所有分類區塊
 printf(
-/*html*/'
+	/*html*/
+	'
 <h6 class="text-lg md:text-2xl text-content mb-6">所有與 %1$s 相關的結果</h6>
 ',
-$search
+	$search
 );
 
+echo '<div id="pc-search-results">';
 foreach ($search_posts as $search_post) {
 	Plugin::get(
 		'list',
 		[
 			'post' => $search_post,
 		]
-		);
+	);
 }
-
+echo '</div>';
 echo '<div class="flex justify-center my-8">';
 Plugin::get(
 	'pagination',
 	[
 		'query' => $query,
 	]
-	);
+);
 echo '</div>';
 
-echo /* html */'</div>';
+echo /* html */ '</div>';
+
+?>
+
+<script type="module" async>
+	(function($) {
+		$(document).ready(function() {
+			// 取得 url params 上的 search 參數
+			const urlParams = new URLSearchParams(window.location.search);
+			const search = urlParams.get('search');
+			console.log(search);
+
+			if(search){
+				highlightText(search);
+			}
+
+			function highlightText(keyword) {
+				const regex = new RegExp(`(${keyword})`, 'g');
+				$('#pc-search-results').find('*').contents().filter(function() {
+					// 節點的純文字
+					return this.nodeType === 3;
+				}).each(function() {
+					const text = $(this).text();
+					if (text.includes(keyword)) {
+						const wrapped = text.replace(regex, `<span class="bg-warning">$1</span>`);
+						$(this).replaceWith(wrapped)
+					}
+				});
+			}
+
+		});
+	})(jQuery)
+</script>
