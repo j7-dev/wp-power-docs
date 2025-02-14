@@ -159,6 +159,8 @@ const UserTableComponent = ({
 									resource: 'posts',
 									filters: objToCrudFilters({
 										post_type: DOCS_POST_TYPE,
+										meta_key: 'need_access',
+										meta_value: 'yes',
 									}),
 								}}
 							/>
