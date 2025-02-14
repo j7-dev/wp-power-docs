@@ -11,6 +11,7 @@ use J7\Powerhouse\Domains\Limit\Models\ExpireDate;
 
 /**
  * 知識庫存取相關
+ * 購買商品獲得知識庫授權
  */
 final class Access {
 	use \J7\WpUtils\Traits\SingletonTrait;

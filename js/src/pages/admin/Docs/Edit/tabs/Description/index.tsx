@@ -33,6 +33,7 @@ const DescriptionComponent = () => {
 	const watchSlug = Form.useWatch(['slug'], form)
 	const watchId = Form.useWatch(['id'], form)
 	const watchEditor = Form.useWatch(['editor'], form)
+	const watchNeedAccess = Form.useWatch(['need_access'], form)
 
 	// 縮圖
 	const [fileList, setFileList] = useState<UploadFile[]>([])
@@ -190,16 +191,27 @@ const DescriptionComponent = () => {
 						<p className="text-sm text-gray-500">手機版縮放後比例接近正方形</p>
 					</div>
 
-					<Switch
-						formItemProps={{
-							name: ['need_access'],
-							label: '購買才能觀看',
-						}}
-						switchProps={{
-							checkedChildren: '需授權',
-							unCheckedChildren: '免費',
-						}}
-					/>
+					<div>
+						<Switch
+							formItemProps={{
+								name: ['need_access'],
+								label: '購買才能觀看',
+							}}
+							switchProps={{
+								checkedChildren: '需授權',
+								unCheckedChildren: '免費',
+							}}
+						/>
+
+						{watchNeedAccess === 'yes' && (
+							<Item
+								name={['unauthorized_redirect_url']}
+								label="當用戶沒有權限觀看時，將用戶導向指定網址"
+							>
+								<Input placeholder={`請輸入完整網址，例如 ${SITE_URL}/404`} />
+							</Item>
+						)}
+					</div>
 
 					<KeyWords />
 				</div>

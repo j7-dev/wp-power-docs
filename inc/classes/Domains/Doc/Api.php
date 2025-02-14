@@ -151,13 +151,15 @@ final class Api extends ApiBase {
 			$args['meta_input'] = [];
 		}
 
-		$args['meta_input']['pd_keywords_label'] = '大家都在搜：'; // @phpstan-ignore-line
-		$args['meta_input']['pd_keywords']       = [ // @phpstan-ignore-line
+		$args['meta_input']['pd_keywords_label']         = '大家都在搜：'; // @phpstan-ignore-line
+		$args['meta_input']['pd_keywords']               = [ // @phpstan-ignore-line
 			[
 				'id'    => 'some_keyword_id',
 				'title' => '某個關鍵字',
 			],
 		];
+		$args['meta_input']['unauthorized_redirect_url'] = \site_url('404'); // @phpstan-ignore-line
+
 		return $args;
 	}
 }

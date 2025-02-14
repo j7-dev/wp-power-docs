@@ -15,7 +15,9 @@ $can_access = Access::can_access( (int) $parent_id);
 
 if (!$can_access) {
 	// 沒有權限，跳到404
-	wp_safe_redirect(home_url('404'));
+	$unauthorized_redirect_url = get_post_meta($parent_id, 'unauthorized_redirect_url', true) ?: site_url('404');
+	/** @var string $unauthorized_redirect_url */
+	wp_safe_redirect($unauthorized_redirect_url);
 	exit;
 }
 

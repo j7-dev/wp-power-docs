@@ -45,10 +45,11 @@ const EditComponent = () => {
 					with_description: 'true',
 					meta_keys: [
 						'need_access',
-						'pd_keywords',
 						'bg_images',
 						'editor',
+						'pd_keywords',
 						'pd_keywords_label',
+						'unauthorized_redirect_url',
 					], // 額外暴露的欄位
 				},
 			},
