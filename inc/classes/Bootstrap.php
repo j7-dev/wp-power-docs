@@ -25,7 +25,7 @@ final class Bootstrap {
 	 */
 	public function __construct() {
 		Admin\Entry::instance();
-		Domains\Doc\CPT::instance();
+		Domains\Doc\Loader::instance();
 		Domains\Product\Api::instance();
 		Domains\User\Api::instance();
 

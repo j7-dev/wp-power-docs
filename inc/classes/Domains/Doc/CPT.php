@@ -1,7 +1,4 @@
 <?php
-/**
- * Custom Post Type: pd_doc
- */
 
 declare( strict_types=1 );
 
@@ -11,6 +8,7 @@ use J7\PowerDocs\Plugin;
 
 /**
  * Class CPT
+ * Custom Post Type: pd_doc
  */
 final class CPT {
 	use \J7\WpUtils\Traits\SingletonTrait;
@@ -21,8 +19,6 @@ final class CPT {
 	 * Constructor
 	 */
 	public function __construct() {
-		Templates::instance();
-		Api::instance();
 		\add_action( 'init', [ $this, 'init' ] );
 		\add_filter('option_elementor_cpt_support', [ $this, 'add_elementor_cpt_support' ]);
 	}
