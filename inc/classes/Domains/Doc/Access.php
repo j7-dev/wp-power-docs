@@ -4,6 +4,11 @@ declare( strict_types=1 );
 
 namespace J7\PowerDocs\Domains\Doc;
 
+use J7\Powerhouse\Domains\Limit\Models\BoundItemsData;
+use J7\Powerhouse\Domains\Limit\Models\BoundItemData;
+use J7\Powerhouse\Domains\Limit\Utils\MetaCRUD;
+use J7\Powerhouse\Domains\Limit\Models\ExpireDate;
+
 /**
  * 知識庫存取相關
  */
@@ -14,49 +19,53 @@ final class Access {
 	 * Constructor
 	 */
 	public function __construct() {
-		// \add_action( 'woocommerce_order_status_completed', [ $this, 'grant_access' ], 10, 1 );
+		\add_action( 'woocommerce_order_status_completed', [ $this, 'grant_access' ], 10, 1 );
 	}
 
-		/**TODO
-	 * 訂單完成時將元數據添加到訂單中的可用課程。
-	 *
-	 * 此函數遍歷訂單中的每個商品，檢查是否為商品。如果是，則將課程的限制條件（如限制類型、限制值和限制單位）
-	 * 紀錄到訂單中。根據這些限制條件，計算並設定課程的到期日存入 avl_coursemeta 表中。
+	/**
+	 * 下單特定商品，授權知識庫權限
 	 *
 	 * @param int $order_id 訂單ID。
 	 * @return void
 	 */
 	public function grant_access( int $order_id ): void {
-		$order = \wc_get_order($order_id);
+		try {
 
-		if (!( $order instanceof \WC_Order )) {
-			return;
-		}
+			$order = \wc_get_order($order_id);
 
-		$items = $order->get_items();
-		foreach ( $items as $item ) {
-			/**
-			 * @var \WC_Order_Item_Product $item
-			 */
-			$product_id = $item->get_product_id();
-
-			$bind_courses_data = $item->get_meta( '_bind_courses_data' ) ?: [];
-			$is_course         = CourseUtils::is_course_product( $product_id );
-
-			// 如果 "不是課程商品" 或 "沒有綁定課程"，就什麼也不做
-			if ( !$is_course && !$bind_courses_data ) {
-				continue;
+			if (!( $order instanceof \WC_Order )) {
+				return;
 			}
 
-			// 如果是單一課程，就處理單一課程
-			if ($is_course) {
-				$this->handle_single_course( $order, $item );
+			$user_id = $order->get_customer_id();
+			// 如果是未登入的訂單，就什麼也不做
+			if (!$user_id) {
+				return;
 			}
 
-			// 如果有綁定課程，就處理綁定課程
-			if ($bind_courses_data) {
-				$this->handle_bind_courses( $order, $item );
+			$items = $order->get_items();
+			foreach ( $items as $item ) {
+				/**
+				 * @var \WC_Order_Item_Product $item
+				 */
+				$product_id = $item->get_product_id();
+
+				// 檢查商品是否有連接知識庫授權，檢查有沒有 bound_docs_data 這個 meta_key
+				$bound_docs_data_instance = new BoundItemsData($product_id, 'bound_docs_data');
+
+				/** @var BoundItemData[] $bound_docs_data */
+				$bound_docs_data = $bound_docs_data_instance->get_data();
+				if (!$bound_docs_data) {
+					// 沒有就檢查下個商品
+					continue;
+				}
+
+				foreach ($bound_docs_data as $bound_docs_item) {
+					$bound_docs_item->grant_user($user_id, $order);
+				}
 			}
+		} catch (\Throwable $th) {
+			\J7\WpUtils\Classes\WC::log( $th->getMessage(), '授權知識庫時錯誤 grant_access' );
 		}
 	}
 
@@ -82,8 +91,12 @@ final class Access {
 			return false;
 		}
 
-		// TODO 如果用戶已登入就檢查 用戶 db 資料
+		// 如果用戶已登入就檢查 ph_access_itemmeta table 的到期日過期沒
+		/** @var string $expire_date */
+		$expire_date          = MetaCRUD::get($post_id, $user_id, 'expire_date', true);
+		$expire_date_instance = new ExpireDate($expire_date);
 
-		return true;
+		// 沒到期就可以存取
+		return !$expire_date_instance->is_expired;
 	}
 }
