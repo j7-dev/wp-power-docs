@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace J7\PowerDocs\Resources\Doc;
+namespace J7\PowerDocs\Domains\Doc;
 
 use J7\WpUtils\Classes\ApiBase;
-use J7\Powerhouse\Resources\Limit\Models\GrantedItems;
+use J7\Powerhouse\Domains\Limit\Models\GrantedItems;
 use J7\WpUtils\Classes\WP;
 
 /**
@@ -82,11 +82,9 @@ final class Api extends ApiBase {
 		}
 
 		if (isset($meta_keys['bg_images'])) {
-			$bg_images_id = get_post_meta( $post->ID, 'bg_images', true );
-			if ($bg_images_id) {
-				$image_info             = WP::get_image_info($bg_images_id);
-				$meta_keys['bg_images'] = $image_info ? [ $image_info ] : [];
-			}
+			$bg_images_id           = get_post_meta( $post->ID, 'bg_images', true );
+			$image_info             = WP::get_image_info( (int) $bg_images_id);
+			$meta_keys['bg_images'] = $image_info ? [ $image_info ] : [];
 		}
 
 		return $meta_keys;
@@ -153,11 +151,13 @@ final class Api extends ApiBase {
 			$args['meta_input'] = [];
 		}
 
-		$args['meta_input']['pd_keywords_label'] = '大家都在搜：';// @phpstan-ignore-line
-		$args['meta_input']['pd_keywords'] = [[
-			'id' => 'some_keyword_id',
-			'title' => '某個關鍵字',
-		]];
+		$args['meta_input']['pd_keywords_label'] = '大家都在搜：'; // @phpstan-ignore-line
+		$args['meta_input']['pd_keywords']       = [ // @phpstan-ignore-line
+			[
+				'id'    => 'some_keyword_id',
+				'title' => '某個關鍵字',
+			],
+		];
 		return $args;
 	}
 }

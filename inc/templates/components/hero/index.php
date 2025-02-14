@@ -1,7 +1,7 @@
 <?php
 
 use J7\PowerDocs\Plugin;
-use J7\PowerDocs\Resources\Doc\Utils;
+use J7\PowerDocs\Domains\Doc\Utils;
 global $post;
 
 /** @var array{post: \WP_Post} $args */

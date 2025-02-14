@@ -1,12 +1,11 @@
 <?php
-
 /**
  * 知識庫首頁
  */
 
 use J7\PowerDocs\Plugin;
-use J7\PowerDocs\Resources\Doc\CPT;
-use J7\Powerhouse\Resources\Post\Utils as PostUtils;
+use J7\PowerDocs\Domains\Doc\CPT;
+use J7\Powerhouse\Domains\Post\Utils as PostUtils;
 
 global $post;
 $parent_id        = $post->post_parent ? PostUtils::get_top_post_id($post->ID) : $post->ID;

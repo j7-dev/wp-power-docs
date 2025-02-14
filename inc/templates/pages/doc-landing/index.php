@@ -4,7 +4,7 @@
  */
 
 use J7\PowerDocs\Plugin;
-use J7\PowerDocs\Resources\Doc\CPT;
+use J7\PowerDocs\Domains\Doc\CPT;
 
 global $post;
 

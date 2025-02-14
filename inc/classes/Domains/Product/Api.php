@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-namespace J7\PowerDocs\Resources\Product;
+namespace J7\PowerDocs\Domains\Product;
 
 use J7\WpUtils\Classes\ApiBase;
 

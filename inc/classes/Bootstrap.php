@@ -24,11 +24,10 @@ final class Bootstrap {
 	 * Constructor
 	 */
 	public function __construct() {
-		Admin\CPT::instance();
 		Admin\Entry::instance();
-		Resources\Doc\CPT::instance();
-		Resources\Product\Api::instance();
-		Resources\User\Api::instance();
+		Domains\Doc\CPT::instance();
+		Domains\Product\Api::instance();
+		Domains\User\Api::instance();
 
 		\add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_enqueue_script' ] );
 		\add_action( 'wp_enqueue_scripts', [ __CLASS__, 'frontend_enqueue_script' ]);
@@ -98,8 +97,8 @@ final class Bootstrap {
 				'NONCE'                => \wp_create_nonce( 'wp_rest' ),
 				'APP1_SELECTOR'        => Base::APP1_SELECTOR,
 				'APP2_SELECTOR'        => Base::APP2_SELECTOR,
-				'DOCS_POST_TYPE'       => \J7\PowerDocs\Resources\Doc\CPT::POST_TYPE,
-				'BOUND_META_KEY'       => \J7\PowerDocs\Resources\Product\Api::BOUND_META_KEY,
+				'DOCS_POST_TYPE'       => \J7\PowerDocs\Domains\Doc\CPT::POST_TYPE,
+				'BOUND_META_KEY'       => \J7\PowerDocs\Domains\Product\Api::BOUND_META_KEY,
 				'ELEMENTOR_ENABLED'    => \in_array( 'elementor/elementor.php', $active_plugins, true ), // 檢查 elementor 是否啟用
 			]
 		);

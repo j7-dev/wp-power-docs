@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace J7\PowerDocs\Resources\User;
+namespace J7\PowerDocs\Domains\User;
 
 use J7\WpUtils\Classes\ApiBase;
 use J7\WpUtils\Classes\WP;
-use J7\Powerhouse\Resources\User\Utils;
+use J7\Powerhouse\Domains\User\Utils;
 
 /**
  * Class Api
@@ -124,10 +124,6 @@ final class Api extends ApiBase {
 		// 執行查詢
 		$total    = $wpdb->get_var(\wp_unslash($count_sql . $from_sql . $where_sql)); // phpcs:ignore
 		$user_ids = $wpdb->get_col(\wp_unslash($select_sql . $from_sql . $where_sql . $order_sql . $limit_sql)); // phpcs:ignore
-
-		// TEST 印出 WC Logger 記得移除 ---- //
-		\J7\WpUtils\Classes\WC::log(\wp_unslash($select_sql . $from_sql . $where_sql . $order_sql . $limit_sql), 'SQL');
-		// ---------- END TEST ---------- //
 
 		$total_pages = ceil($total / $posts_per_page);
 

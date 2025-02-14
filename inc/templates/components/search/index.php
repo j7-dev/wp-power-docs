@@ -3,7 +3,7 @@
  * 搜尋組件
  */
 
-use J7\PowerDocs\Resources\Doc\Utils;
+use J7\PowerDocs\Domains\Doc\Utils;
 
 $search = $_GET['search'] ?? ''; // phpcs:ignore
 

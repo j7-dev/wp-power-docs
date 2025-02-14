@@ -3,7 +3,7 @@
  * 顯示上一篇、下一篇文章
  */
 
-use J7\Powerhouse\Resources\Post\Utils as PostUtils;
+use J7\Powerhouse\Domains\Post\Utils as PostUtils;
 
 global $post;
 

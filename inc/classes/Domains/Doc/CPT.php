@@ -5,7 +5,7 @@
 
 declare( strict_types=1 );
 
-namespace J7\PowerDocs\Resources\Doc;
+namespace J7\PowerDocs\Domains\Doc;
 
 use J7\PowerDocs\Plugin;
 

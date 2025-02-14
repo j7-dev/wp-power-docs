@@ -3,8 +3,8 @@
  * 麵包屑
  */
 
-use J7\Powerhouse\Resources\Post\Utils as PostUtils;
-use J7\PowerDocs\Resources\Doc\Utils;
+use J7\Powerhouse\Domains\Post\Utils as PostUtils;
+use J7\PowerDocs\Domains\Doc\Utils;
 use J7\PowerDocs\Plugin;
 
 global $post;
