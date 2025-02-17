@@ -30,7 +30,6 @@ final class Bootstrap {
 		Domains\User\Api::instance();
 
 		\add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_enqueue_script' ] );
-		\add_action( 'wp_enqueue_scripts', [ __CLASS__, 'frontend_enqueue_script' ]);
 	}
 
 
@@ -47,17 +46,6 @@ final class Bootstrap {
 		self::enqueue_script();
 	}
 
-
-	/**
-	 * Front-end Enqueue script
-	 * You can load the script on demand
-	 * TODO
-	 *
-	 * @return void
-	 */
-	public static function frontend_enqueue_script(): void {
-		\wp_enqueue_style('power-docs-css', Plugin::$url . '/js/dist/css/style.css', [], Plugin::$version);
-	}
 
 	/**
 	 * Enqueue script

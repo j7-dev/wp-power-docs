@@ -28,7 +28,7 @@ $bg_img_id  = get_post_meta( $top_parent_id, 'bg_images', true );
 $bg_img_url = $bg_img_id ? wp_get_attachment_url( (int) $bg_img_id) : 'https://picsum.photos/1920/380';
 
 $badge_html = sprintf(
-	/*html*/'<span class="pc-keywords pc-label-text-alt text-base-300 text-left">%s',
+	/*html*/'<span class="pc-keywords pc-label-text-alt text-base-300 text-left"><span class="mr-2">%s</span>',
 	(string) get_post_meta( $top_parent_id, 'pd_keywords_label', true )
 );
 
@@ -57,7 +57,7 @@ printf(
 			<p class="mb-5 text-sm md:text-base text-base-300">%2$s</p>
 			<label class="pc-form-control">
 				%3$s
-				<div class="pc-label">
+				<div class="pc-label px-0">
 					%4$s
 					<div></div>
 				</div>

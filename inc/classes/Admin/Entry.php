@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace J7\PowerDocs\Admin;
 
 use J7\PowerDocs\Plugin;
+use J7\Powerhouse\Plugin as PowerhousePlugin;
 use J7\PowerDocs\Bootstrap;
 use J7\PowerDocs\Utils\Base;
 
@@ -60,15 +61,16 @@ final class Entry {
 
 		?>
 		<!doctype html>
-		<html lang="zh_tw">
+		<html id="tw" lang="zh_tw">
 
 		<head>
+			<link rel="stylesheet" href="<?php echo PowerhousePlugin::$url; ?>/inc/assets/dist/css/index.css?ver=<?php echo PowerhousePlugin::$version; ?>" /><?php //phpcs:ignore ?>
 			<meta charset="UTF-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 			<title>Power Docs | <?php echo $blog_name; ?></title>
 		</head>
 
-		<body class="tailwind">
+		<body>
 			<main id="<?php echo $id; ?>"></main>
 		<?php
 		/**

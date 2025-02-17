@@ -70,8 +70,8 @@ const Main = () => {
 
 	return (
 		<Spin spinning={tableProps?.loading as boolean}>
-			<Card title="篩選" className="mb-4">
-				{/* <Filter
+			{/* <Card title="篩選" className="mb-4">
+				<Filter
 					searchFormProps={searchFormProps}
 					optionParams={{
 						endpoint: 'docs/options',
@@ -89,8 +89,8 @@ const Main = () => {
 							'sold_individually',
 						]}
 					/>
-				</div> */}
-			</Card>
+				</div>
+			</Card> */}
 			<Card>
 				<div className="mb-4 flex justify-between">
 					<Button
