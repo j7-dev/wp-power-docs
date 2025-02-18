@@ -38,6 +38,8 @@ final class Api extends ApiBase {
 		\add_filter( 'powerhouse/post/get_meta_keys_array', [ __CLASS__, 'extend_post_meta_keys' ], 10, 2 );
 		\add_filter( 'powerhouse/post/separator_body_params', [ __CLASS__, 'extra_file_upload' ], 10, 2 );
 		\add_filter( 'powerhouse/post/create_post_args', [ __CLASS__, 'add_default_meta_keys' ], 10, 1 );
+
+		\add_filter('powerhouse/copy/children_post_args', [ __CLASS__, 'copy_children_post_args' ], 10, 5);
 	}
 
 	/**
@@ -161,5 +163,26 @@ final class Api extends ApiBase {
 		$args['meta_input']['unauthorized_redirect_url'] = \site_url('404'); // @phpstan-ignore-line
 
 		return $args;
+	}
+
+
+	/**
+	 * 複製子文章時，需指定 post_type
+	 *
+	 * @param array<string, mixed> $default_args 文章參數.
+	 * @param int                  $post_id 文章 ID.
+	 * @param int                  $new_id 新文章 ID.
+	 * @param int                  $override_post_parent 覆蓋父文章 ID.
+	 * @param int                  $depth 深度.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public static function copy_children_post_args( $default_args, $post_id, $new_id, $override_post_parent, $depth ): array {
+		$post_type = \get_post_type($post_id);
+		if (CPT::POST_TYPE !== $post_type) {
+			return $default_args;
+		}
+		$default_args['post_type'] = CPT::POST_TYPE;
+		return $default_args;
 	}
 }

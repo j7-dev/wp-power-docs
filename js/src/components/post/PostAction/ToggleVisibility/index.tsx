@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons'
 import { TDocBaseRecord } from '@/pages/admin/Docs/List/types'
 import { Tooltip, Button } from 'antd'
@@ -17,7 +17,7 @@ const ToggleVisibility: FC<{
 			status: isPublished ? 'draft' : 'publish',
 		})
 		update({
-			resource: 'docs',
+			resource: 'posts',
 			values: formData,
 			id,
 			meta: {
@@ -27,7 +27,7 @@ const ToggleVisibility: FC<{
 	}
 
 	return (
-		<Tooltip title={`調整商品為${!isPublished ? '已發布' : '草稿'}`}>
+		<Tooltip title={`調整知識庫為${!isPublished ? '已發布' : '草稿'}`}>
 			<Button
 				loading={isLoading}
 				type="text"
