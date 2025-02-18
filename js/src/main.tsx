@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { APP1_SELECTOR, APP2_SELECTOR, env } from '@/utils'
 import { StyleProvider } from '@ant-design/cssinjs'
 import { EnvProvider } from 'antd-toolkit'

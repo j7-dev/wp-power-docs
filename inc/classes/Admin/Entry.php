@@ -61,10 +61,10 @@ final class Entry {
 
 		?>
 		<!doctype html>
-		<html id="tw" lang="zh_tw">
+		<html <?php language_attributes(); ?>>
 
 		<head>
-			<link rel="stylesheet" href="<?php echo PowerhousePlugin::$url; ?>/inc/assets/dist/css/index.css?ver=<?php echo PowerhousePlugin::$version; ?>" /><?php //phpcs:ignore ?>
+			<link rel="stylesheet" href="<?php echo PowerhousePlugin::$url; ?>/js/dist/css/admin.min.css?ver=<?php echo PowerhousePlugin::$version; ?>" /><?php //phpcs:ignore ?>
 			<meta charset="UTF-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 			<title>Power Docs | <?php echo $blog_name; ?></title>

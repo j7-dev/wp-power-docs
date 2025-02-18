@@ -8,8 +8,8 @@ declare (strict_types = 1);
 namespace J7\PowerDocs;
 
 use J7\PowerDocs\Utils\Base;
-use Kucrut\Vite;
 use J7\Powerhouse\Utils\Base as PowerhouseUtils;
+use Kucrut\Vite;
 
 if ( class_exists( 'J7\PowerDocs\Bootstrap' ) ) {
 	return;
@@ -28,6 +28,7 @@ final class Bootstrap {
 		Domains\Doc\Loader::instance();
 		Domains\Product\Api::instance();
 		Domains\User\Api::instance();
+		Domains\Elementor\Loader::instance();
 
 		\add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_enqueue_script' ] );
 	}
