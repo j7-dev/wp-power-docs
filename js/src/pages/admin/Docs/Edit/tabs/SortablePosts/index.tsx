@@ -43,6 +43,7 @@ const SortablePostsComponent = ({
 	const [selectedPost, setSelectedPost] = useAtom(selectedPostAtom)
 
 	const [treeData, setTreeData] = useState<TreeData<TDocRecord>>([])
+	const maxDepth = getMaxDepth(treeData)
 	// 原本的樹狀結構
 	const [originTree, setOriginTree] = useState<TreeData<TDocRecord>>([])
 	const invalidate = useInvalidate()
@@ -197,10 +198,13 @@ const SortablePostsComponent = ({
 						)}
 						indentationWidth={48}
 						sortableRule={({ activeNode, projected }) => {
+							const nodeDepth = getMaxDepth([activeNode])
+							const maxDepth = projected?.depth + nodeDepth
+
 							// activeNode - 被拖動的節點
 							// projected - 拖動後的資訊
 
-							const sortable = projected?.depth <= MAX_DEPTH
+							const sortable = maxDepth <= MAX_DEPTH
 							if (!sortable) message.error('超過最大深度，無法執行')
 							return sortable
 						}}
@@ -225,7 +229,7 @@ function getOpenedNodeIds(treeData: TreeData<TDocRecord>) {
 	// 遞迴取得所有 collapsed = false 的 id
 	const ids = treeData?.reduce((acc, c) => {
 		if (!c.collapsed) acc.push(c.id as string)
-		if (c.children) acc.push(...getOpenedNodeIds(c.children))
+		if (c?.children?.length) acc.push(...getOpenedNodeIds(c.children))
 		return acc
 	}, [] as string[])
 	return ids
@@ -248,7 +252,7 @@ function restoreOriginCollapsedState(
 			newItem.collapsed = false
 		}
 
-		if (item.children) {
+		if (item?.children?.length) {
 			newItem.children = restoreOriginCollapsedState(
 				item.children,
 				openedNodeIds,
@@ -257,4 +261,26 @@ function restoreOriginCollapsedState(
 		return item
 	})
 	return newTreeData
+}
+
+/**
+ * 取得樹狀結構的最大深度
+ * @param treeData 樹狀結構
+ * @param depth 當前深度
+ * @returns 最大深度
+ */
+function getMaxDepth(treeData: TreeData<TDocRecord>, depth = 0) {
+	// 如果沒有資料，回傳當前深度
+	if (!treeData?.length) return depth
+
+	// 遞迴取得所有子節點的深度
+	const childrenDepths: number[] = treeData.map((item) => {
+		if (item?.children?.length) {
+			return getMaxDepth(item.children, depth + 1)
+		}
+		return depth
+	})
+
+	// 回傳最大深度
+	return Math.max(...childrenDepths)
 }
