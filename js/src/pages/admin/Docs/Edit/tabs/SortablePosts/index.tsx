@@ -43,25 +43,25 @@ const SortablePostsComponent = ({
 	const [selectedPost, setSelectedPost] = useAtom(selectedPostAtom)
 
 	const [treeData, setTreeData] = useState<TreeData<TDocRecord>>([])
+	// 原本的樹狀結構
 	const [originTree, setOriginTree] = useState<TreeData<TDocRecord>>([])
 	const invalidate = useInvalidate()
 
 	const apiUrl = useApiUrl()
 	const { mutate } = useCustomMutation()
 
+	// 每次更新 List 狀態，會算出當次的展開節點 id
+	const openedNodeIds = getOpenedNodeIds(treeData)
+
 	useEffect(() => {
+		// 每次重新排序後，重新取得章節後，重新 set 選擇的章節
 		if (!isListFetching) {
 			const postTree = posts?.map(postToTreeNode)
-			setTreeData((prev) => {
-				// 維持原本的開合狀態
-				const newPostTree = postTree.map((item) => ({
-					...item,
-					collapsed:
-						prev?.find((prevItem) => prevItem.id === item.id)?.collapsed ??
-						true,
-				}))
 
-				return newPostTree
+			setTreeData((prev) => {
+				// 恢復原本的 collapsed 狀態
+				const newTreeData = restoreOriginCollapsedState(postTree, openedNodeIds)
+				return newTreeData
 			})
 			setOriginTree(postTree)
 
@@ -214,3 +214,47 @@ const SortablePostsComponent = ({
 }
 
 export const SortablePosts = memo(SortablePostsComponent)
+
+/**
+ * 取得所有展開的 ids
+ * 遞迴取得所有 collapsed = false 的 id
+ * @param treeData 樹狀結構
+ * @returns 所有 collapsed = false 的 id
+ */
+function getOpenedNodeIds(treeData: TreeData<TDocRecord>) {
+	// 遞迴取得所有 collapsed = false 的 id
+	const ids = treeData?.reduce((acc, c) => {
+		if (!c.collapsed) acc.push(c.id as string)
+		if (c.children) acc.push(...getOpenedNodeIds(c.children))
+		return acc
+	}, [] as string[])
+	return ids
+}
+
+/**
+ * 恢復原本的 collapsed 狀態
+ * @param treeData 樹狀結構
+ * @param openedNodeIds 展開的 ids
+ * @returns newTreeData 恢復原本的 collapsed 狀態
+ */
+function restoreOriginCollapsedState(
+	treeData: TreeData<TDocRecord>,
+	openedNodeIds: string[],
+) {
+	// 遞迴恢復原本的 collapsed 狀態
+	const newTreeData: TreeData<TDocRecord> = treeData?.map((item) => {
+		let newItem = item
+		if (openedNodeIds.includes(item.id as string)) {
+			newItem.collapsed = false
+		}
+
+		if (item.children) {
+			newItem.children = restoreOriginCollapsedState(
+				item.children,
+				openedNodeIds,
+			)
+		}
+		return item
+	})
+	return newTreeData
+}

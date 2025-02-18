@@ -16,20 +16,31 @@ const useColumns = () => {
 			title: '商品名稱',
 			dataIndex: 'name',
 			width: 300,
-			key: 'name',
 			render: (_, record) => (
 				<PostName<TDocBaseRecord> record={record} onClick={onClick(record)} />
 			),
 		},
 		{
+			title: '需要開通權限',
+			dataIndex: 'need_access',
+			width: 80,
+			render: (need_access) => {
+				const needAccess = 'yes' === need_access
+				return (
+					<Tag color={needAccess ? 'gold' : 'cyan'} bordered={false}>
+						{needAccess ? '需要' : '不需要'}
+					</Tag>
+				)
+			},
+		},
+		{
 			title: '狀態',
 			dataIndex: 'status',
 			width: 80,
-			key: 'status',
 			render: (status) => {
 				const findStatus = POST_STATUS.find((item) => item.value === status)
 				return (
-					<Tag color={findStatus?.color || 'default'}>
+					<Tag color={findStatus?.color || 'default'} bordered={false}>
 						{findStatus?.label || '未知狀態'}
 					</Tag>
 				)

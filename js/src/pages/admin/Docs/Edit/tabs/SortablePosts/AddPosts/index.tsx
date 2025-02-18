@@ -42,7 +42,7 @@ const AddPosts = ({ records }: { records: TDocRecord[] }) => {
 
 	return (
 		<Form form={form} className="w-full">
-			<div className="flex gap-x-4">
+			<Space.Compact>
 				<Button
 					type="primary"
 					loading={isLoading}
@@ -51,43 +51,12 @@ const AddPosts = ({ records }: { records: TDocRecord[] }) => {
 				>
 					新增
 				</Button>
-				<Space.Compact>
-					<Item name={['depth']} initialValue={0}>
-						<Select
-							className="w-24"
-							options={[
-								{
-									value: 0,
-									label: '章節',
-								},
-								{
-									value: 1,
-									label: '單元',
-								},
-							]}
-						/>
-					</Item>
-					<Item name={['qty']}>
-						<InputNumber className="w-40" addonAfter="個" />
-					</Item>
-				</Space.Compact>
 
-				<div
-					className={`ml-8 flex-1 flex items-center gap-x-4 ${watchDepth > 0 ? '' : 'tw-hidden'}`}
-				>
-					<label>在那些章節底下新增: </label>
-					<Item name={['post_parents']} className="flex-1" initialValue={[id]}>
-						<Select
-							{...defaultSelectProps}
-							defaultValue={0}
-							options={records?.map((record) => ({
-								value: record?.id,
-								label: record?.name,
-							}))}
-						/>
-					</Item>
-				</div>
-			</div>
+				<Item name={['qty']}>
+					<InputNumber className="w-40" addonAfter="個" />
+				</Item>
+			</Space.Compact>
+			<Item name={['post_parents']} className="flex-1" initialValue={[id]} />
 			<Item name={['post_type']} initialValue={DOCS_POST_TYPE} hidden />
 		</Form>
 	)
