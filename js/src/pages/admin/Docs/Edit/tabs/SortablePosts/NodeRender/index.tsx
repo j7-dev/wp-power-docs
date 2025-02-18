@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { TDocRecord } from '@/pages/admin/Docs/List/types'
 import { FlattenNode, useSortableTree } from '@ant-design/pro-editor'
-import { DuplicateButton } from '@/components/general'
+import { CopyButton } from '@/components/general'
 import { Checkbox, CheckboxProps } from 'antd'
 import { useAtom } from 'jotai'
 import { selectedPostAtom } from '../atom'
@@ -66,7 +66,7 @@ const NodeRender: FC<{
 				{POST_STATUS.find((item) => item.value === record?.status)?.label}
 			</div>
 			<div className="flex gap-2">
-				<DuplicateButton
+				<CopyButton
 					id={record?.id}
 					invalidateProps={{
 						resource: 'posts',

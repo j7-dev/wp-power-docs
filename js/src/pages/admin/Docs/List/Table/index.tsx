@@ -14,13 +14,12 @@ import useColumns from '@/pages/admin/Docs/List/hooks/useColumns'
 import { PlusOutlined } from '@ant-design/icons'
 import DeleteButton from './DeleteButton'
 import {
-	FilterTags,
 	useRowSelection,
 	getDefaultPaginationProps,
 	defaultTableProps,
 	useEnv,
 } from 'antd-toolkit'
-import { objToCrudFilters } from 'antd-toolkit/refine'
+import { FilterTags, objToCrudFilters } from 'antd-toolkit/refine'
 
 const Main = () => {
 	const env = useEnv()

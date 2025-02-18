@@ -8,7 +8,7 @@ import {
 	UseInvalidateProp,
 } from '@refinedev/core'
 
-const DuplicateButtonComponent: FC<{
+const CopyButtonComponent: FC<{
 	id: string
 	tooltipProps?: TooltipProps
 	invalidateProps: Omit<UseInvalidateProp, 'invalidates'>
@@ -20,7 +20,7 @@ const DuplicateButtonComponent: FC<{
 	const handleDuplicate = () => {
 		duplicate(
 			{
-				url: `${apiUrl}/duplicate/${id}`,
+				url: `${apiUrl}/copy/${id}`,
 				method: 'post',
 				values: {},
 			},
@@ -50,4 +50,4 @@ const DuplicateButtonComponent: FC<{
 	)
 }
 
-export const DuplicateButton = memo(DuplicateButtonComponent)
+export const CopyButton = memo(CopyButtonComponent)

@@ -45,7 +45,7 @@ const DeleteButton = ({
 				onOk={() => {
 					deleteMany(
 						{
-							resource: 'docs',
+							resource: 'posts',
 							ids: selectedRowKeys as string[],
 							mutationMode: 'optimistic',
 							successNotification: (data, ids, resource) => {
@@ -78,9 +78,7 @@ const DeleteButton = ({
 						<>
 							<p>刪除知識庫影響範圍包含:</p>
 							<ol className="pl-6">
-								<li>買過知識庫的用戶將不能再上課</li>
-								<li>用戶曾經的上課紀錄將被刪除</li>
-								<li>用戶對知識庫的留言以及評價將被刪除</li>
+								<li>買過知識庫的用戶將不能再存取</li>
 								<li>知識庫的章節也將被刪除</li>
 								<li>與知識庫連動的商品，將不再連動知識庫</li>
 							</ol>

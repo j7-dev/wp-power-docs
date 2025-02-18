@@ -3,16 +3,16 @@ import { TDocBaseRecord } from '@/pages/admin/Docs/List/types'
 import ToggleVisibility from './ToggleVisibility'
 import { ExportOutlined } from '@ant-design/icons'
 import { Tooltip, Button } from 'antd'
-import { DuplicateButton } from '@/components/general'
+import { CopyButton } from '@/components/general'
 
 export const PostActionComponent: FC<{
 	record: TDocBaseRecord
 }> = ({ record }) => {
 	return (
 		<div className="flex gap-1">
-			<DuplicateButton
+			<CopyButton
 				id={record?.id}
-				invalidateProps={{ resource: 'docs' }}
+				invalidateProps={{ resource: 'posts' }}
 				tooltipProps={{ title: '複製知識庫' }}
 			/>
 			<Tooltip title="開啟知識庫">
