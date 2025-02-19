@@ -44,9 +44,6 @@ final class Templates {
 		return \wp_normalize_path(Plugin::$dir . "/inc/templates/single-{$post_type}.php");
 	}
 
-
-
-
 	/**
 	 * 在管理員工具列中新增項目
 	 *
