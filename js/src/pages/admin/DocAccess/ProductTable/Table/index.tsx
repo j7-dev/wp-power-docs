@@ -99,13 +99,13 @@ const Main = () => {
 	const columns = useColumns()
 
 	// 已選商品身上的 知識庫觀看權限
-	const productAllBindDocsData = selectedRowKeys.map((key) => {
+	const productAllBindDocsData = selectedRowKeys?.map((key) => {
 		return tableProps?.dataSource?.find((product) => product.id === key)
 			?.bound_docs_data
 	})
 
 	// 已選商品變體身上的 知識庫觀看權限
-	const variationAllBindDocsData = selectedRowKeys.map((key) => {
+	const variationAllBindDocsData = selectedRowKeys?.map((key) => {
 		const allVariations = tableProps?.dataSource?.reduce((acc, product) => {
 			if (product.children) {
 				acc.push(...(product.children as TProductVariation[]))

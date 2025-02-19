@@ -68,7 +68,10 @@ const useColumns = () => {
 			dataIndex: 'bound_docs_data',
 			width: 320,
 
-			render: (data) => <ProductBoundItems items={data} />,
+			render: (data) => {
+				const items = Array.isArray(data) ? data : []
+				return <ProductBoundItems items={items} />
+			},
 		},
 		{
 			title: '商品分類 / 商品標籤',

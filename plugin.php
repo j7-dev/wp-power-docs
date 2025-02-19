@@ -52,17 +52,17 @@ final class Plugin {
 		self::$template_page_names = [ 'doc-landing', 'doc-detail', 'doc-search' ];
 
 		$this->required_plugins = [
-			// [
-			// 'name'     => 'WooCommerce',
-			// 'slug'     => 'woocommerce',
-			// 'required' => true,
-			// 'version'  => '7.6.0',
-			// ],
+			[
+				'name'     => 'WooCommerce',
+				'slug'     => 'woocommerce',
+				'required' => true,
+				'version'  => '7.6.0',
+			],
 			[
 				'name'     => 'Powerhouse',
 				'slug'     => 'powerhouse',
 				'source'   => 'https://github.com/j7-dev/wp-powerhouse/releases/latest/download/powerhouse.zip',
-				'version'  => '2.1.0',
+				'version'  => '3.0.0',
 				'required' => true,
 			],
 		];

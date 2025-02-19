@@ -3,15 +3,15 @@ import KeyWords from './KeyWords'
 import {
 	Form,
 	Input,
-	Select,
+	// Select,
 	Typography,
 	Button,
 	UploadFile,
 	Radio,
 } from 'antd'
 import {
-	termToOptions,
-	defaultSelectProps,
+	// termToOptions,
+	// defaultSelectProps,
 	Heading,
 	Switch,
 	CopyText,
@@ -26,7 +26,7 @@ const DescriptionComponent = () => {
 	const form = Form.useFormInstance()
 
 	// const { options, isLoading } = useOptions({ endpoint: 'courses/options' })
-	const { product_cats = [], product_tags = [] } = {}
+	// const { product_cats = [], product_tags = [] } = {}
 	const { SITE_URL = '', DOCS_POST_TYPE = '', ELEMENTOR_ENABLED } = useEnv()
 
 	const docsUrl = `${SITE_URL}/${DOCS_POST_TYPE}/`
@@ -107,11 +107,11 @@ const DescriptionComponent = () => {
 				<Item name={['id']} hidden normalize={() => undefined} />
 
 				<div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-					<Item name={['name']} label="知識庫名稱">
+					<Item name={['name']} label="知識庫名稱" className="xl:col-span-3">
 						<Input allowClear />
 					</Item>
 					{/* TODO: 知識庫分類 */}
-					<Item name={['category_ids']} label="知識庫分類" initialValue={[]}>
+					{/* <Item name={['category_ids']} label="知識庫分類" initialValue={[]}>
 						<Select
 							{...defaultSelectProps}
 							options={termToOptions(product_cats)}
@@ -126,7 +126,7 @@ const DescriptionComponent = () => {
 							placeholder="可多選"
 							disabled
 						/>
-					</Item>
+					</Item> */}
 				</div>
 				<div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 					<Item

@@ -10,6 +10,7 @@ namespace J7\PowerDocs;
 use J7\PowerDocs\Utils\Base;
 use J7\Powerhouse\Utils\Base as PowerhouseUtils;
 use Kucrut\Vite;
+use J7\Powerhouse\Settings\DTO as SettingsDTO;
 
 if ( class_exists( 'J7\PowerDocs\Bootstrap' ) ) {
 	return;
@@ -80,9 +81,9 @@ final class Bootstrap {
 				'APP_NAME'             => Plugin::$app_name,
 				'KEBAB'                => Plugin::$kebab,
 				'SNAKE'                => Plugin::$snake,
-				'BUNNY_LIBRARY_ID'     => \get_option( 'bunny_library_id', '' ),
-				'BUNNY_CDN_HOSTNAME'   => \get_option( 'bunny_cdn_hostname', '' ),
-				'BUNNY_STREAM_API_KEY' => \get_option( 'bunny_stream_api_key', '' ),
+				'BUNNY_LIBRARY_ID'     => SettingsDTO::instance()->bunny_library_id,
+				'BUNNY_CDN_HOSTNAME'   => SettingsDTO::instance()->bunny_cdn_hostname,
+				'BUNNY_STREAM_API_KEY' => SettingsDTO::instance()->bunny_stream_api_key,
 				'NONCE'                => \wp_create_nonce( 'wp_rest' ),
 				'APP1_SELECTOR'        => Base::APP1_SELECTOR,
 				'DOCS_POST_TYPE'       => \J7\PowerDocs\Domains\Doc\CPT::POST_TYPE,
