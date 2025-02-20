@@ -3,7 +3,7 @@
  * Plugin Name:       Power Docs
  * Plugin URI:        https://github.com/j7-dev/power-docs
  * Description:       用 WordPress 也能輕鬆做出豐富的知識庫頁面
- * Version:           0.0.1
+ * Version:           1.0.0
  * Requires at least: 5.7
  * Requires PHP:      8.0
  * Author:            J7
