@@ -11,6 +11,7 @@ namespace J7\PowerDocs\Helper;
  * 支援多層級標題的目錄生成
  */
 class TOCGenerator {
+
 	/**  @var \DOMDocument DOM 文檔物件 */
 	private $dom;
 
@@ -53,8 +54,8 @@ class TOCGenerator {
 		try {
 			// 先將 HTML 包裝在一個臨時的根元素中，以確保正確解析
 			$wrapped_html = sprintf(
-			'<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>%s</body></html>',
-			$html
+				'<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>%s</body></html>',
+				$html
 			);
 
 			// 轉換編碼
@@ -84,59 +85,41 @@ class TOCGenerator {
 			// 構建 XPath 查詢
 			$heading_query = '//h' . implode('|//h', $levels);
 			/**
-		 * @var DOMNodeList $heading_elements
-		 * DOMNodeList 物件有以下特性：
-		 * 1. 只有 length 屬性可用於檢查是否有標題
-		 * 2. 實現了 Traversable 介面，可用於 foreach 遍歷
-		 * 3. 每個元素都是 DOMElement 物件
-		 */
+			 * @var DOMNodeList $heading_elements
+			 * DOMNodeList 物件有以下特性：
+			 * 1. 只有 length 屬性可用於檢查是否有標題
+			 * 2. 實現了 Traversable 介面，可用於 foreach 遍歷
+			 * 3. 每個元素都是 DOMElement 物件
+			 */
 			$heading_elements = $this->xpath->query($heading_query);
 
 			if ($heading_elements->length === 0) {
 				return '';
 			}
 
-			$this->toc     = '<ul class="toc">' . PHP_EOL;
-			$current_level = 0;
-			$stack         = [];
+			$this->toc = '<ul class="pc-toc list-none pl-0">' . PHP_EOL;
 
 			foreach ($heading_elements as $heading) {
 				/** @var DOMElement $heading */
 				// 由於 nodeName 和 textContent 是 DOM 原生屬性，我們只能在賦值時改名
-			$level = (int) substr($heading->nodeName, 1); // phpcs:ignore
-			$text  = trim($heading->textContent); // phpcs:ignore
-				$id = \wp_unique_id();
+				$level = (int) substr($heading->nodeName, 1); // phpcs:ignore
+				$text  = trim($heading->textContent); // phpcs:ignore
+				$id    = 'toc-' . \wp_unique_id();
 
 				// 為標題添加 ID
 				$heading->setAttribute('id', $id);
 
-				// 處理縮排邏輯
-				while ($current_level > 0 && $level <= $current_level) {
-					$this->toc    .= '</ul>' . PHP_EOL;
-					$current_level = array_pop($stack);
-				}
-
-				if ($level > $current_level) {
-					if ($current_level > 0) {
-						$this->toc .= '<ul>' . PHP_EOL;
-					}
-					array_push($stack, $current_level);
-					$current_level = $level;
-				}
+				$padding_left = $level - $levels[0];
 
 				$this->toc .= sprintf(
-				'<li><a class="no-underline" href="#%1$s">%2$s</a></li>' . PHP_EOL,
-				htmlspecialchars($id),
-				htmlspecialchars($text)
+					/*html*/'
+					<li style="padding-left:%3$s">
+						<a class="no-underline text-base-content hover:text-primary text-sm" href="#%1$s">%2$s</a>
+					</li>' . PHP_EOL,
+					htmlspecialchars($id),
+					htmlspecialchars($text),
+					"{$padding_left}rem"
 				);
-			}
-
-			// 關閉剩餘的標籤
-			$stack_count = count($stack);  // 修正 count() in loop 的問題
-			while ($stack_count > 0) {
-				$this->toc .= '</ul>' . PHP_EOL;
-				array_pop($stack);
-				--$stack_count;
 			}
 
 			$this->toc .= '</ul>';

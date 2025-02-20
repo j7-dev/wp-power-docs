@@ -12,7 +12,9 @@ global $post;
 
 $post_content = get_post_field('post_content', $post->ID);
 
-$toc = new TOCGenerator($post_content);
+$toc          = new TOCGenerator($post_content);
+$toc_html     = $toc->get_toc_html();
+$content_html = $toc->get_html();
 
 Plugin::get('doc-detail/sider/mobile-menu');
 
@@ -30,13 +32,21 @@ echo /*html*/ '<div class="flex-1">';
 Plugin::get(
 	'doc-detail/main',
 	[
-		'content' => $toc->get_html(),
+		'content' => $content_html,
 	]
 	);
 echo /*html*/ '</div>';
 
-echo /*html*/ '<div class="w-72 tw-hidden xl:block">';
-echo $toc->get_toc_html();
+echo /*html*/ '<div id="doc-detail__toc" class="
+z-[10000]
+[&_#pd-toc]:py-4 pl-4 bg-base-200 h-screen overflow-auto w-3/4 max-[calc(100vw-3rem)] tw-fixed top-0 right-[-100%]
+[&_#pd-toc]:xl:py-0 xl:pl-0 xl:bg-transparent xl:h-auto xl:overflow-visible xl:w-72 xl:block xl:relative xl:top-[unset] xl:right-[unset]">';
+Plugin::get(
+	'doc-detail/toc',
+	[
+		'toc_html' => $toc_html,
+	]
+	);
 echo /*html*/ '</div>';
 
 echo /*html*/ '</div>';
