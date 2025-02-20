@@ -28,26 +28,28 @@ const mapping = [
 
 const { BUNNY_LIBRARY_ID, BUNNY_CDN_HOSTNAME, BUNNY_STREAM_API_KEY } = env
 
-mapping.forEach(({ els, App }) => {
-	if (!!els) {
-		els.forEach((el) => {
-			ReactDOM.createRoot(el).render(
-				<React.StrictMode>
-					<QueryClientProvider client={queryClient}>
-						<StyleProvider hashPriority="low">
-							<EnvProvider env={env}>
-								<BunnyProvider
-									bunny_library_id={BUNNY_LIBRARY_ID}
-									bunny_cdn_hostname={BUNNY_CDN_HOSTNAME}
-									bunny_stream_api_key={BUNNY_STREAM_API_KEY}
-								>
-									<App />
-								</BunnyProvider>
-							</EnvProvider>
-						</StyleProvider>
-					</QueryClientProvider>
-				</React.StrictMode>,
-			)
-		})
-	}
+document.addEventListener('DOMContentLoaded', () => {
+	mapping.forEach(({ els, App }) => {
+		if (!!els) {
+			els.forEach((el) => {
+				ReactDOM.createRoot(el).render(
+					<React.StrictMode>
+						<QueryClientProvider client={queryClient}>
+							<StyleProvider hashPriority="low">
+								<EnvProvider env={env}>
+									<BunnyProvider
+										bunny_library_id={BUNNY_LIBRARY_ID}
+										bunny_cdn_hostname={BUNNY_CDN_HOSTNAME}
+										bunny_stream_api_key={BUNNY_STREAM_API_KEY}
+									>
+										<App />
+									</BunnyProvider>
+								</EnvProvider>
+							</StyleProvider>
+						</QueryClientProvider>
+					</React.StrictMode>,
+				)
+			})
+		}
+	})
 })
