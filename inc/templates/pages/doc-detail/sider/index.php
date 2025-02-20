@@ -24,7 +24,7 @@ $html = $parent_id ? Utils::get_children_posts_html($parent_id) : '';
 	}
 </style>
 
-<div id="pd-sider" class="w-72 pr-2" style="display: none;border-right: 1px solid var(--fallback-bc,oklch(var(--bc)/.1));">
+<div id="pd-sider" class="w-full h-full pr-2" style="display: none;border-right: 1px solid var(--fallback-bc,oklch(var(--bc)/.1));">
 	<?php echo $html; ?>
 </div>
 

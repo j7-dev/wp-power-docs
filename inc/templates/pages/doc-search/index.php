@@ -31,7 +31,7 @@ $search_posts = $query->posts;
 
 Plugin::get('hero');
 
-echo /* html */ '<div class="container mx-auto mt-8 px-4">';
+echo /* html */ '<div class="tw-container mx-auto mt-8 px-4">';
 
 
 Plugin::get('breadcrumb/search');
