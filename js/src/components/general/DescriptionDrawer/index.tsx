@@ -25,8 +25,6 @@ const DescriptionDrawerComponent: FC<TDescriptionDrawerProps | undefined> = (
 	const apiUrl = useApiUrl()
 	const form = Form.useFormInstance()
 	const watchId = Form.useWatch(['id'], form)
-	const watchShowDescriptionTab =
-		Form.useWatch(['show_description_tab'], form) === 'yes'
 
 	const { blockNoteViewProps, html, setHTML } = useBlockNote({
 		apiConfig: {
@@ -63,8 +61,6 @@ const DescriptionDrawerComponent: FC<TDescriptionDrawerProps | undefined> = (
 		}
 	}, [watchId, open])
 
-	const canElementor = watchId && watchShowDescriptionTab
-
 	return (
 		<div>
 			<p className="mb-2">編輯</p>
@@ -77,13 +73,8 @@ const DescriptionDrawerComponent: FC<TDescriptionDrawerProps | undefined> = (
 							{
 								key: 'elementor',
 								label: (
-									<Tooltip
-										title={getTooltipTitle(
-											canElementor,
-											watchShowDescriptionTab,
-										)}
-									>
-										{canElementor ? (
+									<Tooltip title={getTooltipTitle(ELEMENTOR_ENABLED)}>
+										{ELEMENTOR_ENABLED ? (
 											<a
 												href={`${SITE_URL}/wp-admin/post.php?post=${watchId}&action=elementor`}
 												target="_blank"
@@ -96,7 +87,7 @@ const DescriptionDrawerComponent: FC<TDescriptionDrawerProps | undefined> = (
 										)}
 									</Tooltip>
 								),
-								disabled: !canElementor,
+								disabled: !ELEMENTOR_ENABLED,
 							},
 						],
 					}}
@@ -166,16 +157,11 @@ const DescriptionDrawerComponent: FC<TDescriptionDrawerProps | undefined> = (
 	)
 }
 
-function getTooltipTitle(
-	canElementor: boolean,
-	watchShowDescriptionTab: boolean,
-) {
+function getTooltipTitle(canElementor: boolean) {
 	if (canElementor) {
 		return ''
 	}
-	return watchShowDescriptionTab
-		? '先儲存後就可以使用 Elementor 編輯了'
-		: '您必須「其他設定 》 顯示介紹」才可以使用 Elementor 編輯'
+	return '您必須安裝並啟用 Elementor 外掛才可以使用 Elementor 編輯'
 }
 
 export const DescriptionDrawer = memo(DescriptionDrawerComponent)
