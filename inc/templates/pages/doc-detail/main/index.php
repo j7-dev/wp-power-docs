@@ -10,9 +10,12 @@ use J7\PowerDocs\Plugin;
 
 global $post;
 
+/** @var array{content: string} $args */
+@[
+	'content' => $content,
+] = $args;
 
-
-echo /*html*/'<div class="px-8 pb-6 pt-0">';
+echo /*html*/'<div class="px-0 xl:px-8 pb-6 pt-0">';
 
 echo /*html*/'<div class="flex justify-end">';
 Plugin::get(
@@ -32,7 +35,12 @@ $post->post_title
 );
 
 echo '<div class="bn-container">';
-the_content();
+// 如果是 elementor 編輯或者 elementor 預覽，就用 the_content
+if (isset($_GET['elementor-preview']) || !$content) {
+	the_content();
+} else {
+	echo $content;
+}
 echo '</div>';
 
 echo /*html*/'<div class="pc-divider my-6"></div>';

@@ -5,6 +5,14 @@
  */
 
 use J7\PowerDocs\Plugin;
+use J7\PowerDocs\Helper\TOCGenerator;
+
+
+global $post;
+
+$post_content = get_post_field('post_content', $post->ID);
+
+$toc = new TOCGenerator($post_content);
 
 Plugin::get('doc-detail/sider/mobile-menu');
 
@@ -19,11 +27,16 @@ Plugin::get('doc-detail/sider');
 echo /*html*/ '</div>';
 
 echo /*html*/ '<div class="flex-1">';
-Plugin::get('doc-detail/main');
+Plugin::get(
+	'doc-detail/main',
+	[
+		'content' => $toc->get_html(),
+	]
+	);
 echo /*html*/ '</div>';
 
 echo /*html*/ '<div class="w-72 tw-hidden xl:block">';
-
+echo $toc->get_toc_html();
 echo /*html*/ '</div>';
 
 echo /*html*/ '</div>';
