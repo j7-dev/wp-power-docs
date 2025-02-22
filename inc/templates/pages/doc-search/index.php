@@ -81,13 +81,14 @@ echo /* html */ '</div>';
 			}
 
 			function highlightText(keyword) {
-				const regex = new RegExp(`(${keyword})`, 'g');
+				// 建立不區分大小寫的正則表達式
+				const regex = new RegExp(`(${keyword})`, 'gi');
 				$('#pc-search-results').find('*').contents().filter(function() {
 					// 節點的純文字
 					return this.nodeType === 3;
 				}).each(function() {
-					const text = $(this).text();
-					if (text.includes(keyword)) {
+					const text = $(this).text() || '';
+					if (text.toLowerCase().includes(keyword.toLowerCase())) {
 						const wrapped = text.replace(regex, `<span class="bg-warning">$1</span>`);
 						$(this).replaceWith(wrapped)
 					}
