@@ -163,6 +163,9 @@ const UserTableComponent = ({
 										meta_value: 'yes',
 									}),
 								}}
+								useInvalidateProp={{
+									dataProviderName: 'power-docs',
+								}}
 							/>
 						</div>
 					</>
@@ -193,12 +196,18 @@ const UserTableComponent = ({
 									onSettled={() => {
 										setSelectedGCDs([])
 									}}
+									useInvalidateProp={{
+										dataProviderName: 'power-docs',
+									}}
 								/>
 								<RevokeUsers
 									user_ids={selectedRowKeys}
 									item_ids={selectedGCDs}
 									onSettled={() => {
 										setSelectedGCDs([])
+									}}
+									useInvalidateProp={{
+										dataProviderName: 'power-docs',
 									}}
 								/>
 							</div>

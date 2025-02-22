@@ -96,7 +96,9 @@ function App() {
 										<BackToWpAdmin collapsed={collapsed} />
 									)}
 								>
-									<Outlet />
+									<div className="pb-32">
+										<Outlet />
+									</div>
 									<MediaLibraryIndicator />
 								</ThemedLayoutV2>
 							</ConfigProvider>
