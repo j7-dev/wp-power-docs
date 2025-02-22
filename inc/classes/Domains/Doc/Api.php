@@ -144,7 +144,7 @@ final class Api extends ApiBase {
 			return $args;
 		}
 
-		// 只有頂層需要 pd_keywords_label
+		// 只有頂層需要 pd_keywords_label，不是頂層，有 post_parent 的話就離開
 		if ($args['post_parent']) {
 			return $args;
 		}

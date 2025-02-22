@@ -3,7 +3,7 @@ import { Edit, useForm } from '@refinedev/antd'
 import { Tabs, TabsProps, Form, Switch, Modal, Button } from 'antd'
 import { Description, SortablePosts } from './tabs'
 import { useAtom } from 'jotai'
-import { TDocRecord } from '@/pages/admin/Docs/List/types'
+import { TDocRecord, TDocBaseRecord } from '@/pages/admin/Docs/List/types'
 import { useParsed } from '@refinedev/core'
 import { PostEdit } from './PostEdit'
 import { UserTable } from '@/components/user'
@@ -59,30 +59,29 @@ const EditComponent = () => {
 	const watchName = Form.useWatch(['name'], form)
 	const watchId = Form.useWatch(['id'], form)
 	const watchStatus = Form.useWatch(['status'], form)
-	const watchNeedAccess: boolean =
-		Form.useWatch(['need_access'], form) === 'yes'
 
-	const items = watchNeedAccess
-		? [
-				...defaultItems,
-				{
-					key: 'Users',
-					forceRender: false,
-					label: '權限管理',
-					children: (
-						<UserTable
-							canGrantCourseAccess={true}
-							cardProps={{
-								showCard: false,
-							}}
-							initialValues={{
-								granted_docs: [watchId],
-							}}
-						/>
-					),
-				},
-			]
-		: defaultItems
+	const record: TDocBaseRecord | undefined = query?.data?.data
+
+	const items = [
+		...defaultItems,
+		{
+			key: 'Users',
+			forceRender: false,
+			label: '權限管理',
+			disabled: record?.need_access !== 'yes',
+			children: (
+				<UserTable
+					canGrantCourseAccess={true}
+					cardProps={{
+						showCard: false,
+					}}
+					initialValues={{
+						granted_docs: [watchId],
+					}}
+				/>
+			),
+		},
+	]
 
 	// 處理 media library
 	// 處理 media library

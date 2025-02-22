@@ -16,6 +16,12 @@ export type TDocBaseRecord = {
 	tag_ids: TTerm[]
 	images: TImage[]
 	parent_id: string
+	bg_images: TImage[]
+	editor: 'default' | 'elementor'
+	need_access: 'yes' | 'no' | ''
+	pd_keywords: string[]
+	pd_keywords_label: string
+	unauthorized_redirect_url: string
 }
 
 // Edit, Show, Create 會拿全部的欄位
