@@ -19,7 +19,7 @@ const DEFAULT_KEYWORDS = [
 
 const KeyWords = () => {
 	const form = Form.useFormInstance()
-	const watchKeywords = Form.useWatch(['pd_keywords'], form)
+	const keywords = form.getFieldValue(['pd_keywords'])
 
 	return (
 		<div>
@@ -28,7 +28,7 @@ const KeyWords = () => {
 			</Item>
 			<SortableList<SchemaItem>
 				renderEmpty={() => <Empty description="目前沒有關鍵字" />}
-				value={Array.isArray(watchKeywords) ? watchKeywords : DEFAULT_KEYWORDS}
+				value={Array.isArray(keywords) ? keywords : DEFAULT_KEYWORDS}
 				onChange={(data, event) => {
 					form.setFieldValue(['pd_keywords'], data)
 				}}
@@ -37,10 +37,13 @@ const KeyWords = () => {
 				)}
 				creatorButtonProps={{
 					creatorButtonText: '新增關鍵字',
-					record: () => ({
-						id: nanoid(),
-						title: '',
-					}),
+					record: () => {
+						const id = nanoid()
+						return {
+							id,
+							title: '',
+						}
+					},
 					style: {
 						margin: '8px 18px 0 18px',
 						width: 'calc(100% - 46px)',

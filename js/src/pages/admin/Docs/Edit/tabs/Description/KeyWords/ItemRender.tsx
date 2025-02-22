@@ -5,16 +5,16 @@ import { Form } from 'antd'
 
 const { Item } = Form
 
-const ItemRender = memo(({ item, index }: any) => {
-	const form = Form.useFormInstance()
+const ItemRender = ({ item, index }: any) => {
 	const instance = useSortableList()
 
 	const updateTitle = (value: string) => {
-		form.setFieldValue(['pd_keywords', index, 'title'], value)
+		instance.updateItem({ ...item, title: value }, index)
 	}
 
 	const handleNextFocus = () => {
 		const value = instance.getValue() || []
+
 		// 如果是最後一個節點，按下 Enter 後，會自動新增一個新的節點
 		if (index + 1 === value.length) {
 			const id = nanoid()
@@ -42,6 +42,6 @@ const ItemRender = memo(({ item, index }: any) => {
 			<Item name={['pd_keywords', index, 'id']} hidden />
 		</>
 	)
-})
+}
 
-export default ItemRender
+export default memo(ItemRender)
