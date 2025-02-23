@@ -1,6 +1,6 @@
 {
 	"name": "power-docs",
-	"version": "1.0.11",
+	"version": "1.0.12",
 	"type": "module",
 	"scripts": {
 		"bootstrap": "yarn install && composer install --no-interaction",
