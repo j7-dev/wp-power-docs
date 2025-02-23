@@ -74,7 +74,6 @@ echo /* html */ '</div>';
 			// 取得 url params 上的 search 參數
 			const urlParams = new URLSearchParams(window.location.search);
 			const search = urlParams.get('search');
-			console.log(search);
 
 			if(search){
 				highlightText(search);

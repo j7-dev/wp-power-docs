@@ -40,6 +40,8 @@ const EditComponent = () => {
 			resource: 'posts',
 			id,
 			redirect: false,
+			successNotification: false,
+			errorNotification: false,
 			queryMeta: {
 				variables: {
 					with_description: 'true',

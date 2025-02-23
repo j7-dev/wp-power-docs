@@ -23,6 +23,8 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 		},
 		invalidates: ['list', 'detail'],
 		warnWhenUnsavedChanges: true,
+		successNotification: false,
+		errorNotification: false,
 	})
 
 	// 取得課程深度，用來判斷是否為子章節
@@ -43,7 +45,6 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 	// 將 permalink 找出 slug 以外的剩餘字串
 	const docsUrl = permalink.replace(`${slug}/`, '')
 
-	console.log('⭐  docsUrl:', docsUrl)
 	return (
 		<Edit
 			resource="posts"

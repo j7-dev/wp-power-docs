@@ -8,7 +8,10 @@ import { toFormData } from 'antd-toolkit'
 const ToggleVisibility: FC<{
 	record: TDocBaseRecord
 }> = ({ record }) => {
-	const { mutate: update, isLoading } = useUpdate()
+	const { mutate: update, isLoading } = useUpdate({
+		successNotification: false,
+		errorNotification: false,
+	})
 	const { id, status } = record
 	const isPublished = status === 'publish'
 
