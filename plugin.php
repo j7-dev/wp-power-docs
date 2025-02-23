@@ -72,7 +72,6 @@ final class Plugin {
 				'app_name'    => 'Power Docs',
 				'github_repo' => 'https://github.com/j7-dev/wp-power-docs',
 				'callback'    => [ Bootstrap::class, 'instance' ],
-				'lc'          => false,
 			]
 		);
 	}

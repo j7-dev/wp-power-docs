@@ -10,7 +10,6 @@ if ( class_exists( 'J7\PowerDocs\Domains\Elementor\Search' ) ) {
 }
 
 use J7\PowerDocs\Plugin;
-use J7\PowerDocs\Domains\Doc\CPT;
 
 /**
  * Search
