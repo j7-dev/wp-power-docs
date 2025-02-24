@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace J7\PowerDocs\Domains\Doc;
 
 use J7\PowerDocs\Plugin;
+use J7\Powerhouse\Domains\Post\Utils as PostUtils;
 
 /**
  * 知識庫模板
@@ -74,7 +75,10 @@ final class Templates {
 		}
 
 		$post_id       = (int) $post->ID;
-		$top_parent_id = Utils::get_top_doc_id( $post_id );
+		$top_parent_id = PostUtils::get_top_post_id( $post_id );
+		if ( ! $top_parent_id ) {
+			return;
+		}
 		// 是課程銷售頁就顯示課程編輯
 		$admin_bar->add_menu(
 			[

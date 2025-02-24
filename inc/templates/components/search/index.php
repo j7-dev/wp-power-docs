@@ -3,7 +3,7 @@
  * 搜尋組件
  */
 
-use J7\PowerDocs\Domains\Doc\Utils;
+use J7\Powerhouse\Domains\Post\Utils as PostUtils;
 
 $search = $_GET['search'] ?? ''; // phpcs:ignore
 
@@ -13,7 +13,7 @@ $search = $_GET['search'] ?? ''; // phpcs:ignore
 ] = $args;
 
 global $post;
-$top_parent_id = Utils::get_top_doc_id( $post->ID );
+$top_parent_id = PostUtils::get_top_post_id( $post->ID );
 $top_parent_id = $top_parent_id ?? $post->ID;
 
 printf(

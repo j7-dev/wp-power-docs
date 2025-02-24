@@ -228,7 +228,7 @@ abstract class Utils {
 	public static function update_chapter( string $id, array $args ): int|\WP_Error {
 
 		$args['ID']            = $id;
-		$args['post_title']    = $args['post_title'] ?? '新章節';
+		$args['post_title']    = $args['post_title'] ?? '新文件';
 		$args['post_status']   = $args['status'] ?? 'publish';
 		$args['post_author']   = \get_current_user_id();
 		$args['post_type']     = CPT::POST_TYPE;
@@ -239,22 +239,6 @@ abstract class Utils {
 
 		return $update_result;
 	}
-
-	/**
-	 * 取得最上層的文件 ID
-	 *
-	 * @param int $doc_id 文件 ID.
-	 * @return int|null
-	 */
-	public static function get_top_doc_id( int $doc_id ): int|null {
-		$ancestors = \get_post_ancestors( $doc_id );
-		if ( empty( $ancestors ) ) {
-			return null;
-		}
-		// 取最後一個
-		return $ancestors[ count( $ancestors ) - 1 ] ?? null;
-	}
-
 
 	/**
 	 * 取得子章節的 HTML

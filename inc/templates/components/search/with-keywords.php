@@ -1,7 +1,8 @@
 <?php
 
 use J7\PowerDocs\Plugin;
-use J7\PowerDocs\Domains\Doc\Utils;
+use J7\Powerhouse\Domains\Post\Utils as PostUtils;
+
 global $post;
 
 /** @var array{post: \WP_Post} $args */
@@ -17,7 +18,7 @@ if ( ! ( $the_post instanceof \WP_Post ) ) {
 	return;
 }
 
-$top_parent_id = Utils::get_top_doc_id( $the_post->ID );
+$top_parent_id = PostUtils::get_top_post_id( $the_post->ID );
 $top_parent_id = $top_parent_id ?? $the_post->ID;
 
 /** @var array<array{id: string, title: string}>|'' $badges */
@@ -61,11 +62,13 @@ printf(
 ?>
 <script type="module" async>
 	(function($){
-		$('.pc-form-control .pc-keywords').on('click', '.pc-badge', function(){
-			const keyword = $(this).text();
-			const $form = $(this).closest('.pc-form-control');
-			const $input = $form.find('.pc-search-input');
-			$input.val(keyword);
+		$(document).ready(function(){
+			$('.pc-form-control .pc-keywords').on('click', '.pc-badge', function(){
+				const keyword = $(this).text();
+				const $form = $(this).closest('.pc-form-control');
+				const $input = $form.find('.pc-search-input');
+				$input.val(keyword);
+			})
 		})
 	})(jQuery)
 
