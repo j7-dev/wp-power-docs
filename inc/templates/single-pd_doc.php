@@ -13,8 +13,8 @@ global $post;
 $parent_id = $post->post_parent ? PostUtils::get_top_post_id($post->ID) : $post->ID;
 
 $can_access = Access::can_access( (int) $parent_id);
-// 判斷用戶是否為 admin
-$is_admin = \current_user_can('administrator');
+// 判斷用戶是否可以 manage_options
+$is_admin = \current_user_can('manage_options');
 
 if (!$can_access && !$is_admin) {
 	// 沒有權限，跳到404
