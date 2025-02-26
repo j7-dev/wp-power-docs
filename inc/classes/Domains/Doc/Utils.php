@@ -241,7 +241,18 @@ abstract class Utils {
 	}
 
 	/**
-	 * 取得子章節的 HTML
+	 * 取得快取 key
+	 *
+	 * @param int    $post_id 章節 ID.
+	 * @param string $key 快取 key.
+	 * @return string
+	 */
+	public static function get_cache_key( int $post_id, string $key = 'get_children_posts_html' ): string {
+		return "power_docs_{$key}_{$post_id}";
+	}
+
+	/**
+	 * 取得子章節的 HTML (判斷快取)
 	 *
 	 * @param int                       $post_id 章節 ID.
 	 * @param array<int, \WP_Post>|null $children_posts 子章節.
@@ -249,10 +260,32 @@ abstract class Utils {
 	 * @return string
 	 */
 	public static function get_children_posts_html( int $post_id, array $children_posts = null, $depth = 0 ): string {
-		global $post;
+		$cache_key = self::get_cache_key( $post_id );
+		$html      = \get_transient( $cache_key );
+
+		if ( $html ) {
+			return $html;
+		}
+
+		$html = self::get_children_posts_html_uncached( $post_id, $children_posts, $depth );
+		\set_transient( $cache_key, $html, 60 * 60 * 24 );
+
+		return $html;
+	}
+
+	/**
+	 * 取得子章節的 HTML
+	 *
+	 * @param int                       $post_id 章節 ID.
+	 * @param array<int, \WP_Post>|null $children_posts 子章節.
+	 * @param int                       $depth 深度.
+	 * @return string
+	 */
+	public static function get_children_posts_html_uncached( int $post_id, array $children_posts = null, $depth = 0 ): string {
+		global $post; // 當前文章
 
 		$html           = '';
-		$children_posts = $children_posts === null ? get_posts(
+		$children_posts = $children_posts === null ? \get_posts(
 			[
 				'post_type'      => CPT::POST_TYPE,
 				'post_parent'    => $post_id,
@@ -277,7 +310,7 @@ abstract class Utils {
 		foreach ($children_posts as $child_post) {
 
 			// 取得子章節的子章節
-			$child_children_posts = get_posts(
+			$child_children_posts = \get_posts(
 			[
 				'post_type'      => CPT::POST_TYPE,
 				'post_parent'    => $child_post->ID,
@@ -297,7 +330,7 @@ abstract class Utils {
 				%3$s
 			</li>
 			',
-			get_the_permalink($child_post->ID),
+			\get_the_permalink($child_post->ID),
 			$child_post->post_title,
 				// 如果有子章節，就顯示箭頭
 			$child_children_posts ? /*html*/'
@@ -307,7 +340,7 @@ abstract class Utils {
 			' : '',
 			( $depth + 1 ) . 'rem',
 			$child_post->ID,
-			$child_post->ID === $post->ID ? 'bg-primary/10 font-bold [&>a]:text-primary' : 'font-normal [&>a]:text-base-content'
+			$child_post->ID === $post->ID ? 'bg-primary/10 font-bold [&>a]:text-primary' : 'font-normal [&>a]:text-base-content' // 如果是當前文章，就顯示 primary 顏色
 			);
 
 			// 沒有子章節就結束

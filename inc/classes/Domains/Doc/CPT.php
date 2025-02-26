@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace J7\PowerDocs\Domains\Doc;
 
 use J7\PowerDocs\Plugin;
+use J7\Powerhouse\Domains\Post\Utils as PostUtils;
 
 /**
  * Class CPT
@@ -15,12 +16,11 @@ final class CPT {
 
 	public const POST_TYPE = 'pd_doc';
 
-	/**
-	 * Constructor
-	 */
+	/** Constructor */
 	public function __construct() {
 		\add_action( 'init', [ $this, 'init' ] );
 		\add_filter('option_elementor_cpt_support', [ $this, 'add_elementor_cpt_support' ]);
+		\add_action('save_post_' . self::POST_TYPE, [ $this, 'handle_doc_saved' ], 10, 3);
 	}
 
 
@@ -111,5 +111,24 @@ final class CPT {
 	public function add_elementor_cpt_support( $value ): array {
 		$value[] = self::POST_TYPE;
 		return $value;
+	}
+
+	/**
+	 * 處理文章儲存後的動作
+	 *
+	 * @param int     $post_id Post ID
+	 * @param WP_Post $post Post object
+	 * @param bool    $update Whether this is an existing post being updated
+	 */
+	public function handle_doc_saved( $post_id, $post, $update ): void {
+		// 避免自動儲存
+		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+			return;
+		}
+
+		// 清除快取
+		$top_parent_id = PostUtils::get_top_post_id( $post_id );
+		$cache_key     = Utils::get_cache_key( $top_parent_id );
+		\delete_transient( $cache_key );
 	}
 }
