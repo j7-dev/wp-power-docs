@@ -19,7 +19,6 @@ if ( ! ( $the_post instanceof \WP_Post ) ) {
 }
 
 $top_parent_id = PostUtils::get_top_post_id( $the_post->ID );
-$top_parent_id = $top_parent_id ?? $the_post->ID;
 
 /** @var array<array{id: string, title: string}>|'' $badges */
 $badges = get_post_meta( $top_parent_id, 'pd_keywords', true );

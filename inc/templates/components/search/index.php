@@ -14,7 +14,6 @@ $search = $_GET['search'] ?? ''; // phpcs:ignore
 
 global $post;
 $top_parent_id = PostUtils::get_top_post_id( $post->ID );
-$top_parent_id = $top_parent_id ?? $post->ID;
 
 printf(
 /*html*/'

@@ -23,15 +23,15 @@ if (!( $the_post instanceof \WP_Post )) {
 	return;
 }
 
-$parent_id = PostUtils::get_top_post_id($the_post->ID);
+$top_parent_id = PostUtils::get_top_post_id($the_post->ID);
 
-if (!$parent_id) {
+if ($top_parent_id === $the_post->ID) {
 	// 如果沒有父章節，自己就是頂層
 	Plugin::get('breadcrumb/top');
 	return;
 }
 
-$breadcrumb_post_ids = Utils::get_breadcrumb_post_ids($the_post->ID, $parent_id);
+$breadcrumb_post_ids = Utils::get_breadcrumb_post_ids($the_post->ID, $top_parent_id);
 
 printf(
 /*html*/'

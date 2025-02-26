@@ -10,15 +10,15 @@ use J7\Powerhouse\Theme\FrontEnd as Theme;
 
 global $post;
 
-$parent_id = $post->post_parent ? PostUtils::get_top_post_id($post->ID) : $post->ID;
+$top_parent_id = PostUtils::get_top_post_id($post->ID);
 
-$can_access = Access::can_access( (int) $parent_id);
+$can_access = Access::can_access( (int) $top_parent_id);
 // 判斷用戶是否可以 manage_options
 $is_admin = \current_user_can('manage_options');
 
 if (!$can_access && !$is_admin) {
 	// 沒有權限，跳到404
-	$unauthorized_redirect_url = get_post_meta($parent_id, 'unauthorized_redirect_url', true) ?: site_url('404');
+	$unauthorized_redirect_url = get_post_meta($top_parent_id, 'unauthorized_redirect_url', true) ?: site_url('404');
 	/** @var string $unauthorized_redirect_url */
 	wp_safe_redirect($unauthorized_redirect_url);
 	exit;

@@ -76,9 +76,7 @@ final class Templates {
 
 		$post_id       = (int) $post->ID;
 		$top_parent_id = PostUtils::get_top_post_id( $post_id );
-		if ( ! $top_parent_id ) {
-			return;
-		}
+
 		// 是課程銷售頁就顯示課程編輯
 		$admin_bar->add_menu(
 			[

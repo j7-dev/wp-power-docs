@@ -8,9 +8,9 @@ use J7\Powerhouse\Domains\Post\Utils as PostUtils;
 global $post;
 
 
-$parent_id = PostUtils::get_top_post_id($post->ID);
+$top_parent_id = PostUtils::get_top_post_id($post->ID);
 
-$all_children_ids = PostUtils::get_flatten_post_ids( (int) $parent_id);
+$all_children_ids = PostUtils::get_flatten_post_ids( $top_parent_id);
 
 // find index of current post id
 /** @var int|false $current_post_index */

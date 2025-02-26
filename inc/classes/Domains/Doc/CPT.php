@@ -20,7 +20,7 @@ final class CPT {
 	public function __construct() {
 		\add_action( 'init', [ $this, 'init' ] );
 		\add_filter('option_elementor_cpt_support', [ $this, 'add_elementor_cpt_support' ]);
-		\add_action('save_post_' . self::POST_TYPE, [ $this, 'handle_doc_saved' ], 10, 3);
+		\add_action('save_post_' . self::POST_TYPE, [ $this, 'delete_transient' ], 10, 3);
 	}
 
 
@@ -120,7 +120,7 @@ final class CPT {
 	 * @param WP_Post $post Post object
 	 * @param bool    $update Whether this is an existing post being updated
 	 */
-	public function handle_doc_saved( $post_id, $post, $update ): void {
+	public function delete_transient( $post_id, $post, $update ): void {
 		// 避免自動儲存
 		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 			return;

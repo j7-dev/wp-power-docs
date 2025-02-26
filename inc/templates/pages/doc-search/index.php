@@ -8,8 +8,8 @@ use J7\PowerDocs\Domains\Doc\CPT;
 use J7\Powerhouse\Domains\Post\Utils as PostUtils;
 
 global $post;
-$parent_id        = $post->post_parent ? PostUtils::get_top_post_id($post->ID) : $post->ID;
-$all_children_ids = PostUtils::get_flatten_post_ids( (int) $parent_id);
+$top_parent_id    = PostUtils::get_top_post_id($post->ID);
+$all_children_ids = PostUtils::get_flatten_post_ids( $top_parent_id);
 
 $search = $_GET['search'] ?? ''; // phpcs:ignore
 $to     = $_GET['to'] ?? 1; // phpcs:ignore
@@ -21,7 +21,7 @@ $query = new \WP_Query(
 		'paged'          => $to,
 		's'              => $search,
 		'post__in'       => [
-			$parent_id,
+			$top_parent_id,
 			...$all_children_ids,
 		],
 	]
