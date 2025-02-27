@@ -9,7 +9,7 @@ if ( class_exists( 'J7\PowerDocs\Domains\Elementor\Card' ) ) {
 	return;
 }
 
-use J7\PowerDocs\Plugin;
+use J7\Powerhouse\Plugin as Powerhouse;
 use J7\PowerDocs\Domains\Doc\CPT;
 
 /**
@@ -79,7 +79,7 @@ final class Card extends \Elementor\Widget_Base {
 		}
 		$post = \get_post( $settings['post_id'] );
 
-		Plugin::get(
+		Powerhouse::load_template(
 			'card',
 			[
 				'post' => $post,

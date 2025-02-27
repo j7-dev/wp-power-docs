@@ -6,7 +6,7 @@
  *  - 子章節
  */
 
-use J7\PowerDocs\Plugin;
+use J7\Powerhouse\Plugin as Powerhouse;
 
 global $post;
 
@@ -18,7 +18,7 @@ global $post;
 echo /*html*/'<div class="px-0 xl:px-8 pb-6 pt-0">';
 
 echo /*html*/'<div class="flex justify-end">';
-Plugin::get(
+Powerhouse::load_template(
 	'search',
 	[
 		'class' => 'w-full md:w-[20rem] mb-4 md:mb-0',
@@ -26,7 +26,7 @@ Plugin::get(
 	);
 echo /*html*/'</div>';
 
-Plugin::get('breadcrumb');
+Powerhouse::load_template('breadcrumb');
 
 printf(
 /*html*/'<h1 class="text-2xl md:text-4xl font-black mb-10 md:mb-20">%1$s</h1>
@@ -45,8 +45,8 @@ echo '</div>';
 
 echo /*html*/'<div class="pc-divider my-6"></div>';
 
-Plugin::get('related-posts/children');
-Plugin::get('related-posts/prev-next');
+Powerhouse::load_template('related-posts/children');
+Powerhouse::load_template('related-posts/prev-next');
 
 echo /*html*/'<div class="pc-divider mt-6"></div>';
 

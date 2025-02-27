@@ -31,10 +31,10 @@ get_header();
 echo '<div class="bg-base-200 pb-20">';
 
 if ($search) {
-	Plugin::get('doc-search');
+	Plugin::load_template('doc-search');
 } else {
 	// 如果是頂層就顯示 doc-landing，否則顯示 doc-detail
-	Plugin::get($post->post_parent ? 'doc-detail' : 'doc-landing');
+	Plugin::load_template($post->post_parent ? 'doc-detail' : 'doc-landing');
 }
 
 echo '</div>';

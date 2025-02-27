@@ -3,7 +3,7 @@
  * 知識庫首頁
  */
 
-use J7\PowerDocs\Plugin;
+use J7\Powerhouse\Plugin as Powerhouse;
 use J7\PowerDocs\Domains\Doc\CPT;
 use J7\Powerhouse\Domains\Post\Utils as PostUtils;
 
@@ -29,12 +29,12 @@ $query = new \WP_Query(
 
 $search_posts = $query->posts;
 
-Plugin::get('hero');
+Powerhouse::load_template('hero');
 
 echo /* html */ '<div class="tw-container mx-auto mt-8 px-4">';
 
 
-Plugin::get('breadcrumb/search');
+Powerhouse::load_template('breadcrumb/search');
 
 // 所有分類區塊
 printf(
@@ -47,7 +47,7 @@ printf(
 
 echo '<div id="pc-search-results">';
 foreach ($search_posts as $search_post) {
-	Plugin::get(
+	Powerhouse::load_template(
 		'list',
 		[
 			'post' => $search_post,
@@ -56,7 +56,7 @@ foreach ($search_posts as $search_post) {
 }
 echo '</div>';
 echo '<div class="flex justify-center my-8">';
-Plugin::get(
+Powerhouse::load_template(
 	'pagination',
 	[
 		'query' => $query,

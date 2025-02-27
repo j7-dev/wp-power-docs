@@ -9,7 +9,7 @@ if ( class_exists( 'J7\PowerDocs\Domains\Elementor\Search' ) ) {
 	return;
 }
 
-use J7\PowerDocs\Plugin;
+use J7\Powerhouse\Plugin as Powerhouse;
 
 /**
  * Search
@@ -70,6 +70,6 @@ final class Search extends \Elementor\Widget_Base {
 	 * @return void
 	 */
 	protected function render(): void {
-		Plugin::get('search/with-keywords');
+		Powerhouse::load_template('search/with-keywords');
 	}
 }

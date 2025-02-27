@@ -3,7 +3,7 @@
  * 知識庫首頁
  */
 
-use J7\PowerDocs\Plugin;
+use J7\Powerhouse\Plugin as Powerhouse;
 use J7\PowerDocs\Domains\Doc\CPT;
 
 global $post;
@@ -29,7 +29,7 @@ $children_posts = get_posts(
 	]
 	);
 
-Plugin::get('hero');
+Powerhouse::load_template('hero');
 
 echo /* html */'<div class="tw-container mx-auto mt-8 px-4">';
 
@@ -38,7 +38,7 @@ echo /* html */'<h6 class="text-lg md:text-2xl text-content mb-6">瀏覽所有�
 echo /* html */'<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-8 xl:gap-14">';
 
 foreach ($children_posts as $child_post) {
-	Plugin::get(
+	Powerhouse::load_template(
 		'card',
 		[
 			'post' => $child_post,
