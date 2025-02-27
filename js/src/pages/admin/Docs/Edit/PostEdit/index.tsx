@@ -103,11 +103,12 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 		>
 			<Form {...formProps} onFinish={handleOnFinish} layout="vertical">
 				<Item name={['name']} label={'名稱'}>
-					<Input />
+					<Input allowClear />
 				</Item>
 
 				<Item name={['slug']} label="網址">
 					<Input
+						allowClear
 						addonBefore={
 							<Text className="max-w-[25rem] text-left" ellipsis>
 								{docsUrl}

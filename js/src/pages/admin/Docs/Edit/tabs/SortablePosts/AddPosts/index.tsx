@@ -1,8 +1,8 @@
-import React, { memo, useEffect } from 'react'
-import { Space, Select, InputNumber, Button, Form } from 'antd'
+import { memo } from 'react'
+import { Space, InputNumber, Button, Form } from 'antd'
 import { useCreate, useParsed } from '@refinedev/core'
 import { TDocRecord } from '@/pages/admin/Docs/List/types'
-import { defaultSelectProps, useEnv } from 'antd-toolkit'
+import { useEnv } from 'antd-toolkit'
 
 const { Item } = Form
 
@@ -17,12 +17,6 @@ const AddPosts = ({ records }: { records: TDocRecord[] }) => {
 	const { id } = useParsed()
 
 	const [form] = Form.useForm<TFormValues>()
-	const watchDepth = Form.useWatch(['depth'], form) || 0
-	const watchQty = Form.useWatch(['qty'], form) || 0
-	const watchPostParents = Form.useWatch(['post_parents'], form) || []
-	const canAdd =
-		(watchDepth === 0 && watchQty > 0) ||
-		(watchDepth > 0 && watchQty > 0 && watchPostParents?.length > 0)
 
 	const { mutate, isLoading } = useCreate({
 		resource: 'posts',
@@ -36,19 +30,10 @@ const AddPosts = ({ records }: { records: TDocRecord[] }) => {
 		})
 	}
 
-	useEffect(() => {
-		form.setFieldValue('post_parents', watchDepth === 0 ? [id] : [])
-	}, [watchDepth])
-
 	return (
 		<Form form={form} className="w-full">
 			<Space.Compact>
-				<Button
-					type="primary"
-					loading={isLoading}
-					onClick={handleCreateMany}
-					disabled={!canAdd}
-				>
+				<Button type="primary" loading={isLoading} onClick={handleCreateMany}>
 					新增
 				</Button>
 
@@ -56,7 +41,7 @@ const AddPosts = ({ records }: { records: TDocRecord[] }) => {
 					<InputNumber className="w-40" addonAfter="個" />
 				</Item>
 			</Space.Compact>
-			<Item name={['post_parents']} className="flex-1" initialValue={[id]} />
+			<Item name={['post_parent']} initialValue={id} hidden />
 			<Item name={['post_type']} initialValue={DOCS_POST_TYPE} hidden />
 		</Form>
 	)

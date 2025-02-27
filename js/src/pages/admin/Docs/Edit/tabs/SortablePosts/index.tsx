@@ -43,7 +43,7 @@ const SortablePostsComponent = ({
 	const [selectedPost, setSelectedPost] = useAtom(selectedPostAtom)
 
 	const [treeData, setTreeData] = useState<TreeData<TDocRecord>>([])
-	const maxDepth = getMaxDepth(treeData)
+
 	// 原本的樹狀結構
 	const [originTree, setOriginTree] = useState<TreeData<TDocRecord>>([])
 	const invalidate = useInvalidate()

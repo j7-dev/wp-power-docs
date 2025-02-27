@@ -293,8 +293,8 @@ abstract class Utils {
 				'posts_per_page' => -1,
 				'orderby'        => [
 					'menu_order' => 'ASC',
-					'ID'         => 'ASC',
-					'date'       => 'ASC',
+				'ID'         => 'DESC',
+				'date'       => 'DESC',
 				],
 			]
 			) : $children_posts;
@@ -317,8 +317,8 @@ abstract class Utils {
 				'posts_per_page' => -1,
 				'orderby'        => [
 					'menu_order' => 'ASC',
-					'ID'         => 'ASC',
-					'date'       => 'ASC',
+				'ID'         => 'DESC',
+				'date'       => 'DESC',
 				],
 			]
 			);
