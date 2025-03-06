@@ -38,7 +38,6 @@ final class Api extends ApiBase {
 		\add_filter( 'powerhouse/post/get_meta_keys_array', [ __CLASS__, 'extend_post_meta_keys' ], 10, 2 );
 		\add_filter( 'powerhouse/post/separator_body_params', [ __CLASS__, 'extra_file_upload' ], 10, 2 );
 		\add_filter( 'powerhouse/post/create_post_args', [ __CLASS__, 'add_default_meta_keys' ], 10, 1 );
-
 		\add_filter('powerhouse/copy/children_post_args', [ __CLASS__, 'copy_children_post_args' ], 10, 5);
 	}
 
@@ -84,7 +83,7 @@ final class Api extends ApiBase {
 		}
 
 		if (isset($meta_keys['bg_images'])) {
-			$bg_images_id           = get_post_meta( $post->ID, 'bg_images', true );
+			$bg_images_id           = \get_post_meta( $post->ID, 'bg_images', true );
 			$image_info             = WP::get_image_info( (int) $bg_images_id);
 			$meta_keys['bg_images'] = $image_info ? [ $image_info ] : [];
 		}

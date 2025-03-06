@@ -30,6 +30,7 @@ final class Bootstrap {
 		Domains\Product\Api::instance();
 		Domains\User\Api::instance();
 		Domains\Elementor\Loader::instance();
+		Compatibility\Compatibility::instance();
 
 		\add_action( 'admin_enqueue_scripts', [ __CLASS__, 'admin_enqueue_script' ] );
 	}
