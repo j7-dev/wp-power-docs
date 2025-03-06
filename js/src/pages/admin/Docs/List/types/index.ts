@@ -17,7 +17,7 @@ export type TDocBaseRecord = {
 	images: TImage[]
 	parent_id: string
 	bg_images: TImage[]
-	editor: 'default' | 'elementor'
+	editor: 'power-editor' | 'elementor'
 	need_access: 'yes' | 'no' | ''
 	pd_keywords: string[]
 	pd_keywords_label: string

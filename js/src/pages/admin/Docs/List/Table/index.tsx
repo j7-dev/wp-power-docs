@@ -38,7 +38,7 @@ const Main = () => {
 			// initial: getInitialFilters(initialFilteredValues),
 			permanent: objToCrudFilters({
 				post_type: DOCS_POST_TYPE,
-				meta_keys: ['need_access'],
+				meta_keys: ['need_access', 'editor'],
 			}),
 		},
 	})

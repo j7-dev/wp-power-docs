@@ -1,6 +1,6 @@
-import { FC, useEffect, lazy, Suspense, useMemo, memo } from 'react'
-import { Button, Form, Drawer, Input, Alert, Dropdown, Tooltip } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons'
+import { FC, useEffect, lazy, Suspense, memo } from 'react'
+import { Button, Form, Drawer, Input, Alert, Radio } from 'antd'
+import { LoadingOutlined, ExportOutlined } from '@ant-design/icons'
 import { useEditorDrawer } from './hooks'
 import { useApiUrl } from '@refinedev/core'
 import { useBlockNote } from '@/components/general'
@@ -25,6 +25,7 @@ const DescriptionDrawerComponent: FC<TDescriptionDrawerProps | undefined> = (
 	const apiUrl = useApiUrl()
 	const form = Form.useFormInstance()
 	const watchId = Form.useWatch(['id'], form)
+	const watchEditor = Form.useWatch(['editor'], form)
 
 	const { blockNoteViewProps, html, setHTML } = useBlockNote({
 		apiConfig: {
@@ -63,45 +64,52 @@ const DescriptionDrawerComponent: FC<TDescriptionDrawerProps | undefined> = (
 
 	return (
 		<div>
-			<p className="mb-2">編輯</p>
-			{!!ELEMENTOR_ENABLED && (
-				<Dropdown.Button
-					trigger={['click']}
-					placement="bottomLeft"
-					menu={{
-						items: [
-							{
-								key: 'elementor',
-								label: (
-									<Tooltip title={getTooltipTitle(ELEMENTOR_ENABLED)}>
-										{ELEMENTOR_ENABLED ? (
-											<a
-												href={`${SITE_URL}/wp-admin/post.php?post=${watchId}&action=elementor`}
-												target="_blank"
-												rel="noreferrer"
-											>
-												或 使用 Elementor 編輯器
-											</a>
-										) : (
-											'或 使用 Elementor 編輯器'
-										)}
-									</Tooltip>
-								),
-								disabled: !ELEMENTOR_ENABLED,
-							},
-						],
-					}}
-					onClick={show}
-				>
-					使用 Power 編輯器
-				</Dropdown.Button>
-			)}
+			<Item
+				name={['editor']}
+				label="編輯內容"
+				tooltip={getTooltipTitle(ELEMENTOR_ENABLED)}
+				className="mb-2"
+			>
+				<Radio.Group
+					options={[
+						{
+							label: '使用 Power 編輯器',
+							value: 'power-editor',
+						},
+						{
+							label: '使用 Elementor 編輯器',
+							value: 'elementor',
+							disabled: !ELEMENTOR_ENABLED,
+						},
+					]}
+					defaultValue="power-editor"
+					optionType="button"
+					buttonStyle="solid"
+				/>
+			</Item>
 
-			{!ELEMENTOR_ENABLED && (
-				<Button type="default" onClick={show}>
-					使用 Power 編輯器
-				</Button>
-			)}
+			<Button
+				className="w-[20rem]"
+				icon={<ExportOutlined />}
+				iconPosition="end"
+				onClick={() => {
+					if ('power-editor' === watchEditor) {
+						show()
+						return
+					}
+
+					if ('elementor' === watchEditor) {
+						window.open(
+							`${SITE_URL}/wp-admin/post.php?post=${watchId}&action=elementor`,
+							'_blank',
+						)
+					}
+				}}
+				color="primary"
+				variant="filled"
+			>
+				開始編輯
+			</Button>
 
 			<Item name={name} label={`完整介紹`} hidden>
 				<Input.TextArea rows={8} disabled />
