@@ -207,6 +207,7 @@ const DescriptionComponent = () => {
 							<Item
 								name={['unauthorized_redirect_url']}
 								label="當用戶沒有權限觀看時，將用戶導向指定網址"
+								tooltip="例如，針對沒有權限的用戶，將用戶導到商品頁面下單購買，訂單完成會自動授權"
 							>
 								<Input placeholder={`請輸入完整網址，例如 ${SITE_URL}/404`} />
 							</Item>

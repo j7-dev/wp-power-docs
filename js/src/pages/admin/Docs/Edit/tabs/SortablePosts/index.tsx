@@ -55,7 +55,6 @@ const SortablePostsComponent = ({
 	const openedNodeIds = getOpenedNodeIds(treeData)
 
 	useEffect(() => {
-		// 每次重新排序後，重新取得章節後，重新 set 選擇的章節
 		if (!isListFetching) {
 			const postTree = posts?.map(postToTreeNode)
 
@@ -67,7 +66,6 @@ const SortablePostsComponent = ({
 			setOriginTree(postTree)
 
 			// 每次重新排序後，重新取得章節後，重新 set 選擇的章節
-
 			const flattenPosts = posts.reduce((acc, c) => {
 				acc.push(c)
 				if (c?.children) {
