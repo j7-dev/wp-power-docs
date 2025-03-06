@@ -81,13 +81,16 @@ const SortablePostsComponent = ({
 	}, [isListFetching])
 
 	const handleSave = (data: TreeData<TDocRecord>) => {
+		const from_tree = treeToParams(originTree, courseId)
+		const to_tree = treeToParams(data, courseId)
+		const isEqual = _isEqual(from_tree, to_tree)
+
+		if (isEqual) return
 		// 這個儲存只存新增，不存章節的細部資料
 		message.loading({
 			content: '排序儲存中...',
 			key: 'posts-sorting',
 		})
-		const from_tree = treeToParams(originTree, courseId)
-		const to_tree = treeToParams(data, courseId)
 
 		mutate(
 			{
@@ -171,21 +174,8 @@ const SortablePostsComponent = ({
 						hideRemove
 						treeData={treeData}
 						onTreeDataChange={(data: TreeData<TDocRecord>) => {
-							const from = data?.map((item) => ({
-								id: item?.id,
-								children: item?.children?.map((child) => child?.id),
-								collapsed: false,
-							}))
-							const to = treeData?.map((item) => ({
-								id: item?.id,
-								children: item?.children?.map((child) => child?.id),
-								collapsed: false,
-							}))
-							const isEqual = _isEqual(from, to)
 							setTreeData(data)
-							if (!isEqual) {
-								handleSave(data)
-							}
+							handleSave(data)
 						}}
 						renderContent={(node) => (
 							<NodeRender
