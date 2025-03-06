@@ -126,6 +126,7 @@ abstract class Utils {
 			'tag_ids'       => [],
 			'images'        => $images,
 			'parent_id'     => (string) $post->post_parent,
+			'editor'        => (string) \get_post_meta($post->ID, 'editor', true) ?: 'power-editor',
 		] + $children;
 
 		// @phpstan-ignore-next-line
@@ -293,8 +294,8 @@ abstract class Utils {
 				'posts_per_page' => -1,
 				'orderby'        => [
 					'menu_order' => 'ASC',
-				'ID'         => 'DESC',
-				'date'       => 'DESC',
+					'ID'         => 'DESC',
+					'date'       => 'DESC',
 				],
 			]
 			) : $children_posts;
@@ -317,8 +318,8 @@ abstract class Utils {
 				'posts_per_page' => -1,
 				'orderby'        => [
 					'menu_order' => 'ASC',
-				'ID'         => 'DESC',
-				'date'       => 'DESC',
+					'ID'         => 'DESC',
+					'date'       => 'DESC',
 				],
 			]
 			);
