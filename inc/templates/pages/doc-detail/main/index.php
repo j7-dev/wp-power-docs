@@ -34,7 +34,12 @@ printf(
 $post->post_title
 );
 
-echo '<div class="bn-container">';
+$editor = get_post_meta( $post->ID, 'editor', true );
+
+printf(
+/*html*/'<div class="%s">',
+$editor === 'power-editor' ? 'bn-container' : ''
+);
 // 如果是 elementor 編輯或者 elementor 預覽，就用 the_content
 if (isset($_GET['elementor-preview']) || !$content) {
 	the_content();

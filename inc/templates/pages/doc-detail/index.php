@@ -18,7 +18,7 @@ $content_html = $toc->get_html();
 
 Plugin::load_template('doc-detail/sider/mobile-menu');
 
-echo /*html*/ '<div class="flex flex-col xl:flex-row tw-container mx-auto pt-8 bn-container">';
+echo /*html*/ '<div class="flex flex-col xl:flex-row tw-container mx-auto pt-8">';
 
 
 echo /*html*/ '<div id="doc-detail__sider" class="
