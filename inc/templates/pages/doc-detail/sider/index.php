@@ -34,13 +34,28 @@ $html = Utils::get_children_posts_html_uncached($top_parent_id);
 	(function($) {
 		$(document).ready(function() {
 			// 點擊箭頭展開或收合章節
-			$('#pd-sider').on('click', 'li', function() {
-				const $li = $(this).closest('li');
+			$('#pd-sider').on('click', 'li', function(e) {
+				e.stopPropagation();
+				e.preventDefault();
+
+
+
+				const $li = $(this);
+				const href = $li.data('href');
 				const $sub_ul = $li.next('ul'); // 子章節
 
 				if ($sub_ul.length > 0) {
 					$li.toggleClass('expanded'); // 如果有找到子章節
 					$sub_ul.slideToggle('fast'); // 如果有找到子章節
+				}
+
+				// 如果點擊的是箭頭，就只展開/收合，不要跳轉頁面
+				if ($(e.target).closest('.icon-arrow').length > 0) {
+					return;
+				}
+
+				if (href) {
+					window.location.href = href;
 				}
 			})
 
