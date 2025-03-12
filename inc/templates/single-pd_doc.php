@@ -24,6 +24,11 @@ if (!$can_access && !$is_admin) {
 	exit;
 }
 
+if ('draft' === $post->post_status && !$is_admin) {
+	wp_safe_redirect(site_url('404'));
+	exit;
+}
+
 $search = $_GET['search'] ?? '';//phpcs:ignore
 
 get_header();
