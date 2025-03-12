@@ -12,7 +12,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       power_docs
  * Domain Path:       /languages
- * Tags: your tags
+ * Tags:              document, knowledge,knowledge management system, power-docs
  */
 
 declare (strict_types = 1);

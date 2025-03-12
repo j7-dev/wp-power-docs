@@ -10,7 +10,7 @@ use J7\PowerDocs\Domains\Doc\Utils;
 
 $top_parent_id = PostUtils::get_top_post_id($post->ID);
 
-$html = Utils::get_children_posts_html($top_parent_id);
+$html = Utils::get_children_posts_html_uncached($top_parent_id);
 ?>
 
 <style>
@@ -34,7 +34,7 @@ $html = Utils::get_children_posts_html($top_parent_id);
 	(function($) {
 		$(document).ready(function() {
 			// 點擊箭頭展開或收合章節
-			$('#pd-sider').on('click', 'li .icon-arrow', function() {
+			$('#pd-sider').on('click', 'li', function() {
 				const $li = $(this).closest('li');
 				const $sub_ul = $li.next('ul'); // 子章節
 

@@ -1,6 +1,6 @@
 {
 	"name": "j7-dev/power-docs",
-	"description": "This is a boilerplate for creating a WordPress plugin with React, Tailwind, Ant Design, TypeScript, Zod, MSW, React Router v6, React Query v4, SCSS and Vite.",
+	"description": "輕鬆做出豐富的知識庫頁面，以及輕鬆管理你的知識訂閱客戶",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-only",
 	"authors": [
