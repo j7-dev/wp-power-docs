@@ -326,7 +326,7 @@ abstract class Utils {
 
 			$html .= sprintf(
 			/*html*/'
-			<li data-post-id="%5$s" class="hover:bg-primary/10 pr-2 transition-all duration-300 rounded-btn cursor-pointer flex items-center justify-between text-sm mb-1 py-2 %6$s" style="padding-left: %4$s;" data-href="%1$s">
+			<li data-post-id="%5$s" data-href="%1$s" class="hover:bg-primary/10 pr-2 transition-all duration-300 rounded-btn cursor-pointer flex items-center justify-between text-sm mb-1 py-2 %6$s" style="padding-left: %4$s;">
 				<span>%2$s</span>
 				%3$s
 			</li>

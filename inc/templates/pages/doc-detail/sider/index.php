@@ -38,8 +38,6 @@ $html = Utils::get_children_posts_html_uncached($top_parent_id);
 				e.stopPropagation();
 				e.preventDefault();
 
-
-
 				const $li = $(this);
 				const href = $li.data('href');
 				const $sub_ul = $li.next('ul'); // 子章節
