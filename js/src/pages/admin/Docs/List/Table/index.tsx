@@ -40,6 +40,7 @@ const Main = () => {
 				post_type: DOCS_POST_TYPE,
 				meta_keys: ['need_access', 'editor'],
 			}),
+			defaultBehavior: 'replace',
 		},
 	})
 

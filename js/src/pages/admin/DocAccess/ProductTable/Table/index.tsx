@@ -49,6 +49,7 @@ const Main = () => {
 			permanent: objToCrudFilters({
 				meta_keys: [BOUND_META_KEY],
 			}),
+			defaultBehavior: 'replace',
 		},
 	})
 

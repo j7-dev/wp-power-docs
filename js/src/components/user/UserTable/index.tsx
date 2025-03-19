@@ -42,7 +42,7 @@ const UserTableComponent = ({
 	const { DOCS_POST_TYPE } = useEnv()
 	const [selectedUserIds, setSelectedUserIds] = useAtom(selectedUserIdsAtom)
 
-	const { searchFormProps, tableProps, filters } = useTable<
+	const { searchFormProps, tableProps, filters, setFilters } = useTable<
 		TUserRecord,
 		HttpError,
 		TFilterValues
@@ -57,6 +57,7 @@ const UserTableComponent = ({
 				meta_keys: ['granted_docs'],
 			}),
 			initial: objToCrudFilters(initialValues),
+			defaultBehavior: 'replace',
 		},
 		onSearch: (values) => objToCrudFilters(values),
 	})
