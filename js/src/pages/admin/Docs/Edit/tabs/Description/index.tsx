@@ -114,7 +114,7 @@ const DescriptionComponent = () => {
 					{/* <Item name={['category_ids']} label="知識庫分類" initialValue={[]}>
 						<Select
 							{...defaultSelectProps}
-							options={termToOptions(product_cats)}
+							options={(product_cats)}
 							placeholder="可多選"
 							disabled
 						/>
@@ -122,7 +122,7 @@ const DescriptionComponent = () => {
 					<Item name={['tag_ids']} label="知識庫標籤" initialValue={[]}>
 						<Select
 							{...defaultSelectProps}
-							options={termToOptions(product_tags)}
+							options={(product_tags)}
 							placeholder="可多選"
 							disabled
 						/>

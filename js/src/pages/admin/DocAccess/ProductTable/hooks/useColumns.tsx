@@ -1,5 +1,6 @@
 import { Table, TableProps, Tag } from 'antd'
 import { TProductRecord, TProductVariation } from '@/types'
+import { useProductsOptions } from '@/hooks'
 import {
 	ProductName,
 	ProductPrice,
@@ -13,6 +14,9 @@ import {
 } from 'antd-toolkit/wp'
 
 const useColumns = () => {
+	const options = useProductsOptions()
+	const { product_cats = [], product_tags = [] } = options
+
 	const columns: TableProps<TProductRecord | TProductVariation>['columns'] = [
 		Table.SELECTION_COLUMN,
 		Table.EXPAND_COLUMN,
@@ -76,7 +80,13 @@ const useColumns = () => {
 		{
 			title: '商品分類 / 商品標籤',
 			dataIndex: 'category_ids',
-			render: (_, record) => <ProductCat record={record} />,
+			render: (_, { category_ids = [], tag_ids = [] }) => {
+				const categories = product_cats.filter(({ value }) =>
+					category_ids.includes(value),
+				)
+				const tags = product_tags.filter(({ value }) => tag_ids.includes(value))
+				return <ProductCat categories={categories} tags={tags} />
+			},
 		},
 	]
 

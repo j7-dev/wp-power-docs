@@ -51,7 +51,13 @@ const useColumns = () => {
 		// 	title: '商品分類 / 商品標籤',
 		// 	dataIndex: 'category_ids',
 		// 	key: 'category_ids',
-		// 	render: (_, record) => <ProductCat record={record} />,
+		// 	render: (_, { category_ids = [], tag_ids = [] }) => {
+		// 	const categories = product_cats.filter(({ value }) =>
+		// 		category_ids.includes(value),
+		// 	)
+		// 	const tags = product_tags.filter(({ value }) => tag_ids.includes(value))
+		// 	return <ProductCat categories={categories} tags={tags} />
+		// },
 		// },
 		{
 			title: '操作',
