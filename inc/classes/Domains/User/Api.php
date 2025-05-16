@@ -6,7 +6,7 @@ namespace J7\PowerDocs\Domains\User;
 
 use J7\WpUtils\Classes\ApiBase;
 use J7\WpUtils\Classes\WP;
-use J7\Powerhouse\Domains\User\Utils;
+use J7\Powerhouse\Domains\User\Model\User;
 
 /**
  * Class Api
@@ -132,7 +132,8 @@ final class Api extends ApiBase {
 
 		$formatted_users = [];
 		foreach ($user_ids as $user_id) {
-			$formatted_users[] = Utils::format_user_details( (int) $user_id, $meta_keys );
+			$formatted_users[] = User::instance( (int) $user_id, $meta_keys )->to_array();
+
 		}
 		$formatted_users = array_filter( $formatted_users );
 

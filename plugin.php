@@ -3,7 +3,7 @@
  * Plugin Name:       Power Docs | WordPress 最好的知識變現套件
  * Plugin URI:        https://github.com/j7-dev/power-docs
  * Description:       輕鬆做出豐富的知識庫頁面，以及輕鬆管理你的知識訂閱客戶
- * Version:           1.0.17
+ * Version:           1.1.0-rc1
  * Requires at least: 5.7
  * Requires PHP:      8.0
  * Author:            J7
@@ -28,9 +28,7 @@ if ( \class_exists( 'J7\PowerDocs\Plugin' ) ) {
 }
 require_once __DIR__ . '/vendor/autoload.php';
 
-/**
-	* Class Plugin
-	*/
+/** Class Plugin */
 final class Plugin {
 	use \J7\WpUtils\Traits\PluginTrait;
 	use \J7\WpUtils\Traits\SingletonTrait;

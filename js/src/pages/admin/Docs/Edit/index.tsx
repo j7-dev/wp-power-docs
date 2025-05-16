@@ -57,11 +57,6 @@ const EditComponent = () => {
 			},
 		})
 
-	// 顯示
-	const watchName = Form.useWatch(['name'], form)
-	const watchId = Form.useWatch(['id'], form)
-	const watchStatus = Form.useWatch(['status'], form)
-
 	const record: TDocBaseRecord | undefined = query?.data?.data
 
 	const items = [
@@ -78,14 +73,13 @@ const EditComponent = () => {
 						showCard: false,
 					}}
 					initialValues={{
-						granted_docs: [watchId],
+						granted_docs: [record?.id || ''],
 					}}
 				/>
 			),
 		},
 	]
 
-	// 處理 media library
 	// 處理 media library
 	const [mediaLibrary, setMediaLibrary] = useAtom(mediaLibraryAtom)
 	const { modalProps } = mediaLibrary
@@ -97,8 +91,8 @@ const EditComponent = () => {
 				resource="posts"
 				title={
 					<>
-						{watchName}{' '}
-						<span className="text-gray-400 text-xs">#{watchId}</span>
+						{record?.name}{' '}
+						<span className="text-gray-400 text-xs">#{record?.id}</span>
 					</>
 				}
 				headerButtons={() => null}
@@ -114,7 +108,7 @@ const EditComponent = () => {
 							className="mr-4"
 							checkedChildren="發佈"
 							unCheckedChildren="草稿"
-							value={watchStatus === 'publish'}
+							value={record?.status === 'publish'}
 							onChange={(checked) => {
 								form.setFieldValue(['status'], checked ? 'publish' : 'draft')
 							}}
@@ -128,15 +122,15 @@ const EditComponent = () => {
 					<Tabs
 						items={items}
 						tabBarExtraContent={
-							<a
+							<Button
+								className="ml-4"
+								type="default"
 								href={query?.data?.data?.permalink}
 								target="_blank"
 								rel="noreferrer"
 							>
-								<Button className="ml-4" type="default">
-									前往知識庫
-								</Button>
-							</a>
+								前往知識庫
+							</Button>
 						}
 					/>
 				</Form>
