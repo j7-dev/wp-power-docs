@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { DrawerProps } from 'antd'
+import { useWindowSize } from '@uidotdev/usehooks'
 
 /**
  * Editor Drawer
@@ -13,6 +14,7 @@ type TUseEditorDrawerParams = {
 
 export function useEditorDrawer(props?: TUseEditorDrawerParams) {
 	const drawerProps = props?.drawerProps || {}
+	const { width } = useWindowSize()
 	const [open, setOpen] = useState(false)
 
 	const show = () => {
@@ -29,7 +31,10 @@ export function useEditorDrawer(props?: TUseEditorDrawerParams) {
 		placement: 'left',
 		onClose: close,
 		open,
-		width: '50%',
+		width:
+			(width || 576) > 1280
+				? 'min(75%, calc(100% - 20rem))'
+				: 'min(90%, calc(100% - 5rem))',
 		...drawerProps,
 	}
 

@@ -1,18 +1,11 @@
-import { memo, useState } from 'react'
+import { memo } from 'react'
 import { Edit, useForm } from '@refinedev/antd'
-import { Tabs, TabsProps, Form, Switch, Modal, Button } from 'antd'
+import { Tabs, TabsProps, Form, Switch, Button } from 'antd'
 import { Description, SortablePosts } from './tabs'
-import { useAtom } from 'jotai'
 import { TDocRecord, TDocBaseRecord } from '@/pages/admin/Docs/List/types'
 import { useParsed } from '@refinedev/core'
 import { PostEdit } from './PostEdit'
 import { UserTable } from '@/components/user'
-
-import {
-	mediaLibraryAtom,
-	MediaLibrary,
-	TBunnyVideo,
-} from 'antd-toolkit/refine'
 
 // TAB items
 const defaultItems: TabsProps['items'] = [
@@ -80,11 +73,6 @@ const EditComponent = () => {
 		},
 	]
 
-	// 處理 media library
-	const [mediaLibrary, setMediaLibrary] = useAtom(mediaLibraryAtom)
-	const { modalProps } = mediaLibrary
-	const [selectedVideos, setSelectedVideos] = useState<TBunnyVideo[]>([])
-
 	return (
 		<div className="sticky-card-actions sticky-tabs-nav">
 			<Edit
@@ -135,41 +123,6 @@ const EditComponent = () => {
 					/>
 				</Form>
 			</Edit>
-
-			<Modal
-				{...modalProps}
-				onCancel={() => {
-					setMediaLibrary((prev) => ({
-						...prev,
-						modalProps: {
-							...prev.modalProps,
-							open: false,
-						},
-					}))
-				}}
-			>
-				<div className="max-h-[75vh] overflow-x-hidden overflow-y-auto pr-4">
-					<MediaLibrary
-						mediaLibraryProps={{
-							selectedVideos,
-							setSelectedVideos,
-							limit: 1,
-							selectButtonProps: {
-								onClick: () => {
-									setMediaLibrary((prev) => ({
-										...prev,
-										modalProps: {
-											...prev.modalProps,
-											open: false,
-										},
-										confirmedSelectedVideos: selectedVideos,
-									}))
-								},
-							},
-						}}
-					/>
-				</div>
-			</Modal>
 		</div>
 	)
 }

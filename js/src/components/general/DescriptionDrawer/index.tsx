@@ -3,16 +3,9 @@ import { Button, Form, Drawer, Input, Alert, Radio } from 'antd'
 import { LoadingOutlined, ExportOutlined } from '@ant-design/icons'
 import { useEditorDrawer } from './hooks'
 import { useApiUrl } from '@refinedev/core'
-import { useBlockNote } from '@/components/general'
-import { useEnv } from 'antd-toolkit'
+import { useEnv, useBlockNote, BlockNote } from 'antd-toolkit'
 
 const { Item } = Form
-
-const BlockNote = lazy(() =>
-	import('@/components/general').then((module) => ({
-		default: module.BlockNote,
-	})),
-)
 
 type TDescriptionDrawerProps = {
 	name?: string | string[]
@@ -21,20 +14,12 @@ const DescriptionDrawerComponent: FC<TDescriptionDrawerProps | undefined> = (
 	props,
 ) => {
 	const name = props?.name || ['description']
-	const { NONCE, SITE_URL, ELEMENTOR_ENABLED } = useEnv()
-	const apiUrl = useApiUrl()
+	const { SITE_URL, ELEMENTOR_ENABLED } = useEnv()
 	const form = Form.useFormInstance()
 	const watchId = Form.useWatch(['id'], form)
 	const watchEditor = Form.useWatch(['editor'], form)
 
-	const { blockNoteViewProps, html, setHTML } = useBlockNote({
-		apiConfig: {
-			apiEndpoint: `${apiUrl}/upload`,
-			headers: new Headers({
-				'X-WP-Nonce': NONCE,
-			}),
-		},
-	})
+	const { blockNoteViewProps, html, setHTML } = useBlockNote()
 
 	const { editor } = blockNoteViewProps
 
