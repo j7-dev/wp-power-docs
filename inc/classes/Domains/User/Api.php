@@ -8,24 +8,14 @@ use J7\WpUtils\Classes\ApiBase;
 use J7\WpUtils\Classes\WP;
 use J7\Powerhouse\Domains\User\Model\User;
 
-/**
- * Class Api
- */
+/** Class Api */
 final class Api extends ApiBase {
 	use \J7\WpUtils\Traits\SingletonTrait;
 
-	/**
-	 * Namespace
-	 *
-	 * @var string
-	 */
+	/** @var string Namespace */
 	protected $namespace = 'power-docs';
 
-	/**
-	 * APIs
-	 *
-	 * @var array{endpoint:string,method:string,permission_callback: ?callable }[]
-	 */
+	/**  @var array{endpoint:string,method:string,permission_callback: ?callable }[] APIs */
 	protected $apis = [
 		[
 			'endpoint'            => 'users',
@@ -38,7 +28,7 @@ final class Api extends ApiBase {
 
 	/**
 	 * Get users callback
-	 * 通用的用戶查詢
+	 * 通用的用戶查詢，因為需要用 "已開通知識庫" 查詢用戶，所以需要獨立寫
 	 *
 	 * @param \WP_REST_Request $request Request.
 	 *
@@ -75,13 +65,8 @@ final class Api extends ApiBase {
 			if ($granted_docs) {
 				$im_table_name = $wpdb->prefix . 'ph_access_itemmeta';
 				$from_sql     .= " LEFT JOIN {$im_table_name} im ON u.ID = im.user_id";
-				$where_sql    .= $wpdb->prepare(
-				"
-				AND im.meta_key = 'expire_date'
-				AND im.post_id IN ('%1\$s')
-			",
-				implode("', '", $granted_docs)
-				);
+				$placeholders  = implode(',', array_map(fn( $id ) => "'{$id}'", $granted_docs));
+				$where_sql    .= " AND im.meta_key = 'expire_date' AND im.post_id IN ({$placeholders}) ";
 			}
 		}
 
@@ -89,29 +74,18 @@ final class Api extends ApiBase {
 		// TODO 可以再優化更複雜的查詢
 		if (isset($params['meta_key'])) {
 			$from_sql  .= " LEFT JOIN {$wpdb->usermeta} um ON u.ID = um.user_id";
-			$where_sql .= $wpdb->prepare(
-				' AND um.meta_key = %s',
-				$params['meta_key']
-			);
+			$where_sql .= " AND um.meta_key = {$params['meta_key']} ";
 
 			if (isset($params['meta_value'])) {
-				$where_sql .= $wpdb->prepare(
-					' AND um.meta_value = %s',
-					$params['meta_value']
-				);
+				$where_sql .= " AND um.meta_value = {$params['meta_value']} ";
 			}
 		}
 
 		if (isset($params['granted_docs'])) {
 			$granted_docs = is_array($params['granted_docs']) ? $params['granted_docs'] : [];
 			if ($granted_docs) {
-				$where_sql .= $wpdb->prepare(
-				'
-			GROUP BY u.ID
-			HAVING COUNT(DISTINCT im.post_id) = %d
-		',
-				count($granted_docs)
-				);
+				$count_granted_docs = count($granted_docs);
+				$where_sql         .= " GROUP BY u.ID HAVING COUNT(DISTINCT im.post_id) = {$count_granted_docs} ";
 			}
 		}
 
@@ -122,7 +96,11 @@ final class Api extends ApiBase {
 		$limit_sql = $wpdb->prepare(' LIMIT %d OFFSET %d', $posts_per_page, $offset);
 
 		// 執行查詢
-		$total    = $wpdb->get_var(\wp_unslash($count_sql . $from_sql . $where_sql)); // phpcs:ignore
+		$total_sql = $count_sql . $from_sql . $where_sql;
+		$totals    = $wpdb->get_col(\wp_unslash($wpdb->prepare($total_sql))); // phpcs:ignore
+		// 將每個數值加總
+		$total = array_sum($totals);
+
 		$user_ids = $wpdb->get_col(\wp_unslash($select_sql . $from_sql . $where_sql . $order_sql . $limit_sql)); // phpcs:ignore
 
 		$total_pages = ceil($total / $posts_per_page);
@@ -132,8 +110,7 @@ final class Api extends ApiBase {
 
 		$formatted_users = [];
 		foreach ($user_ids as $user_id) {
-			$formatted_users[] = User::instance( (int) $user_id, $meta_keys )->to_array();
-
+			$formatted_users[] = User::instance( (int) $user_id )->to_array('list', $meta_keys);
 		}
 		$formatted_users = array_filter( $formatted_users );
 
