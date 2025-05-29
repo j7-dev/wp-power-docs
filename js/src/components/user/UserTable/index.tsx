@@ -10,13 +10,13 @@ import { keyLabelMapper } from './utils'
 import { selectedUserIdsAtom } from './atom'
 import { useAtom } from 'jotai'
 import SelectedUser from './SelectedUser'
-import Card from './Card'
 import { TGrantedDoc } from '@/types'
 import {
 	useRowSelection,
 	getDefaultPaginationProps,
 	defaultTableProps,
 	useEnv,
+	Card,
 } from 'antd-toolkit'
 
 import {
@@ -50,7 +50,7 @@ const UserTableComponent = ({
 		resource: 'users',
 		dataProviderName: 'power-docs',
 		pagination: {
-			pageSize: 20,
+			pageSize: 2,
 		},
 		filters: {
 			permanent: objToCrudFilters({
@@ -64,6 +64,8 @@ const UserTableComponent = ({
 
 	const currentAllKeys =
 		tableProps?.dataSource?.map((record) => record?.id.toString()) || []
+
+	console.log('🐛 tableProps', tableProps)
 
 	// 多選
 	const { rowSelection, setSelectedRowKeys, selectedRowKeys } =
@@ -142,14 +144,14 @@ const UserTableComponent = ({
 
 	return (
 		<>
-			<Card title="篩選" bordered={false} className="mb-4" {...cardProps}>
+			<Card title="篩選" variant="borderless" className="mb-4" {...cardProps}>
 				<Filter formProps={searchFormProps} initialValues={initialValues} />
 				<FilterTags<TFilterValues>
 					form={{ ...searchFormProps?.form } as FormInstance<TFilterValues>}
 					keyLabelMapper={keyLabelMapper}
 				/>
 			</Card>
-			<Card bordered={false} {...cardProps}>
+			<Card variant="borderless" {...cardProps}>
 				{canGrantCourseAccess && (
 					<>
 						<div className="mt-4">

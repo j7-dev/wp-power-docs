@@ -1,7 +1,4 @@
 <?php
-/**
- * Bootstrap
- */
 
 declare (strict_types = 1);
 
@@ -15,15 +12,11 @@ use J7\Powerhouse\Settings\DTO as SettingsDTO;
 if ( class_exists( 'J7\PowerDocs\Bootstrap' ) ) {
 	return;
 }
-/**
- * Class Bootstrap
- */
+/** Class Bootstrap */
 final class Bootstrap {
 	use \J7\WpUtils\Traits\SingletonTrait;
 
-	/**
-	 * Constructor
-	 */
+	/** Constructor */
 	public function __construct() {
 		Admin\Entry::instance();
 		Domains\Doc\Loader::instance();

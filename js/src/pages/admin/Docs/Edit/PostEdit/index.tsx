@@ -1,10 +1,10 @@
 import React, { memo, useEffect } from 'react'
 import { Form, Input, Switch, Space, Button, Typography } from 'antd'
-import { toFormData, CopyText } from 'antd-toolkit'
-import { DescriptionDrawer } from '@/components/general'
 import { TDocRecord } from '@/pages/admin/Docs/List/types'
 import { Edit, useForm } from '@refinedev/antd'
 import { ExclamationCircleFilled } from '@ant-design/icons'
+import { toFormData, CopyText, DescriptionDrawer } from 'antd-toolkit'
+import { notificationProps } from 'antd-toolkit/refine'
 
 const { Item } = Form
 const { Text } = Typography
@@ -23,8 +23,7 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 		},
 		invalidates: ['list', 'detail'],
 		warnWhenUnsavedChanges: true,
-		successNotification: false,
-		errorNotification: false,
+		...notificationProps,
 	})
 
 	// 取得課程深度，用來判斷是否為子章節
@@ -39,7 +38,9 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 
 	// 將 [] 轉為 '[]'，例如，清除原本分類時，如果空的，前端會是 undefined，轉成 formData 時會遺失
 	const handleOnFinish = (values: Partial<TDocRecord>) => {
-		onFinish(toFormData(values))
+		// 不要帶 description 進去，description 為個別儲存
+		const { description, ...rest } = values
+		onFinish(toFormData(rest))
 	}
 
 	// 將 permalink 找出 slug 以外的剩餘字串
