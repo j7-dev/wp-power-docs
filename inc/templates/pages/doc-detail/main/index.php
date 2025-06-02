@@ -36,10 +36,12 @@ $post->post_title
 
 $editor = get_post_meta( $post->ID, 'editor', true );
 
+/** @deprecated Powerhouse 3.3.0 之後其實是不需要用 class 包裹的，這邊是為了兼容舊版本 */
 printf(
 /*html*/'<div class="%s">',
-$editor === 'power-editor' ? 'bn-container' : ''
+$editor === 'power-editor' ? 'bn-container power-editor' : ''
 );
+
 // 如果是 elementor 編輯或者 elementor 預覽，就用 the_content
 if (isset($_GET['elementor-preview']) || !$content) {
 	the_content();
