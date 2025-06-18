@@ -65,8 +65,6 @@ const UserTableComponent = ({
 	const currentAllKeys =
 		tableProps?.dataSource?.map((record) => record?.id.toString()) || []
 
-	console.log('🐛 tableProps', tableProps)
-
 	// 多選
 	const { rowSelection, setSelectedRowKeys, selectedRowKeys } =
 		useRowSelection<TUserRecord>({

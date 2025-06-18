@@ -5,7 +5,7 @@ import '@refinedev/antd/dist/reset.css'
 import routerBindings, {
 	UnsavedChangesNotifier,
 	NavigateToResource,
-} from '@refinedev/react-router-v6'
+} from '@refinedev/react-router'
 
 import {
 	DocsList,
@@ -14,11 +14,11 @@ import {
 	DocAccess,
 	MediaLibraryPage,
 } from '@/pages/admin'
-import { HashRouter, Outlet, Route, Routes } from 'react-router-dom'
+import { HashRouter, Outlet, Route, Routes } from 'react-router'
 import { resources } from '@/resources'
 import { ConfigProvider } from 'antd'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { useEnv } from 'antd-toolkit'
+import { useEnv } from '@/hooks'
 import {
 	BackToWpAdmin,
 	MediaLibraryNotification as WpMediaLibraryNotification,
@@ -33,36 +33,6 @@ import {
 function App() {
 	const { bunny_data_provider_result } = useBunny()
 	const { KEBAB, API_URL, AXIOS_INSTANCE } = useEnv()
-
-	// 添加 response 攔截器
-	AXIOS_INSTANCE.interceptors.response.use(
-		(response) => response,
-		(error) => {
-			// 錯誤響應的處理
-			if (error.response) {
-				// 伺服器有響應但狀態碼表示錯誤
-				switch (error.response.status) {
-					case 403:
-						const confirm = window.confirm('網站 Cookie 已經過期，請重新登入')
-						if (confirm) {
-							window.location.reload()
-						}
-						break
-					default:
-						console.error('請求失敗:', error.response.data.message)
-				}
-			} else if (error.request) {
-				// 請求已發送但沒有收到響應
-				console.error('沒有收到伺服器響應')
-			} else {
-				// 設定請求時發生錯誤
-				console.error('請求配置錯誤:', error.message)
-			}
-
-			// 返回錯誤
-			return Promise.reject(error)
-		},
-	)
 
 	return (
 		<HashRouter>
