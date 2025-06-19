@@ -24,6 +24,7 @@
 		"i18n:commit": "pnpm i18n && git add . && git commit --amend --no-edit"
 	},
 	"dependencies": {
+		"@power/general": "workspace:*",
 		"@ant-design/pro-editor": "^1.3.0",
 		"@blocknote/core": "0.30.0",
 		"@blocknote/mantine": "0.30.0",
@@ -52,6 +53,9 @@
 		"react-router": "^7.6.2"
 	},
 	"devDependencies": {
+		"@power/typescript-config": "workspace:*",
+		"@power/eslint-config": "workspace:*",
+		"@power/tailwind-config": "workspace:*",
 		"@kucrut/vite-for-wp": "^0.8.0",
 		"@rollup/plugin-alias": "^5.1.0",
 		"@soderlind/wp-project-version-sync": "^2.0.2",

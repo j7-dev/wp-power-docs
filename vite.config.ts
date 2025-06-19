@@ -14,6 +14,9 @@ export default defineConfig({
 		cors: {
 			origin: '*',
 		},
+		fs: {
+			allow: ['./', '../../packages'],
+		},
 	},
 	build: {
 		emptyOutDir: true,
@@ -56,6 +59,7 @@ export default defineConfig({
 	// },
 	resolve: {
 		alias: {
+			'@power/general': path.resolve(__dirname, '../../packages/general/index.ts'),
 			'@': path.resolve(__dirname, 'js/src'),
 		},
 	},
