@@ -6,6 +6,7 @@ import { TDocRecord, TDocBaseRecord } from '@/pages/admin/Docs/List/types'
 import { useParsed } from '@refinedev/core'
 import { PostEdit } from './PostEdit'
 import { UserTable } from '@/components/user'
+import { toFormData } from 'antd-toolkit'
 
 // TAB items
 const defaultItems: TabsProps['items'] = [
@@ -51,6 +52,15 @@ const EditComponent = () => {
 		})
 
 	const record: TDocBaseRecord | undefined = query?.data?.data
+
+		// 將 [] 轉為 '[]'，例如，清除原本分類時，如果空的，前端會是 undefined，轉成 formData 時會遺失
+		const handleOnFinish = async (values: Partial<TDocRecord>) => {
+		const { short_description, ...rest } = values
+
+			await onFinish(
+				toFormData(rest),
+			)
+		}
 
 	const items = [
 		...defaultItems,
@@ -106,7 +116,7 @@ const EditComponent = () => {
 				)}
 				isLoading={query?.isLoading}
 			>
-				<Form {...formProps} layout="vertical">
+				<Form {...formProps} layout="vertical" onFinish={handleOnFinish}>
 					<Tabs
 						items={items}
 						tabBarExtraContent={

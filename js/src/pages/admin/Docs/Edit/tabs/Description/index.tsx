@@ -16,6 +16,7 @@ import {
 	Switch,
 	CopyText,
 	useEnv,
+	BlockNoteDrawer,
 } from 'antd-toolkit'
 import { FileUpload } from 'antd-toolkit/wp'
 
@@ -129,15 +130,14 @@ const DescriptionComponent = () => {
 					</Item> */}
 				</div>
 				<div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-					<Item
-						name={['short_description']}
-						label="知識庫簡介"
-						className="xl:col-span-2"
-					>
-						<Input.TextArea rows={8} allowClear />
-					</Item>
-
 					<div>
+					<label htmlFor="short_description" className="pb-2 tw-block">知識庫簡介</label>
+					<BlockNoteDrawer buttonProps={{
+						className: 'w-fit'
+					}} />
+					</div>
+
+					<div className="xl:col-span-2">
 						<Item
 							name={['editor']}
 							label="模板"

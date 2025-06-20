@@ -3,7 +3,7 @@
  * Plugin Name:       Power Docs | WordPress 最好的知識變現套件
  * Plugin URI:        https://github.com/j7-dev/power-docs
  * Description:       輕鬆做出豐富的知識庫頁面，以及輕鬆管理你的知識訂閱客戶
- * Version:           1.2.0-rc1
+ * Version:           1.2.0
  * Requires at least: 5.7
  * Requires PHP:      8.0
  * Author:            J7
@@ -60,7 +60,7 @@ final class Plugin {
 				'name'     => 'Powerhouse',
 				'slug'     => 'powerhouse',
 				'source'   => 'https://github.com/j7-dev/wp-powerhouse/releases/latest/download/powerhouse.zip',
-				'version'  => '3.3.0',
+				'version'  => '3.3.9',
 				'required' => true,
 			],
 		];
