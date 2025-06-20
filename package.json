@@ -1,6 +1,6 @@
 {
 	"name": "power-docs",
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"type": "module",
 	"scripts": {
 		"bootstrap": "composer install --no-interaction",
@@ -30,7 +30,7 @@
 	},
 	"devDependencies": {
 		"@power/eslint-config": "workspace:*",
-    "@power/tailwind-config": "workspace:*",
-    "@power/typescript-config": "workspace:*"
+		"@power/tailwind-config": "workspace:*",
+		"@power/typescript-config": "workspace:*"
 	}
 }
