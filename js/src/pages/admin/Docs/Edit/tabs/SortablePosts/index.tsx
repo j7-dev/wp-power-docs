@@ -11,7 +11,7 @@ import {
 	useDeleteMany,
 } from '@refinedev/core'
 import { isEqual as _isEqual } from 'lodash-es'
-import { PopconfirmDelete } from 'antd-toolkit'
+import { PopconfirmDelete, cn } from 'antd-toolkit'
 import { usePostsList } from './hooks'
 import { useAtom } from 'jotai'
 import { selectedPostAtom, selectedIdsAtom } from './atom'
@@ -49,7 +49,7 @@ const SortablePostsComponent = ({
 	const invalidate = useInvalidate()
 
 	const apiUrl = useApiUrl()
-	const { mutate } = useCustomMutation()
+	const { mutate, isLoading: isSorting } = useCustomMutation()
 
 	// 每次更新 List 狀態，會算出當次的展開節點 id
 	const openedNodeIds = getOpenedNodeIds(treeData)
@@ -166,7 +166,12 @@ const SortablePostsComponent = ({
 					}}
 				/>
 			</div>
-			<div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+			<div
+				className={cn(
+					'grid grid-cols-1 xl:grid-cols-2 gap-6',
+					isSorting || isListFetching ? 'pointer-events-none' : '',
+				)}
+			>
 				{isListLoading && <Loading />}
 				{!isListLoading && (
 					<SortableTree
