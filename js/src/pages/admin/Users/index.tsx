@@ -1,5 +1,9 @@
 import { UserTable } from '@/components/user'
 
 export const Users = () => {
-	return <UserTable canGrantCourseAccess={true} />
+	return (
+		<>
+			<UserTable canGrantCourseAccess={true} />
+		</>
+	)
 }

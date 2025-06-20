@@ -47,6 +47,14 @@ export const resources: ResourceProps[] = [
 		name: 'media-library',
 		list: '/media-library',
 		meta: {
+			label: '媒體庫',
+			icon: <FaPhotoVideo />,
+		},
+	},
+	{
+		name: 'bunny-media-library',
+		list: '/bunny-media-library',
+		meta: {
 			label: 'Bunny 媒體庫',
 			icon: <FaPhotoVideo />,
 		},

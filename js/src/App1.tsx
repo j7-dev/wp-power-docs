@@ -1,4 +1,5 @@
 /* eslint-disable quote-props */
+import { lazy, Suspense } from 'react'
 import { Refine } from '@refinedev/core'
 import { ThemedLayoutV2, ThemedSiderV2, ErrorComponent } from '@refinedev/antd'
 import '@refinedev/antd/dist/reset.css'
@@ -12,17 +13,15 @@ import {
 	DocsEdit,
 	Users,
 	DocAccess,
-	MediaLibraryPage,
+	WpMediaLibraryPage,
+	BunnyMediaLibraryPage,
 } from '@/pages/admin'
 import { HashRouter, Outlet, Route, Routes } from 'react-router'
 import { resources } from '@/resources'
 import { ConfigProvider } from 'antd'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useEnv } from '@/hooks'
-import {
-	BackToWpAdmin,
-	MediaLibraryNotification as WpMediaLibraryNotification,
-} from 'antd-toolkit/wp'
+import { MediaLibraryNotification as WpMediaLibraryNotification } from 'antd-toolkit/wp'
 import {
 	dataProvider,
 	notificationProvider,
@@ -79,9 +78,7 @@ function App() {
 							>
 								<ThemedLayoutV2
 									Sider={(props) => <ThemedSiderV2 {...props} fixed />}
-									Title={({ collapsed }) => (
-										<BackToWpAdmin collapsed={collapsed} />
-									)}
+									Title={() => null}
 								>
 									<div className="pb-32">
 										<Outlet />
@@ -99,7 +96,12 @@ function App() {
 						</Route>
 						<Route path="users" element={<Users />} />
 						<Route path="doc-access" element={<DocAccess />} />
-						<Route path="media-library" element={<MediaLibraryPage />} />
+
+						<Route path="media-library" element={<WpMediaLibraryPage />} />
+						<Route
+							path="bunny-media-library"
+							element={<BunnyMediaLibraryPage />}
+						/>
 
 						<Route path="*" element={<ErrorComponent />} />
 					</Route>
