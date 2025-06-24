@@ -91,7 +91,6 @@ const DescriptionComponent = () => {
 					formItemProps={{
 						name: ['status'],
 						label: '發佈',
-						initialValue: 'publish',
 						getValueProps: (value) => ({ value: value === 'publish' }),
 						normalize: (value) => (value ? 'publish' : 'draft'),
 						hidden: true,
@@ -131,17 +130,20 @@ const DescriptionComponent = () => {
 				</div>
 				<div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 					<div>
-					<label htmlFor="short_description" className="pb-2 tw-block">知識庫簡介</label>
-					<BlockNoteDrawer buttonProps={{
-						className: 'w-fit'
-					}} />
+						<label htmlFor="short_description" className="pb-2 tw-block">
+							知識庫簡介
+						</label>
+						<BlockNoteDrawer
+							buttonProps={{
+								className: 'w-fit',
+							}}
+						/>
 					</div>
 
 					<div className="xl:col-span-2">
 						<Item
 							name={['editor']}
 							label="模板"
-							initialValue={''}
 							help={
 								watchEditor === 'elementor'
 									? '請先儲存之後就可以使用 Elementor 編輯'
