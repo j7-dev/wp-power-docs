@@ -25,7 +25,7 @@
 	</div>
 </div>
 
-<div id="doc-detail__black-wrap" class="tw-fixed tw-hidden top-0 left-0 w-full h-full bg-black/50 z-[9999]"></div>
+<div id="doc-detail__black-wrap" class="tw-fixed tw-hidden top-0 left-0 w-full h-full bg-black/50 z-[59]"></div>
 <script type="module">
 	(function($) {
 		$(document).ready(function() {
