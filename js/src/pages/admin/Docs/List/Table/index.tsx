@@ -28,7 +28,7 @@ const Main = () => {
 		TDocBaseRecord,
 		HttpError
 
-		// TFilterProps
+	// TFilterProps
 	>({
 		resource: 'posts',
 
@@ -38,7 +38,7 @@ const Main = () => {
 			// initial: getInitialFilters(initialFilteredValues),
 			permanent: objToCrudFilters({
 				post_type: DOCS_POST_TYPE,
-				meta_keys: ['need_access', 'editor'],
+				meta_keys: ['need_access'],
 			}),
 			defaultBehavior: 'replace',
 		},

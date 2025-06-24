@@ -42,7 +42,6 @@ const EditComponent = () => {
 					meta_keys: [
 						'need_access',
 						'bg_images',
-						'editor',
 						'pd_keywords',
 						'pd_keywords_label',
 						'unauthorized_redirect_url',
@@ -53,14 +52,14 @@ const EditComponent = () => {
 
 	const record: TDocBaseRecord | undefined = query?.data?.data
 
-		// 將 [] 轉為 '[]'，例如，清除原本分類時，如果空的，前端會是 undefined，轉成 formData 時會遺失
-		const handleOnFinish = async (values: Partial<TDocRecord>) => {
+	// 將 [] 轉為 '[]'，例如，清除原本分類時，如果空的，前端會是 undefined，轉成 formData 時會遺失
+	const handleOnFinish = async (values: Partial<TDocRecord>) => {
 		const { short_description, ...rest } = values
 
-			await onFinish(
-				toFormData(rest),
-			)
-		}
+		await onFinish(
+			toFormData(rest),
+		)
+	}
 
 	const items = [
 		...defaultItems,

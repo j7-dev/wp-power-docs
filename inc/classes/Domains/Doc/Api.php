@@ -8,29 +8,17 @@ use J7\WpUtils\Classes\ApiBase;
 use J7\Powerhouse\Domains\Limit\Models\GrantedItems;
 use J7\WpUtils\Classes\WP;
 
-/**
- * Class Api
- */
+/** Class Api */
 final class Api extends ApiBase {
 	use \J7\WpUtils\Traits\SingletonTrait;
 
-	/**
-	 * Namespace
-	 *
-	 * @var string
-	 */
+	/** @var string Namespace */
 	protected $namespace = 'power-docs';
 
-	/**
-	 * APIs
-	 *
-	 * @var array{endpoint:string,method:string,permission_callback: ?callable }[]
-	 */
+	/** @var array{endpoint:string,method:string,permission_callback: ?callable }[] APIs */
 	protected $apis = [];
 
-	/**
-	 * Constructor
-	 */
+	/** Constructor */
 	public function __construct() {
 		parent::__construct();
 
@@ -76,6 +64,10 @@ final class Api extends ApiBase {
 		if (CPT::POST_TYPE !== $post->post_type) {
 			return $meta_keys;
 		}
+
+		// 設定預設 editor
+		$editor              = \get_post_meta( $post->ID, 'editor', true ) ?: 'power-editor';
+		$meta_keys['editor'] = $editor;
 
 		// 只有頂層需要 bg_images
 		if ($post->post_parent) {

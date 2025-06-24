@@ -17,7 +17,7 @@ export const usePostsList = () => {
 			post_type: DOCS_POST_TYPE,
 			with_description: 'true',
 			recursive_args: '[]',
-			meta_keys: ['editor'],
+			meta_keys: [],
 		}),
 		pagination: {
 			current: 1,
