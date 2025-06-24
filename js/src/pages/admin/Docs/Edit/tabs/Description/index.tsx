@@ -8,6 +8,7 @@ import {
 	Button,
 	UploadFile,
 	Radio,
+	FormProps,
 } from 'antd'
 import {
 	// termToOptions,
@@ -23,11 +24,8 @@ import { FileUpload } from 'antd-toolkit/wp'
 const { Item } = Form
 const { Text } = Typography
 
-const DescriptionComponent = () => {
-	const form = Form.useFormInstance()
-
-	// const { options, isLoading } = useOptions({ endpoint: 'courses/options' })
-	// const { product_cats = [], product_tags = [] } = {}
+const DescriptionComponent = ({ formProps }: { formProps: FormProps }) => {
+	const { form } = formProps
 	const { SITE_URL = '', DOCS_POST_TYPE = '', ELEMENTOR_ENABLED } = useEnv()
 
 	const docsUrl = `${SITE_URL}/${DOCS_POST_TYPE}/`
@@ -72,7 +70,7 @@ const DescriptionComponent = () => {
 	}, [watchId])
 
 	return (
-		<>
+		<Form {...formProps} layout="vertical">
 			<div className="mb-12">
 				<Heading>知識庫發佈</Heading>
 
@@ -219,7 +217,7 @@ const DescriptionComponent = () => {
 					<KeyWords />
 				</div>
 			</div>
-		</>
+		</Form>
 	)
 }
 

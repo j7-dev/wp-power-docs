@@ -1,5 +1,5 @@
 import { TDocRecord } from '@/pages/admin/Docs/List/types'
-import { useList, HttpError } from '@refinedev/core'
+import { useList, HttpError, useParsed } from '@refinedev/core'
 import { Form } from 'antd'
 import { useAtomValue } from 'jotai'
 import { selectedPostAtom } from '../atom'
@@ -8,12 +8,11 @@ import { objToCrudFilters } from 'antd-toolkit/refine'
 
 export const usePostsList = () => {
 	const { DOCS_POST_TYPE = '' } = useEnv()
-	const form = Form.useFormInstance()
-	const parent_id = form?.getFieldValue('id')
+	const { id: post_parent } = useParsed()
 	const query = useList<TDocRecord, HttpError>({
 		resource: 'posts',
 		filters: objToCrudFilters({
-			post_parent: parent_id,
+			post_parent,
 			post_type: DOCS_POST_TYPE,
 			with_description: 'true',
 			recursive_args: '[]',

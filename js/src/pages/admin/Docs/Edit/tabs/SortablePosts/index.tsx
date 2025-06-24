@@ -9,6 +9,7 @@ import {
 	useApiUrl,
 	useInvalidate,
 	useDeleteMany,
+	useParsed,
 } from '@refinedev/core'
 import { isEqual as _isEqual } from 'lodash-es'
 import { PopconfirmDelete, cn } from 'antd-toolkit'
@@ -31,8 +32,7 @@ const SortablePostsComponent = ({
 }: {
 	PostEdit: React.FC<{ record: TDocRecord }>
 }) => {
-	const form = Form.useFormInstance()
-	const courseId = form?.getFieldValue('id')
+	const { id: parentId } = useParsed()
 
 	const {
 		data: postsData,
@@ -81,8 +81,8 @@ const SortablePostsComponent = ({
 	}, [isListFetching])
 
 	const handleSave = (data: TreeData<TDocRecord>) => {
-		const from_tree = treeToParams(originTree, courseId)
-		const to_tree = treeToParams(data, courseId)
+		const from_tree = treeToParams(originTree, parentId as string)
+		const to_tree = treeToParams(data, parentId as string)
 		const isEqual = _isEqual(from_tree, to_tree)
 
 		if (isEqual) return
