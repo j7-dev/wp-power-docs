@@ -66,7 +66,12 @@ final class Api extends ApiBase {
 		}
 
 		// 設定預設 editor
-		$editor              = \get_post_meta( $post->ID, 'editor', true ) ?: 'power-editor';
+		$editor = \get_post_meta( $post->ID, 'editor', true );
+		// 如果是沒有 post_parent ，那麼此 $post 就是知識庫， editor 如果為 '' 代表為預設版型，不需要預設為 'power-editor'
+		// 有 post_parent ，代表是章節/子文章，那麼 editor ，需要為 'power-editor'
+		if ($post->post_parent) {
+			$editor = $editor ?: 'power-editor';
+		}
 		$meta_keys['editor'] = $editor;
 
 		// 只有頂層需要 bg_images
