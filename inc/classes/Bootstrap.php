@@ -7,7 +7,7 @@ namespace J7\PowerDocs;
 use J7\PowerDocs\Utils\Base;
 use J7\Powerhouse\Utils\Base as PowerhouseUtils;
 use Kucrut\Vite;
-use J7\Powerhouse\Settings\DTO as SettingsDTO;
+use J7\Powerhouse\Settings\Model\Settings as SettingsDTO;
 
 if ( class_exists( 'J7\PowerDocs\Bootstrap' ) ) {
 	return;
