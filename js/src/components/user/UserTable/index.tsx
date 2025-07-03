@@ -50,7 +50,7 @@ const UserTableComponent = ({
 		resource: 'users',
 		dataProviderName: 'power-docs',
 		pagination: {
-			pageSize: 2,
+			pageSize: 20,
 		},
 		filters: {
 			permanent: objToCrudFilters({

@@ -24,8 +24,7 @@
 	},
 	"dependencies": {
 		"@power/general": "workspace:*",
-		"antd-toolkit": "workspace:*",
-		"jotai": "^2.12.5"
+		"antd-toolkit": "workspace:*"
 	},
 	"devDependencies": {
 		"@power/eslint-config": "workspace:*",
