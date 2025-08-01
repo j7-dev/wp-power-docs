@@ -1,5 +1,6 @@
 import { memo, useEffect, useState } from 'react'
 import KeyWords from './KeyWords'
+import { TDocBaseRecord } from '@/pages/admin/Docs/List/types'
 import {
 	Form,
 	Input,
@@ -24,7 +25,13 @@ import { FileUpload } from 'antd-toolkit/wp'
 const { Item } = Form
 const { Text } = Typography
 
-const DescriptionComponent = ({ formProps }: { formProps: FormProps }) => {
+const DescriptionComponent = ({
+	formProps,
+	record,
+}: {
+	formProps: FormProps
+	record?: TDocBaseRecord
+}) => {
 	const { form } = formProps
 	const { SITE_URL = '', DOCS_POST_TYPE = '', ELEMENTOR_ENABLED } = useEnv()
 
@@ -68,6 +75,16 @@ const DescriptionComponent = ({ formProps }: { formProps: FormProps }) => {
 			}
 		}
 	}, [watchId])
+
+	useEffect(() => {
+		if (!form) {
+			return
+		}
+		form.setFieldValue(
+			['_elementor_edit_mode'],
+			watchEditor === 'elementor' ? 'builder' : '',
+		)
+	}, [watchEditor])
 
 	return (
 		<Form {...formProps} layout="vertical">
@@ -163,6 +180,7 @@ const DescriptionComponent = ({ formProps }: { formProps: FormProps }) => {
 						</Item>
 						{watchEditor === 'elementor' && (
 							<Button
+								disabled={record?.editor !== 'elementor'}
 								className="mt-7 w-fit"
 								href={`${SITE_URL}/wp-admin/post.php?post=${watchId}&action=elementor`}
 								target="_blank"
@@ -171,6 +189,7 @@ const DescriptionComponent = ({ formProps }: { formProps: FormProps }) => {
 								使用 Elementor 編輯版面
 							</Button>
 						)}
+						<Item name={['_elementor_edit_mode']} hidden />
 					</div>
 
 					<div className="mb-8">

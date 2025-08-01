@@ -49,7 +49,7 @@ const EditComponent = () => {
 			key: 'Description',
 			forceRender: true,
 			label: '描述',
-			children: <Description formProps={formProps} />,
+			children: <Description formProps={formProps} record={record} />,
 		},
 		{
 			key: 'SortablePosts',

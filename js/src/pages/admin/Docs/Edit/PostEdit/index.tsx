@@ -119,7 +119,9 @@ const PostEditComponent = ({ record }: { record: TDocRecord }) => {
 					/>
 				</Item>
 				<div className="mb-8">
-					<DescriptionDrawer />
+					<DescriptionDrawer
+						initialEditor={record?.editor as 'power-editor' | 'elementor'}
+					/>
 				</div>
 
 				<Item name={['status']} hidden />
